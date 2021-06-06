@@ -43,7 +43,7 @@
                             <span><a href="{{route('mail-setting')}}">メール受信設定</a></span>
                             <span>
                                 <a href="{{url('/logout')}}">ログアウト</a>
-                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                <form id="logout-form" action="{{ url('/logout') }}" method="GET" style="display: none;">
                                     @csrf
                                 </form>
                             </span>
