@@ -43,7 +43,7 @@
 
 
                         <div class="nmlbox graybg" style="color:#333;">
-                            <img src="{{asset('img/button_01.png')}}" alt="株式会社日本スマートマーケティング"><strong>検索条件</strong><br>
+                            <img src="{{asset('img/button_02.png')}}" alt="株式会社日本スマートマーケティング"><strong>検索条件</strong><br>
                             検索条件を設定し、[設定]をクリックしてください。<br>
                             ※検索条件の指定は任意です。なお、検索結果を一度に送信できる件数は最大１00件です。<br>
                             ※１日１回ログインメールアドレスに、公開開始から最新３日間の検索結果を送信します。<br>
