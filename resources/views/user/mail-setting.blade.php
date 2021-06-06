@@ -31,10 +31,10 @@
                             <tbody>
                             <tr>
                                 <th width="20">説明</th>
-                                <td><a><img src="./img/button_042.jpg"
+                                <td><a><img src="{{asset('img/button_042.jpg')}}"
                                             alt="株式会社日本スマートマーケティング"></a>：クリックで選択項目を表示
                                 </td>
-                                <td><a><img src="./img/button_07.jpg"
+                                <td><a><img src="{{asset('img/button_07.jpg')}}"
                                             alt="株式会社日本スマートマーケティング"></a>：クリックで検索条件の説明
                                 </td>
                             </tr>
@@ -43,7 +43,7 @@
 
 
                         <div class="nmlbox graybg" style="color:#333;">
-                            <img src="./img/button_02.png" alt="株式会社日本スマートマーケティング"><strong>検索条件</strong><br>
+                            <img src="{{asset('img/button_01.png')}}" alt="株式会社日本スマートマーケティング"><strong>検索条件</strong><br>
                             検索条件を設定し、[設定]をクリックしてください。<br>
                             ※検索条件の指定は任意です。なお、検索結果を一度に送信できる件数は最大１00件です。<br>
                             ※１日１回ログインメールアドレスに、公開開始から最新３日間の検索結果を送信します。<br>
@@ -86,7 +86,7 @@
                                             <dt>
                                                 <span>調達種別</span>
                                                 <div class="table-tip" data-toggle="modal" data-target="#select_type">
-                                                    <img src="./img/button_042.jpg"
+                                                    <img src="{{asset('img/button_042.jpg')}}"
                                                          alt="補足説明"
                                                          class="tip-icn over" tabindex="1800">
                                                 </div>
@@ -145,7 +145,7 @@
                                             <dt>
                                                 <span>調達機関（国）</span>
                                                 <div class="table-tip" data-toggle="modal" data-target="#modal_02">
-                                                    <img src="./img/button_042.jpg"
+                                                    <img src="{{asset('img/button_042.jpg')}}"
                                                          alt="補足説明"
                                                          class="tip-icn over" tabindex="2000">
                                                     <div class="table-tip-txt">
@@ -189,7 +189,7 @@
                                             <dt>
                                                 <span>品目分類</span>
                                                 <div class="table-tip" data-toggle="modal" data-target="#modal_04">
-                                                    <img src="./img/button_042.jpg"
+                                                    <img src="{{asset('img/button_042.jpg')}}"
                                                          alt="補足説明"
                                                          class="tip-icn over" tabindex="2200">
                                                     <div class="table-tip-txt">
@@ -216,7 +216,7 @@
                                                     <span><label for="case-name">調達案件名称</label></span>
                                                     <div class="table-tip">
                                                         <img
-                                                            src="./img/button_07.jpg"
+                                                            src="{{asset('img/button_07.jpg')}}"
                                                             alt="補足説明"
                                                             class="tip-icn over" tabindex="1600">
                                                         <div class="table-tip-txt">
@@ -261,7 +261,7 @@
                                             <dl class="table-form">
                                                 <dt>
                                                     <span>公示本文のキーワード指定</span>
-                                                    <img src="./img/button_07.jpg"
+                                                    <img src="{{asset('img/button_07.jpg')}}"
                                                          alt="補足説明"
                                                          class="tip-icn over" tabindex="2200">
                                                     <div class="table-tip-txt">
@@ -294,7 +294,7 @@
                                             <dl class="table-form">
                                                 <dt>
                                                     <span>等級指定（次の等級を含む）</span>
-                                                    <img src="./img/button_07.jpg"
+                                                    <img src="{{asset('img/button_07.jpg')}}"
                                                          alt="補足説明"
                                                          class="tip-icn over" tabindex="2200">
                                                     <div class="table-tip-txt">
@@ -318,7 +318,7 @@
                                             <dl class="table-form">
                                                 <dt>
                                                     <span>等級指定（次の等級を除く）</span>
-                                                    <img src="./img/button_07.jpg"
+                                                    <img src="{{asset('img/button_07.jpg')}}"
                                                          alt="補足説明"
                                                          class="tip-icn over" tabindex="2200">
                                                     <div class="table-tip-txt">
@@ -342,7 +342,7 @@
 
                                     <p class="txt-img" style="text-align: right">
                                         <a href="">
-                                            <img src="./img/button_01.jpg" alt="株式会社日本スマートマーケティング">
+                                            <img src="{{asset('img/button_01.jpg')}}" alt="株式会社日本スマートマーケティング">
                                         </a>
                                     </p>
 
@@ -568,7 +568,7 @@
                                                 <div class="modal-footer">
                                                     <button id="procurementClassificationSelected" type="button"
                                                             class="button-orange button-large" tabindex="2390" data-dismiss="modal" style="border: none; background: none; padding: 0;">
-                                                        <img src="./img/button_04.jpg" alt="株式会社日本スマートマーケティング">
+                                                        <img src="{{asset('img/button_04.jpg')}}" alt="株式会社日本スマートマーケティング">
                                                     </button>
                                                 </div>
                                             </div>
@@ -1488,7 +1488,7 @@
                                                 <div class="modal-footer">
                                                     <button id="govementProcurementOraganSelected" type="button"
                                                             class="button-orange button-large" data-dismiss="modal" style="border: none; background: none; padding: 0;">
-                                                        <img src="./img/button_04.jpg" alt="株式会社日本スマートマーケティング">
+                                                        <img src="{{asset('img/button_04.jpg')}}" alt="株式会社日本スマートマーケティング">
                                                     </button>
                                                 </div>
                                             </div>
@@ -2649,7 +2649,7 @@
                                                 <div class="modal-footer">
                                                     <button id="itemClassifcationSelected" type="button"
                                                             class="button-orange button-large" data-dismiss="modal" style="border: none; background: none; padding: 0;">
-                                                        <img src="./img/button_04.jpg" alt="株式会社日本スマートマーケティング">
+                                                        <img src="{{asset('img/button_04.jpg')}}" alt="株式会社日本スマートマーケティング">
                                                     </button>
                                                 </div>
                                             </div>
