@@ -1,0 +1,974 @@
+@charset "UTF-8";
+
+/*=============================
+背景画像
+=============================*/
+
+body #wrapper {
+  width: 100%;
+  height: auto;
+  background: url(../../image/common/bg_body.png);
+  background-size: auto;
+  background-position: 0px 120px;
+}
+
+body.official-side #wrapper {
+  width: 100%;
+  min-width: 980px;
+  height: auto;
+  background: url(../../image/common/bg_body_k.png);
+  background-size: auto;
+  background-position: 0px 120px;
+}
+
+/*=============================
+ヘルパークラス
+=============================*/
+
+.is-close {
+  display: none;
+}
+
+p {
+  margin: 0;
+}
+
+/*=============================
+テキストリンク
+=============================*/
+
+.official-side a {
+  color: #246b2f;
+}
+
+a.text-link {
+  position: relative;
+  margin-right: 5px;
+  padding-right: 10px;
+}
+
+a.external-link {
+  position: relative;
+  padding: 0 15px 0 5px;
+}
+
+a.text-link:hover,
+a.external-link:hover {
+  border-bottom: 1px solid;
+  cursor: pointer;
+}
+
+a.text-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
+  border-top: solid 1px;
+  border-right: solid 1px;
+}
+
+a.external-link::after {
+  content: url(../../image/common/icn_external01.png);
+  position: absolute;
+  right: 0;
+}
+
+.official-side a.external-link::after {
+  content: url(../../image/common/icn_external01_k.png);
+  position: absolute;
+  right: 0;
+}
+
+a.login-required::before {
+  content: url(../../image/common/icn_lock02.png);
+  position: absolute;
+  top: 0.1rem;
+  right: 1.2rem;
+}
+
+.official-side a.login-required::before {
+  content: url(../../image/common/icn_lock02_k.png);
+  position: absolute;
+  top: 0.1rem;
+  right: 1.2rem;
+}
+/*=============================
+フォーカス動作
+=============================*/
+
+body:focus,
+header:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+*:focus,
+.pager li:focus,
+header h1 a:focus img,
+a.main-modal-close:focus img,
+.main-bidding-contract ul li img:focus,
+.main-unified-qualification ul li img:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.tip-icn:focus,
+.fixed-totop:focus,
+.table-check-all:focus,
+.table-check-remove:focus,
+ul#gnavi li a:focus {
+  box-shadow: none;
+}
+
+button:focus,
+.main-ttl-top button.main-item-button:focus,
+.modal-footer button:focus {
+  box-shadow: none;
+}
+
+.table-radio:focus:before,
+.table-check:focus:before,
+table .info-button.torikesi:focus,
+table .info-button.koukoku:focus,
+table .info-button.teisei:focus,
+table .info-button.teisei2:focus,
+table .info-button.keiyaku:focus,
+.table-name input[type=text]:focus,
+.table-name input[type=number]:focus,
+.table-name input[type=tel]:focus,
+.table-name input[type=email]:focus,
+.table-name input[type=url]:focus,
+.table-name input[type=password]:focus,
+.table-name input[type=text].date:focus,
+.result-squeeze select:focus,
+.table-name select:focus,
+.button-white:focus,
+.button-red:focus {
+  box-shadow: none;
+  border-color: #3573cc;
+}
+
+.table-name input[type=text]:active:focus,
+.table-name input[type=number]:active:focus,
+.table-name input[type=tel]:active:focus,
+.table-name input[type=email]:active:focus,
+.table-name input[type=url]:active:focus,
+.table-name input[type=password]:active:focus,
+.table-name input[type=text].date:active:focus,
+.table-radio:active:focus:before,
+.table-check:active:focus:before {
+  box-shadow: none;
+  border-color: #dddddd;
+}
+
+.table-name select:activefocus .result-squeeze select:active:focus {
+  box-shadow: none;
+  border-color: #d7d7d7;
+}
+
+.button-white:active:focus,
+table .info-button.keiyaku:active:focus {
+  box-shadow: none;
+  border-color: #0250bf;
+}
+
+table .info-button.torikesi:active:focus,
+table .info-button.teisei:active:focus,
+table .info-button.teisei2:active:focus {
+  box-shadow: none;
+  border-color: #8f0d01;
+}
+
+table .info-button.koukoku:active:focus {
+  box-shadow: none;
+  border-color: #cc4409;
+}
+
+*:active:focus,
+*:active:focus::before,
+.pager li:active:focus,
+header h1 a:focus,
+header h1 a:active:focus img,
+a.main-modal-close:focus,
+a.main-modal-close:active:focus img,
+.table-form dd.type-select:focus:active,
+.table-radio:focus,
+.table-check:focus,
+.main-ttl-top ul li a:focus,
+.table-form dd.type-select:active:focus,
+.pager li:active:focus button:active:focus,
+.modal-footer button:active:focus,
+.tip-icn:active:focus,
+.fixed-totop:active:focus,
+a.table-check-all:active:focus,
+a.table-check-remove:active:focus,
+ul#gnavi li a:active:focus,
+button:active:focus,
+.main-ttl-top button.main-item-button:active:focus,
+.modal-footer button:active:focus,
+.main-bidding-contract ul li img:active:focus,
+.main-unified-qualification ul li img:active:focus{
+  box-shadow: none;
+}
+
+.pager li a:active,
+.pager li a:focus {
+  outline: none;
+}
+
+/*
+官側フォーカス動作
+=============================*/
+
+.official-side *:focus,
+.official-side .pager li:focus,
+header.official-side h1 a:focus img,
+.official-side a.main-modal-close:focus img,
+.official-side .pager li:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.official-side .tip-icn:focus,
+.official-side .fixed-totop:focus,
+.official-side .table-check-all:focus,
+.official-side .table-check-remove:focus,
+.official-side ul#gnavi li a:focus {
+  box-shadow: none;
+}
+
+.official-side button:focus,
+.official-side .main-ttl-top button.main-item-button:focus,
+.official-side .modal-footer button:focus {
+  box-shadow: none;
+}
+
+.official-side .result-squeeze select:focus,
+.official-side .table-name select:focus,
+.official-side .table-radio:focus:before,
+.official-side .table-check:focus:before,
+.official-side .table-name input[type=text]:focus,
+.official-side .table-name input[type=number]:focus,
+.official-side .table-name input[type=tel]:focus,
+.official-side .table-name input[type=email]:focus,
+.official-side .table-name input[type=url]:focus,
+.official-side .table-name input[type=password]:focus,
+.official-side .table-name input[type=text].date:focus,
+.official-side.button-white:focus {
+  box-shadow: none;
+  border-color: #3f8643;
+}
+
+.official-side .table-name input[type=text]:active:focus,
+.official-side .table-name input[type=number]:active:focus,
+.official-side .table-name input[type=tel]:active:focus,
+.official-side .table-name input[type=email]:active:focus,
+.official-side .table-name input[type=url]:active:focus,
+.official-side .table-name input[type=password]:active:focus,
+.official-side .table-name input[type=text].date:active:focus,
+.official-side .table-radio:active:focus:before,
+.official-side .table-check:active:focus:before {
+  box-shadow: none;
+  border-color: #dddddd;
+}
+
+.official-side .table-name select:a:activefocus .official-side .result-squeeze select:active:focus {
+  box-shadow: none;
+  border-color: #d7d7d7;
+}
+
+.official-side .button-white:active:focus {
+  box-shadow: none;
+  border-color: #246b2f;
+}
+
+.official-side *:active:focus,
+.official-side *:active:focus::before,
+.official-side .pager li:active:focus,
+header.official-side h1 a:focus,
+header.official-side h1 a:active:focus img,
+.official-side a.main-modal-close:focus,
+.official-side a.main-modal-close:active:focus img,
+.official-side .table-form dd.type-select:focus:active,
+.official-side .table-radio:focus,
+.official-side .table-check:focus,
+.official-side .main-ttl-top ul li a:focus,
+.official-side .table-form dd.type-select:active:focus,
+.official-side .pager li:active:focus .official-side button:active:focus,
+.official-side .modal-footer button:active:focus,
+.official-side .main-ttl-top button.main-item-button:active:focus,
+.official-side .tip-icn:active:focus,
+.official-side .fixed-totop:active:focus,
+.official-side a.table-check-all:active:focus,
+.official-side a.table-check-remove:active:focus,
+.official-side ul#gnavi li a:active:focus {
+  box-shadow: none;
+}
+
+/*=============================
+ボタン
+=============================*/
+
+.button-large {
+  position: relative;
+  min-width: 250px;
+  height: 3.75rem;
+  margin: 60px 0;
+  padding: 10px 35px;
+  font-size: 1.125rem;
+  text-align: center;
+  border: 0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: 0px 3px 1px #d5d5d5;
+  cursor: pointer;
+}
+
+.button-medium {
+  position: relative;
+  min-width: 250px;
+  height: 3rem;
+  margin: 30px 0;
+  padding: 10px 30px;
+  font-size: 1.125rem;
+  text-align: center;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: 0px 3px 1px #d5d5d5;
+  cursor: pointer;
+}
+
+.button-small {
+  position: relative;
+  min-width: 92px;
+  font-size: 0.875rem;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 0px 3px 1px #d5d5d5;
+  cursor: pointer;
+}
+
+
+/*
+オレンジボタン
+=============================*/
+
+.button-orange {
+  color: #ffffff;
+  background: #cc4409;
+}
+
+.button-orange:hover {
+  background: #ac2600;
+}
+
+.button-orange:active {
+  background: #cc4409;
+}
+
+
+/*
+モーダル内・選択ボタン
+=============================*/
+
+.modal-footer .button-orange.button-large {
+  margin: 0;
+}
+
+/*
+非活性グレーボタン
+=============================*/
+
+.button-gray {
+  color: #000000;
+  background: #d1d1d1;
+  border: none;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+/*
+ボタンアイコン
+=============================*/
+
+.main-item-submit {
+  position: relative;
+  display: inline-block;
+}
+
+.main-item-submit::after {
+  content: "";
+  position: absolute;
+  right: 0.5rem;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  color: #ffffff;
+  border-top: solid 1px;
+  border-right: solid 1px;
+}
+
+.main-item-submit.submit-large::after {
+  top: 5.45rem;
+}
+
+.main-item-submit.submit-medium::after {
+  top: 3.2rem;
+}
+
+.main-item-submit.submit-small::after {
+  top: 0.7rem;
+  width: 5px;
+  height: 5px;
+}
+
+.main-item-submit.submit-white::after  {
+  color: #0250bf;
+}
+
+.official-side .main-item-submit.submit-white::after  {
+  color: #246b2f;
+}
+
+.main-item-button::after {
+  content: "";
+  position: absolute;
+  right: 0.5rem;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  border-top: solid 1px;
+  border-right: solid 1px;
+}
+
+.main-item-button.button-large::after {
+  top: 1.7rem;
+}
+
+.main-item-button.button-medium::after {
+  top: 1.2rem;
+}
+
+.main-item-button.button-small::after {
+  top: 0.6rem;
+  width: 5px;
+  height: 5px;
+}
+
+.notice .main-ttl-top .unread.main-item-button.button-red::after,
+.notice .main-ttl-top .unread.main-item-button.button-white::after,
+.notice .main-item-top .unread.main-item-button.login-required.button-white::after,
+.main-search-info ul li.w50 button.button-bule.button-large::after {
+  content: "";
+  position: absolute;
+  top: 2rem;
+  right: 0.5rem;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  border-top: solid 1px;
+  border-right: solid 1px;
+}
+
+
+/*
+白ボタン
+=============================*/
+
+.button-white {
+  color: #819e33;
+  background: #ffffff;
+  border: 1px solid #819e33;
+}
+
+.button-white:hover {
+  background: #e5edf8;
+}
+
+.button-white:active {
+  background: #ffffff;
+}
+
+.official-side .button-white {
+  color: #246b2f;
+  border: 1px solid #246b2f;
+}
+
+.official-side .button-white:hover {
+  background-color: #d8e8d7;
+}
+
+.official-side .button-white:active {
+  color: #246b2f;
+  background-color: #ffffff;
+}
+
+/*
+赤ボタン
+=============================*/
+
+.button-red {
+  color: #ffffff;
+  background: #bd0000;
+  border: 1px solid #bd0000;
+}
+
+.button-red:hover {
+  color: #ffffff;
+  background: #aa0000;
+}
+
+.button-red:active {
+  color: #ffffff;
+  background: #bd0000;
+}
+
+/*
+青ボタン
+=============================*/
+
+.button-bule {
+  color: #ffffff;
+  background: #0250bf;
+  border: none;
+}
+
+.button-bule:hover {
+  background: #01389b;
+}
+
+.button-bule:active {
+  background: #0250bf;
+}
+
+
+.official-side .button-bule {
+  background: #246b2f;
+}
+
+.official-side .button-bule:hover {
+  background: #1b5824;
+}
+
+.official-side .button-bule:active {
+  background: #246b2f;
+}
+
+
+/*
+青ボタン・始めてご利用になる方へ
+=============================*/
+
+.first-users-item .main-item-table .button-medium.button-bule {
+  margin: 20px 0 0;
+}
+
+.first-users-item .main-item-table:last-child .button-medium.button-bule {
+  margin: 20px 0 20px;
+}
+
+/*
+白ボタン・戻るボタン
+=============================*/
+
+.button-white.back-btn {
+  margin-bottom: 60px;
+}
+
+.button-white.back-btn::after {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 5%;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  border-bottom: solid 1px;
+  border-left: solid 1px;
+}
+
+/*
+白ボタン・戻るボタン横並び時
+=============================*/
+
+.button-white.back-btn.side-by-side {
+  top: -120px;
+  margin: 0 10px 0 0;
+}
+
+.main-totop.back-btn-totop {
+  margin-top: -60px;
+}
+
+
+/*
+白ボタン・追加ボタン
+=============================*/
+
+button.add-btn {
+  left: 41%;
+  width: 15%;
+  height: 3rem;
+  margin: 30px 0;
+  padding: 10px 30px;
+  font-size: 1.125rem;
+  border-radius: 5px;
+}
+
+.button-white.add-btn::after {
+  content: url(../../image/common/icn_add.png);
+  position: absolute;
+  top: 13px;
+  right: 10px;
+}
+
+.button-gray.add-btn::after {
+  content: url(../../image/common/icn_add_gray.png);
+  position: absolute;
+  top: 13px;
+  right: 10px;
+}
+
+/*
+ログイン必要ボタン
+=============================*/
+
+button.login-required.button-white.button-medium::before {
+  content: url(../../image/common/icn_lock02.png);
+  position: absolute;
+  top: 1rem;
+  right: 1.3rem;
+}
+
+button.login-required.button-white.button-large::before {
+  content: url(../../image/common/icn_lock02.png);
+  position: absolute;
+  top: 1.5rem;
+  right: 1.9rem;
+}
+
+button.login-required.button-bule.button-large::before {
+  content: url(../../image/common/icn_lock01.png);
+  position: absolute;
+  top: 1rem;
+  right: 3.5rem;
+}
+
+.notice button.unread.login-required.button-white.button-large::before {
+  content: url(../../image/common/icn_lock02.png);
+  position: absolute;
+  top: 1.25rem;
+  right: 1.8rem;
+}
+
+.notice button.unread.login-required.button-white.button-medium:last-child::before {
+  content: url(../../image/common/icn_lock02.png);
+  position: absolute;
+  top: 1.1rem;
+  right: 2.8rem;
+}
+
+.ta-r {
+  margin: 0;
+  text-align: right;
+}
+
+/*=============================
+コンテンツページの共通要素
+=============================*/
+
+/*
+トップページへ戻るリンク
+=============================*/
+
+.main-totop,
+.main-totop a:active {
+  width: 11.5rem;
+  margin: 0 0 30px 0;
+  font-size: 0.9375rem;
+  line-height: 1;
+  outline: none;
+  border: none;
+}
+
+.main-totop:hover {
+  margin-bottom: 29px;
+  border-bottom: 1px solid #0250bf;
+}
+
+.main-totop a:before {
+  content: url(../../image/common/icn_totop.png);
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px 0 0;
+}
+
+.official-side .main-totop a {
+  color: #246b2f;
+}
+
+.official-side .main-totop:hover {
+  border-bottom: 1px solid #246b2f;
+}
+
+.official-side .main-totop a:before {
+  content: url(../../image/common/icn_totop_k.png);
+}
+
+/*
+画面の先頭へリンク
+=============================*/
+
+.fixed-totop {
+  position: fixed;
+  bottom: 10px;
+  right: 30px;
+  width: 95px;
+  height: 92px;
+  z-index: 999;
+}
+
+.fixed-totop img {
+  width: 95px;
+  height: 92px;
+}
+
+/*=============================
+モーダル
+=============================*/
+
+.main-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 9999;
+  overflow: scroll;
+}
+
+.main-modal-inner,
+.official-side .main-modal-inner {
+  width: 980px;
+  background: #ffffff;
+  margin: 125px auto 0;
+  z-index: 99992;
+  position: relative;
+  box-shadow: 0 0 2em #000000;
+}
+
+.main-modal-inner .modal-contents {
+  overflow-y: scroll;
+  max-height: 510px;
+  padding: 0 40px 0;
+  border-bottom: 1px solid #c6d1cb;
+}
+
+.main-modal-inner .modal-footer {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.modal-contents dd {
+  margin: 0;
+}
+
+.modal-contents p {
+  margin: 10px 0 10px 20px;
+}
+
+.modal-contents .modal-Items {
+  margin-left: 40px;
+}
+
+.main-modal-close {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  cursor: pointer;
+}
+
+.main-modal-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.7;
+  width: 100%;
+  height: 100%;
+  min-width: 1080px;
+  min-height: 795px;
+  background: #000000;
+  z-index: 9999;
+}
+
+.modal-Items label {
+  width: 80%;
+  display: inline-block;
+  margin: 0 0 0px;
+  vertical-align: top;
+}
+
+.modal-type-99 .main-modal-inner .modal-contents {
+  max-height: 720px;
+  padding: 0 0px 0;
+}
+
+.modal-type-99 .main-modal-inner,
+.modal-type-99 .official-side .main-modal-inner {
+  width: 1300px;
+}
+
+/*
+モーダル・本社住所を検索する
+=============================*/
+
+.modal-type-02 .main-modal-inner .modal-contents {
+  overflow-y: hidden;
+  margin: 0;
+  border-bottom: none;
+}
+
+.moadl-content-select {
+  margin: 20px 0 0;
+}
+
+.moadl-select-btn {
+  letter-spacing: -1rem;
+}
+
+.moadl-select-btn .selected {
+  color: #ffffff;
+  background: #3573cc;
+}
+
+.moadl-select-btn .select-state,
+.moadl-select-btn .select-city {
+  display: inline-block;
+  width: 416px;
+  padding: 16px;
+  font-size: 1.125rem;
+  text-align: center;
+  letter-spacing: 0;
+  border-radius: 5px 5px 0 0;
+  border: 1px solid #3573cc;
+}
+
+.select-content-state,
+.select-content-city {
+  height: 336px;
+  border: 8px solid #3573cc;
+}
+
+.select-content-state {
+  overflow-y: scroll;
+}
+
+.select-content-state .table-check {
+  padding: 0 25px 0 25px;
+}
+
+.select-content-state p,
+.select-content-city dl.table-form {
+  margin: 30px;
+}
+
+.select-content-state dl.table-form p {
+  margin: 5px 0;
+}
+
+.select-content-state dl.table-form label {
+  width: 4rem;
+  display: inline-block;
+  margin: 0 0 5px;
+  vertical-align: top;
+}
+
+.select-content-city dl.table-form dd select {
+  width: 35%;
+  margin-top: 5px;
+}
+
+
+/*=============================
+エラー画面
+=============================*/
+
+.message-info {
+  width: 95%;
+  padding: 10px 0 10px 15px;
+  color: #819e33;
+  border: 2px solid #819e33;
+  background-color: #f3f8ff;
+}
+
+.official-side .message-info {
+  width: 95%;
+  margin: 30px 0 20px 0;
+  padding: 10px 0 10px 15px;
+  color: #246b2f;
+  border: 2px solid #246b2f;
+  background-color: #f6fcf6;
+}
+
+.message-warning {
+  width: 95%;
+  margin: 30px 0 20px 0;
+  padding: 10px 0 10px 15px;
+  color: #0250bf;
+  border: 2px solid #0250bf;
+  background-color: #f3f8ff;
+}
+
+.official-side .message-warning {
+  width: 95%;
+  margin: 30px 0 20px 0;
+  padding: 10px 0 10px 15px;
+  color: #246b2f;
+  border: 2px solid #246b2f;
+  background-color: #f6fcf6;
+}
+
+.message-info img,
+.message-error img,
+.message-warning img {
+  vertical-align: sub;
+  display: inline-block;
+}
+
+.message-error {
+  width: 95%;
+  margin: 20px 0 30px 0;
+  padding: 10px 0 10px 15px;
+  color: #bd0000;
+  border: 2px solid #bd0000;
+  background-color: #fff3de;
+}
+
+.table-name .message-error {
+  display: block;
+  width: 95%;
+  margin: 0;
+  border-width: 0px;
+  background-color: #ffffff;
+}
+
+.table-name input[type=text].input-error,
+.table-name input[type=number].input-error,
+.table-name input[type=tel].input-error,
+.table-name input[type=email].input-error,
+.table-name input[type=url].input-error,
+.table-name input[type=text].date.input-error,
+.table-name input[type=password].input-error,
+.table-name textarea.input-error {
+  background-color: #fff3de;
+  border-color: #bd0000;
+  border-width: 2px;
+}
+
+.new-page {
+  page-break-before: always;
+}

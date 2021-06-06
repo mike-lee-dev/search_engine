@@ -9,9 +9,11 @@
     <meta name="keywords" content="株式会社日本スマートマーケティング">
     <meta name="description" content="株式会社日本スマートマーケティング　JSM, Limited">
     <link rel="stylesheet" href="{{asset('css/styles.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('css/textstyles.css')}}" type="text/css">
     <link rel="icon" href="{{asset('img/icon.png')}}" type="text/css">
     <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jsm.bz/rss.xml">
+    <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
     @yield('css')
 </head>
 <body>
@@ -21,24 +23,24 @@
         <div id="top">
             <div class="inner">
                 <h1></h1>
-                <h2 class="title"><span><a href="">全省庁統一資格・調達情報・等級別検索サイト</a></span></h2>
+                <h2 class="title"><span><a href=""><img src="">全省庁統一資格・調達情報・等級別検索サイト</a></span></h2>
             </div>
             <input type="checkbox" id="panel" value="">
             <label for="panel" id="topmenubtn">MENU</label>
             <div id="topmenubox">
                 <div id="topmenubox-inner">
-
                     <nav id="topmenu">
-                        <ul>
-                            <li><a href="">ホーム</a></li>
-                            <li><a href="">検索</a></li>
-                            <li><a href="">プロファイル</a></li>
-                            <li><a href="">お問い合わせ</a></li>
-                        </ul>
+{{--                        <ul>--}}
+{{--                            <li><a href="">ホーム</a></li>--}}
+{{--                            <li><a href="">検索</a></li>--}}
+{{--                            <li><a href="">プロファイル</a></li>--}}
+{{--                            <li><a href="">お問い合わせ</a></li>--}}
+{{--                        </ul>--}}
                     </nav>
                     @if(\Illuminate\Support\Facades\Auth::guard()->check())
                         <div id="topsubmenu">
-                            <span><a href="{{route('home')}}">ホーム</a></span>
+{{--                            <span><a href="{{route('home')}}">ホーム</a></span>--}}
+                            <span><a href="{{route('mail-setting')}}">メール受信設定</a></span>
                             <span>
                                 <a href="{{url('/logout')}}">ログアウト</a>
                                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
@@ -55,9 +57,9 @@
                 </div>
             </div>
         </div>
-        <div id="headerbox">
-            {{--            <div id="header"><img src="{{asset('img/header.jpg')}}" alt="調達情報の検索画面"></div>--}}
-        </div>
+{{--        <div id="headerbox">--}}
+{{--            --}}{{--            <div id="header"><img src="{{asset('img/header.jpg')}}" alt="調達情報の検索画面"></div>--}}
+{{--        </div>--}}
     </header>
     @yield('content')
 </div>
@@ -66,9 +68,9 @@
 <footer id="footer">
 
     <div class="inner">
-
-        <div class="desc">調達情報の検索画面の作成について</div>
-        <small>Copyright © 2021 株式会社日本スマートマーケティングAll Rights Reserved.
+        <p style="text-align:right;letter-spacing: 0;">│　<a href="/" style="color: #333">操作ガイド</a>　│　<a href="/" style="color: #333">特定商取引</a>　│　<a href="/" style="color: #333">お問い合わせ</a>　│</p>
+{{--        <div class="desc">調達情報の検索画面の作成について</div>--}}
+        <small style="color: #333">Copyright © 2021 株式会社日本スマートマーケティングAll Rights Reserved.
             <!-- Global site tag (gtag.js) - Google Analytics -->
             <script type="text/javascript" async="" src="{{asset('js/analytics.js.download')}}"></script>
             <script async="" src="{{asset('js/js')}}"></script>

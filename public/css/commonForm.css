@@ -1,0 +1,1226 @@
+@charset "UTF-8";
+
+/*=============================
+入力フォームのタイトル
+=============================*/
+
+.main-ttl {
+  /*margin-bottom: 10px;*/
+  /*border-bottom: 1px solid #aec7eb;*/
+}
+
+/*.main-ttl .ttl-area {*/
+/*  max-width: 1280px;*/
+/*  min-width: 980px;*/
+/*  line-height: 1;*/
+/*  margin: 40px auto;*/
+/*  padding: 5px 0 0 15px;*/
+/*  border-left: 7px solid #3573cc;*/
+/*  box-sizing: border-box;*/
+/*  position: relative;*/
+/*}*/
+
+.main-ttl .ttl-area{
+    background-color: #fff;
+    border: 1px solid #d9d4d4;
+    -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 2px 3px rgb(0 0 0 / 20%);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
+    line-height: 1;
+    margin: 20px auto;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+    clear: both;
+}
+
+.main-ttl .ttl-area:before{
+    background-color: #819e33;
+    content: "";
+    width: 4px;
+    height: 85%;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 5px;
+}
+
+.main-ttl .ttl-area h2{
+    font-size: 22px;
+    line-height: 1.4;
+    background-image: linear-gradient(to bottom, #f3f3f3, #ffffff);
+    display: block;
+    margin: 0;
+    padding: 14px 10px 14px 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+.main-item-txt{
+    color: #333;
+}
+
+
+/*.main-ttl .ttl-area h2 {*/
+/*  display: inline-block;*/
+/*  vertical-align: top;*/
+/*  margin: 5px 0;*/
+/*  font-size: 2.375rem;*/
+/*  font-weight: normal;*/
+/*}*/
+
+.ttl-area .page-title {
+  width: 80%
+}
+
+.ttl-area .page-number {
+  width: 19%;
+  text-align: right;
+}
+
+.official-side .main-ttl {
+  border-bottom: 1px solid #91c08f;
+}
+
+.official-side .main-ttl .ttl-area {
+  border-left: 7px solid #317d36;
+}
+
+/*=============================
+入力フォームの詳細
+=============================*/
+
+.main-item {
+  position: relative;
+  width: 100%;
+  /*max-width: 1280px;*/
+  /*min-width: 980px;*/
+  margin: 0 auto;
+}
+
+/*
+入力フォーム・アイコンの説明テーブル
+=============================*/
+
+.main-item .main-item-help {
+  min-width: 0 !important;
+  margin: 20px 0 0px 0;
+  vertical-align: middle;
+  font-size: 0.8125rem;
+  pointer-events: none;
+}
+
+.main-item-help img {
+  vertical-align: middle;
+}
+
+.main-item-help table {
+  width: 100%;
+  border: solid 1px #d5d5d5;
+  border-collapse: collapse;
+  box-shadow: 0px 0px 0px 0px #fff;
+}
+
+.main-item-help table tbody {
+  background-color: #f9f9f9;
+}
+
+.main-item-help table tbody tr td.help-used {
+  width: 5%;
+  min-width: 56px;
+  font-size: 0.875rem;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #f0f0f0;
+  border: solid 1px #d5d5d5;
+}
+
+.main-item-help table tbody tr td {
+  width: 25%;
+  padding: 5px 15px;
+  vertical-align: middle;
+  background-color: #f9f9f9;
+  border-style: none;
+}
+
+.main-item-help .type-select {
+  margin-bottom: 0px;
+  text-indent: 0;
+  padding: 0 10px;
+}
+
+.main-item-help table tbody tr td p {
+  display: inline-block;
+}
+
+.main-item-help table tbody tr td:last-of-type {
+  width: 50%;
+}
+
+/*
+説明テーブル・項目が3つの場合
+=============================*/
+
+.main-item-help.three-item table tr td.help-used {
+  width: 6.5%;
+}
+
+.main-item-help.three-item table tr td:last-of-type {
+  width: 40%;
+}
+
+/*
+説明テーブル・項目間の縦線
+=============================*/
+
+.main-item-help td span.help-border {
+  border-left: 1px solid #d5d5d5;
+  padding-right: 15px;
+}
+
+/*
+説明テーブル・可変動作
+=============================*/
+
+@media screen and (max-width:1450px) {
+  .main-item-help table tbody tr td {
+    vertical-align: baseline;
+  }
+  .main-item-help table tr td.help-required {
+    padding-left: 4.5rem;
+    text-indent: -3.8rem;
+  }
+  .main-item-help table tr td.help-tip {
+    padding-left: 3.5rem;
+    text-indent: -2.7rem;
+  }
+  .main-item-help.three-item table tr td.help-tip {
+    text-indent: -3.7rem;
+  }
+  .main-item-help table tr td.help-select {
+    padding-left: 7rem;
+    text-indent: -7.1rem;
+  }
+}
+
+@media screen and (max-width:980px) {
+  .main-item-help table {  width: 95%;}
+}
+@media screen and (max-width:900px) {
+  .main-item-help table {  width: 90%;}
+}
+@media screen and (max-width:850px) {
+  .main-item-help table {  width: 85%;}
+}
+@media screen and (max-width:800px) {
+  .main-item-help table {  width: 80%;}
+}
+@media screen and (max-width:720px) {
+  .main-item-help table {  width: 71%;}
+}
+@media screen and (max-width:680px) {
+  .main-item-help table {  width: 68%;}
+}
+
+/*=============================
+入力フォーム・中タイトル
+=============================*/
+
+.main-item h3,
+dl.modal-contents dt.modal-title {
+  background: url(/img/button_02.png) no-repeat left top;
+  height: 1.75rem;
+  margin: 30px 0 0 0;
+  padding: 0 0 0 30px;
+  font-size: 1.75rem;
+  font-weight: normal;
+  line-height: 1;
+}
+
+
+.main-item h3.content-space {
+  margin-top: 60px;
+}
+
+.main-item h3.table-title {
+  margin: 0;
+  padding-top: 60px;
+  border-top: 1px solid #aec7eb;
+  background-position:  0 95%;
+}
+
+.official-side .main-item h3,
+.official-side dl.modal-contents dt.modal-title {
+  background: url(../../image/common/icn_diamond_k.png) no-repeat left top;
+  padding: 0 0 0 30px;
+}
+
+.official-side .main-item h3.table-title {
+  margin: 0;
+  padding-top: 60px;
+  border-top: 1px solid #91c08f;
+  background-position: 0 95%;
+}
+
+.main-item h3.search-result,
+.official-side .main-item h3.search-result {
+  margin: 60px 0 0 0;
+}
+
+.main-item.first-users-item h3:last-of-type {
+  margin: 0;
+}
+/*=============================
+入力フォームの全選択・解除リンク
+=============================*/
+
+.table-check-all,
+.table-check-remove {
+  color: #0250bf;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.official-side .table-check-all,
+.official-side .table-check-remove {
+  color: #246b2f;
+}
+
+.table-check-all:hover,
+.table-check-remove:hover {
+  text-decoration: none;
+}
+
+.table-check-all:active,
+.table-check-remove:active {
+  outline: none;
+}
+
+/*=============================
+入力フォーム・補足説明
+=============================*/
+
+.table-tip {
+  display: inline-block;
+  margin: 0 5px;
+  position: relative;
+  cursor: pointer;
+}
+
+/*
+補足説明アイコン
+=============================*/
+
+.tip-icn {
+  /*width: 28px;*/
+  /*height: 27px;*/
+  /*margin: 0;*/
+  /*padding: 0 0 1.5px 0;*/
+  /*vertical-align: middle;*/
+  /*border-radius: 15px;*/
+}
+
+/*
+補足説明テキスト
+=============================*/
+
+.table-tip-txt.is-active {
+  display: block;
+}
+
+.table-tip-txt .tip-txt-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 15px;
+}
+
+.table-tip-txt {
+  display: none;
+  position: absolute;
+  bottom: 45px;
+  left: -5px;
+  width: 490px;
+  height: auto;
+  margin: 0;
+  padding: 25px 30px;
+  color: #333333;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 2px solid #d7d7d7;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.table-form dt .table-tip-txt p{
+  margin: 0;
+}
+
+.table-form dt .table-tip-txt {
+  font-size: 0.8125rem;
+  line-height: 1.8;
+  z-index: 1;
+}
+
+.table-form dt .table-tip-txt a:hover {
+  text-decoration: underline;
+}
+
+.table-tip-txt:before {
+  content: "";
+  position: absolute;
+  bottom: -19px;
+  left: 21px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 19px 19px 0 0;
+  border-color: #d7d7d7 transparent transparent transparent;
+}
+
+.table-tip-txt:after {
+  content: "";
+  position: absolute;
+  bottom: -13px;
+  left: 23px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 13px 13px 0 0;
+  border-color: #ffffff transparent transparent transparent;
+}
+
+/*=============================
+入力フォームの各項目に当てるスタイル
+=============================*/
+
+/*
+formテーブル
+=============================*/
+
+.main-item-table {
+  margin: 20px 0 0;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0px 3px 1px #d5d5d5;
+}
+
+/*
+formテーブル・始めてご利用になる方へ
+=============================*/
+
+.main-step {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 60px;
+  background-image: url(../../image/common/bg_line.png);
+  background-position: 0px 0px;
+  background-repeat: repeat-y;
+}
+
+.first-users-item .main-item-table {
+  margin: 20px 0 60px 50px;
+}
+
+.main-step .main-item-table:last-of-type {
+  margin-bottom: 0;
+}
+
+/*
+formテーブル・2カラム
+=============================*/
+
+.w50 {
+  width: 49.5%;
+  display: inline-block;
+  margin: 0 0 30px 0;
+}
+.w60 {
+  width: 64.5%;
+  display: inline-block;
+  margin: 0 0 30px 0;
+}
+.w40 {
+  width: 34.5%;
+  display: inline-block;
+  margin: 0 0 30px 0;
+}
+
+.w50 p {
+  margin: 5px 0 0 20px;
+}
+
+/*
+formテーブル・2カラム、ボーダー無し
+=============================*/
+
+.table-name li.w50.right-none {
+  margin-top: 20px;
+  padding-bottom: 0;
+  border-right: none;
+}
+
+/*
+formテーブル
+=============================*/
+
+.table-name li {
+  box-sizing: border-box;
+  font-size: 1rem;
+  vertical-align: top;
+}
+
+.table-name li:first-child {
+  margin: 0;
+  padding: 10px 0 30px;
+}
+
+.table-name li:last-child {
+  margin: 0;
+  padding: 10px 0 30px;
+}
+
+
+/*
+formテーブル・ツールチップ
+=============================*/
+
+.table-name li:last-child .table-tip-txt {  left: -436px;}
+.table-name li:last-child .table-tip-txt:before {  left: 446px;}
+.table-name li:last-child .table-tip-txt:after {  left: 448px;}
+
+/*
+テキストボックス
+=============================*/
+
+.table-name input[type=text],
+.table-name input[type=number],
+.table-name input[type=tel],
+.table-name input[type=email],
+.table-name input[type=url],
+.table-name input[type=password] {
+  width: 95%;
+  height: 3rem;
+  margin: 10px 0 0 20px;
+  padding: 10px 20px;
+  font-size: 1.125rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  border: 2px solid #dddddd;
+}
+
+.table-name input[type=number]::-webkit-outer-spin-button,
+.table-name input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.table-name textarea {
+  font-size: 1.125rem;
+  font-family: inherit;
+}
+
+
+
+.table-name input[type=text].number-only {
+  ime-mode: disabled;
+}
+
+.table-name input[type=text].date {
+  background: url(/img/icn_calander.png) no-repeat right center;
+  background-size: contain;
+  width: 43%;
+  height: 5%;
+  margin: 10px 0px 0 0px;
+  padding: 10px 50px 10px 10px;
+  border: 2px solid #dddddd;
+  box-sizing: border-box;
+}
+
+.official-side .table-name input[type=text].date {
+  background: url(../../image/common/icn_calander_k.png) no-repeat right center;
+}
+
+label.start-date,
+label.end-date {
+  display: none;
+}
+
+/*
+formテーブル・セレクトボックス
+=============================*/
+
+.table-form select {
+  margin-right: 5px;
+  border-radius: 0px;
+  border: 2px solid #d7d7d7;
+  background-color: #fff;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/*
+form・1ブロック
+=============================*/
+
+.table-form {
+  margin: 0 0 30px 0;
+}
+
+.table-form:last-of-type {
+  margin: 0;
+}
+
+/*
+form・小タイトル
+=============================*/
+
+.table-form dt {
+  display: inline-block;
+  margin: 0;
+  vertical-align: middle;
+  font-weight: normal;
+}
+
+.table-form dt span {
+  vertical-align: middle;
+  line-height: 1px;
+  font-size: 1.25rem;
+}
+
+.table-form dt:before {
+  content: url(../../img/button_03.png);
+  display: inline-block;
+  margin: 0 10px 0 0;
+  vertical-align: middle;
+}
+
+.official-side .table-form dt::before {
+  content: url(../../image/common/icn_arrow_left_k.png);
+}
+
+.table-form dd dl dt::before,
+.official-side .table-form dd dl dt::before{
+  content: none;
+}
+
+
+/*
+form・小タイトル・必須ボタン
+=============================*/
+
+.table-form dt span.type-required {
+  margin-left: 10px;
+  font-size: 0.875rem;
+  line-height: 22px;
+}
+
+/*
+form・入力値
+=============================*/
+
+.table-form dd {
+  margin: 5px 0 0 20px;
+}
+
+/*
+form・入力値・テキストボックス
+=============================*/
+
+.table-form dd input[type=text],
+.table-form dd input[type=number],
+.table-form dd input[type=tel],
+.table-form dd input[type=email],
+.table-form dd input[type=url],
+.table-form dd input[type=password] {
+  margin-left: 0px;
+}
+
+/*
+form・入力値・ラジオボタン、チェックボックス
+=============================*/
+
+.table-form dd .table-radio {
+  font-size: 1.125rem;
+}
+
+.table-form dd .table-checks {
+  margin: 5px 0 0 20px;
+  line-height: 2;
+}
+
+.table-form dd label input[type=checkbox] {
+  margin: 3px 10px 3px 4px;
+}
+
+
+/*
+form チェックボックス・企業選択
+=============================*/
+
+.table-form .check-upper {
+  width: 50%;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: solid 1px #d5d5d5;
+}
+
+/*
+form・チェックボックス・企業選択コメント
+=============================*/
+
+.table-form .table-comment {
+  display: inline-block;
+  color: #000;
+  font-size: 0.875rem;
+  vertical-align: middle;
+}
+
+/*
+form・資格の種類・営業品目（テーブルレイアウト）
+=============================*/
+
+dd.type-item table {
+  font-family: "メイリオ", "ヒラギノ角ゴPro W3", "Hiragino Kaku Gothic Pro", Osaka, "ＭＳ Ｐゴシック", "MS PGothic", Arial, Helvetica, Verdana, sans-serif;
+  font-size: 1rem;
+  box-shadow: none;
+  border-style: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+}
+
+dd.type-item table tr {
+  border-style: none;
+}
+
+dd.type-item table tr td:first-child {
+  width: 7rem;
+  padding: 0px;
+  font-weight: normal;
+  vertical-align: text-top;
+  background-color: #f7f9fd;
+  border-style: none;
+}
+
+.official-side dd.type-item table tr td:first-child {
+  width: 7rem;
+  padding: 0px;
+  font-weight: normal;
+  vertical-align: text-top;
+  background-color: #f4f9f4;
+  border-style: none;
+}
+
+dd.type-item table tr td {
+  padding: 0 0 0 0;
+  border-style: none;
+  background-color: #f7f9fd;
+}
+
+.official-side dd.type-item table tr td {
+  padding: 0 0 0 0;
+  border-style: none;
+  background-color: #f4f9f4;
+}
+
+dl.content_block dd.type-item table tr td {
+  background-color: #ffffff;
+}
+
+/*
+「統一資格から検索する場合のみ、以下条件を選択してください」
+=============================*/
+
+.table-section {
+  display: inline-block;
+  margin: 30px 0 0 0;
+  font-weight: bold;
+}
+
+/*
+form・申請入力画面レイアウト調整
+=============================*/
+
+.license-info li dl.type-radio {
+  margin: 0 0 70px 0;
+}
+
+.license-info li dl.type-radio label.table-radio:last-child {
+  padding-right: 0;
+}
+
+.license-info li dl.license-select {
+  margin-bottom: 60px;
+}
+
+.license-info li dl.type-text {
+  margin-bottom: 45px;
+}
+
+.license-info p.reflect-text {
+  margin: 30px 0;
+}
+
+/*=============================
+入力フォーム・アイコン
+=============================*/
+
+/*
+選択アイコン
+=============================*/
+
+.type-select {
+  display: inline-block;
+  min-width: 60px;
+  border-radius: 5px;
+  vertical-align: middle;
+}
+
+dd.type-select {
+  margin: 0;
+  padding: 0 10px;
+}
+
+.type-select:after {
+  content: url(../../image/common/icn_select.png);
+  display: inline-block;
+  margin: 0px -10px 0px 10px;
+  font-size: 0.625rem;
+  vertical-align: middle;
+}
+
+.official-side .type-select:after {
+  content: url(../../image/common/icn_select_k.png);
+  display: inline-block;
+  margin: 0px -10px 0px 10px;
+  font-size: 0.625rem;
+  vertical-align: middle;
+}
+
+
+/*
+必須アイコン
+=============================*/
+
+.type-required {
+  display: inline;
+  width: 46px;
+  height: 20px;
+  padding: 0px 9px;
+  text-align: center;
+  color: #fff;
+  font-size: 0.875rem;
+  vertical-align: middle;
+  background: #bd0000;
+}
+
+/*
+削除アイコン
+=============================*/
+
+.type-delete {
+  min-width: 80px;
+  padding: 3% 3% 3% 13%;
+}
+
+.type-delete::after {
+  content: url(../../image/common/icn_delete.png);
+  position: relative;
+  top: 0.1rem;
+  right: -0.5rem;
+}
+
+.type-delete.button-gray::after {
+    content: url(../../image/common/icn_delete_gray.png);
+    position: relative;
+    top: 0.1rem;
+    right: -0.5rem;
+}
+
+/*
+反転アイコン
+=============================*/
+
+.reflect-text {
+  margin-top: 20px;
+}
+
+.type-reflect {
+  padding: 0.05rem 0.5rem;
+}
+
+/*
+詳細アイコン
+=============================*/
+
+.official-side .type-details {
+  position: relative;
+  padding: 2% 31%;
+  border-radius: 2px;
+}
+
+.type-details::after {
+  content: "";
+  position: absolute;
+  top: 0.55rem;
+  right: 0.2rem;
+  width: 4px;
+  height: 4px;
+  transform: rotate(45deg);
+  border-top: solid 1px;
+  border-right: solid 1px;
+}
+
+/*=============================
+ラジオボタン、チェックボックスデザイン
+=============================*/
+
+/*
+ラジオボタン
+=============================*/
+
+input[type=radio] {
+  display: none;
+}
+
+.table-radio {
+  display: inline-block;
+  position: relative;
+  padding: 0 40px 0 25px;
+}
+
+.table-radio:after,
+.table-radio:before {
+  position: absolute;
+  content: "";
+  display: inline-block;
+  top: 0.75rem;
+}
+
+.table-radio:before {
+  left: 0px;
+  top: 0.81rem;
+  margin-top: -10px;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #d5d5d5;
+  background: #f2f2f2;
+  border-radius: 50%;
+}
+
+.table-radio:after {
+  left: 3px;
+  top: 0.81rem;
+  width: 10px;
+  height: 10px;
+  margin-top: -7px;
+  background: #2768c8;
+  border: 1px solid #001889;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.official-side .table-radio:after {
+  left: 3px;
+  top: 0.81rem;
+  width: 10px;
+  height: 10px;
+  margin-top: -7px;
+  background: #217326;
+  border: 1px solid #285b30;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+input[type=radio]:checked + .table-radio:after {
+  opacity: 1;
+}
+
+
+/*
+チェックボックス
+=============================*/
+
+input[type=checkbox].mousetrap {
+  display: none;
+}
+
+.form-a-line .table-check{
+  width: 14rem;
+  margin: 5px;
+  vertical-align: top;
+}
+
+.form-a-line .table-check:after,
+.form-a-line .table-check:before {
+  top: 0.8rem;
+}
+
+.table-check {
+  position: relative;
+  padding: 0 0 0 20px;
+  margin: 0;
+  display: inline-block;
+}
+
+table .table-check {
+  padding: 0 0 0 20px;
+}
+
+.table-check:after,
+.table-check:before {
+  position: absolute;
+  content: "";
+  display: block;
+  top: 50%;
+}
+
+.table-check:before {
+  left: 0px;
+  width: 15px;
+  height: 15px;
+  margin-top: -10px;
+  border: 2px solid #d7d7d7;
+  background: #ffffff;
+}
+
+.table-check:after {
+  left: 5px;
+  width: 5px;
+  height: 9px;
+  margin-top: -7px;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+
+#td_govementProcurementOragan_area td{
+    padding: 5px 10px !important;
+}
+#td_govementProcurementOragan_area td:first-child{
+    width: 120px !important;
+}
+#td_govementProcurementOragan_area ul{
+
+}
+#td_govementProcurementOragan_area li{
+    margin-right: 10px;
+
+}
+
+input[type=checkbox]:checked + .table-check:after {
+  opacity: 1;
+}
+
+input[type=checkbox]:checked + .table-check:before {
+  background: #3573cc;
+  border: 2px solid #3573cc;
+}
+
+.official-side input[type=checkbox]:checked + .table-check:before {
+  background: #317d36;
+  border: 2px solid #317d36;
+}
+
+input[type=checkbox]:disabled + .table-check:before {
+  background: #f0f0f0;
+}
+
+input[type=checkbox]:checked:disabled + .table-check:before {
+  background: #f0f0f0;
+  border-color: #d7d7d7;
+}
+
+input[type=checkbox]:checked:disabled + .table-check:after {
+  border-color:#d7d7d7;
+}
+
+/*=============================
+jquery uIのカレンダーのスタイル修正
+=============================*/
+
+#ui-datepicker-div {
+  width: 13.125rem;
+  background: #edecec;
+}
+
+#ui-datepicker-div .ui-datepicker-header {
+  background: #001889;
+  font-size: 0.766875rem;
+  color: #fff;
+}
+
+.official-side #ui-datepicker-div .ui-datepicker-header {
+  background: #144c1c;
+  font-size: 0.766875rem;
+  color: #fff;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-title {
+  height: 1.5rem;
+  margin: 0 25px;
+  line-height: 1.6rem;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-title select {
+  font-size: 0.766875rem;
+  background: url(../../image/common/icn_calendar_pulldown.png) no-repeat right 3px center;
+  background-color: #ffffff;
+  color: #333333;
+  padding: 0.1875rem 0.625rem 0 0.1875rem;
+}
+
+.official-side #ui-datepicker-div .ui-datepicker-header .ui-datepicker-title select {
+  font-size: 0.766875rem;
+  background: url(../../image/common/icn_calendar_pulldown_k.png) no-repeat right 3px center;
+  background-color: #ffffff;
+  color: #333333;
+  padding: 0.1875rem 0.625rem 0 0.1875rem;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-title select option {
+  background: #ffffff;
+  color: #333333;
+  padding: 3px;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-title select.ui-datepicker-year {
+  width: 4rem;
+  height: 1.4rem;
+  margin: 0 5px 0.1rem 0;
+  font-weight: bold;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-title select.ui-datepicker-month {
+  width: 4rem;
+  height: 1.4rem;
+  margin: 0 0 0.1rem 5px;
+  font-weight: bold;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev {
+  top: 0.55rem;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev span {
+  display: none;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev:hover {
+  background: transparent;
+  border: 0;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev:before {
+  content: url(../../image/common/icn_calendar_prev.png);
+  margin: 0 0 0 5px;
+}
+
+.official-side #ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev:before {
+  content: url(../../image/common/icn_calendar_prev_k.png);
+  margin: 0 0 0 5px;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-next {
+  text-align: right;
+  top: 0.55rem;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-next span {
+  display: none;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-next:hover {
+  background: transparent;
+  border: 0;
+}
+
+#ui-datepicker-div .ui-datepicker-header .ui-datepicker-next:before {
+  content: url(../../image/common/icn_calendar_next.png);
+  margin: 0 5px 0 0;
+}
+
+.official-side #ui-datepicker-div .ui-datepicker-header .ui-datepicker-next:before {
+  content: url(../../image/common/icn_calendar_next_k.png);
+  margin: 0 5px 0 0;
+}
+
+#ui-datepicker-div .ui-datepicker-calendar {
+  background: #edecec;
+  border: none;
+  box-shadow: none;
+}
+
+#ui-datepicker-div .ui-datepicker-calendar thead {
+  background: transparent;
+}
+
+#ui-datepicker-div .ui-datepicker-calendar th {
+  padding: 0.5em .3em;
+  font-weight: bold;
+  font-size: 0.75rem;
+}
+
+#ui-datepicker-div .ui-state-default,
+#ui-datepicker-div .ui-widget-content .ui-state-default,
+#ui-datepicker-div .ui-widget-header .ui-state-default,
+#ui-datepicker-div .ui-button,
+#ui-datepicker-div html .ui-button.ui-state-disabled:hover,
+#ui-datepicker-div html .ui-button.ui-state-disabled:active {
+  border: 1px solid #bcbcbc;
+  background: #ffffff;
+  font-weight: bold;
+  color: #0250bf;
+}
+
+.official-side #ui-datepicker-div .ui-state-default,
+.official-side #ui-datepicker-div .ui-widget-content .ui-state-default,
+.official-side #ui-datepicker-div .ui-widget-header .ui-state-default,
+.official-side #ui-datepicker-div .ui-button,
+.official-side #ui-datepicker-div html .ui-button.ui-state-disabled:hover,
+.official-side #ui-datepicker-div html .ui-button.ui-state-disabled:active {
+  border: 1px solid #bcbcbc;
+  background: #ffffff;
+  font-weight: bold;
+  color: #246b2f;
+}
+
+#ui-datepicker-div .ui-state-active,
+#ui-datepicker-div .ui-state-select.ui-state-active,
+#ui-datepicker-div .ui-widget-content .ui-state-active,
+#ui-datepicker-div .ui-widget-header .ui-state-active {
+  background: #cc4409;
+  color: #ffffff;
+}
+
+.official-side #ui-datepicker-div .ui-state-active,
+.official-side #ui-datepicker-div .ui-state-select.ui-state-active,
+.official-side #ui-datepicker-div .ui-widget-content .ui-state-active,
+.official-side #ui-datepicker-div .ui-widget-header .ui-state-active {
+  background: #cc4409;
+  color: #ffffff;
+}
+
+#ui-datepicker-div .ui-state-select {
+  background: #e7b199;
+  color: #001889;
+}
+
+.official-side #ui-datepicker-div .ui-state-select {
+  background: #e7b199;
+  color: #144c1c;
+}
+
+#ui-datepicker-div table.ui-datepicker-calendar tbody .ui-datepicker-unselectable .ui-state-default {
+  background: #d1d1d1;
+  color: #333333;
+}
+
+#ui-datepicker-div table.ui-datepicker-calendar tbody tr td.ui-state-disabled,
+#ui-datepicker-div table.ui-datepicker-calendar tbody tr {
+  background: #edecec;
+}
