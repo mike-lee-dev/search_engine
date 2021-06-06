@@ -15,12 +15,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
     return redirect('/login');
 });
 
 Auth::routes(['verify' => true]);
 
 Route::group(['middleware'=>'checkAuth'],function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware(['verified']);
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'search'])->name('home')->middleware(['verified']);
+    Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search')->middleware(['verified']);
+    Route::get('/mail-setting', [App\Http\Controllers\HomeController::class, 'mailSetting'])->name('mail-setting')->middleware(['verified']);
+    Route::get('/result', [App\Http\Controllers\HomeController::class, 'result'])->name('result')->middleware(['verified']);
+    Route::get('/detail', [App\Http\Controllers\HomeController::class, 'detail'])->name('detail')->middleware(['verified']);
 });
 

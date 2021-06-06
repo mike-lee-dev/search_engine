@@ -25,4 +25,20 @@ class HomeController extends Controller
     {
         return view('home');
     }
+    public function search()
+    {
+        return view('user.search');
+    }
+    public function mailSetting()
+    {
+        return view('user.mail-setting');
+    }
+    public function result()
+    {
+        return view('user.result');
+    }
+    public function detail()
+    {
+        return view('user.detail');
+    }
 }
