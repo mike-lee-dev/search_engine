@@ -2,7 +2,7 @@ $(function() {
     if ($("#procurementOrganNm").val() == "") {
         $("#procurementOrganNmtitle").hide();
         $("#procurementOrganNmText").hide();
-        $("#procurementOrganNmText").prop("display", "none");    
+        $("#procurementOrganNmText").prop("display", "none");
     }else if ($("#procurementOrganNm").val() == "全ての機関" || $("#procurementOrganNm").val() == "All Facilities") {
         $("#procurementOrganNmtitle").hide();
     }
@@ -13,15 +13,15 @@ $(function() {
     }else if ($("#receiptAddress").val() == "全ての所在地" || $("#receiptAddress").val() == "All Prefectures") {
         $("#receiptAddresstitle").hide();
     }
-    
+
     $("input[name='searchConditionBeanEnglish.caseDivision']").next("label").css("display", "inline-block");
-    
+
     $("input[name='searchConditionBean.govementProcurementOraganBean.procurementOrgNm']").next("label").css(
             "width", "120px");
-    
+
     $("input[name='searchConditionBeanEnglish.itemClassifcationBeanEnglish.itemClassifcation']").next("label").css(
-            "width", "80%");  
-    
+            "width", "80%");
+
     var selectedvalue = $("input[name='searchConditionBean.procurementOrgan']:checked").val();
     if (selectedvalue) {
         if (selectedvalue == 01) {
@@ -86,7 +86,7 @@ $(function() {
                     "value", "");
         }
     }
-    
+
     var selectedvalue_en = $("input[name='searchConditionBeanEnglish.procurementOrgan']:checked").val();
     if (selectedvalue_en) {
         if (selectedvalue_en == 01) {
@@ -157,9 +157,9 @@ $(function() {
         map = new Map();
         var text = "";
         var length = $("#td_procurement_classification").find(":checkbox:checked").length;
-        $("#td_procurement_classification").find(":checkbox:checked").each(function(){           
+        $("#td_procurement_classification").find(":checkbox:checked").each(function(){
             var id = $(this).prop("id");
-            text = text + $(this).parent().find("label[for='" + id +"']").text() + ",";                    
+            text = text + $(this).parent().find("label[for='" + id +"']").text() + ",";
           });
 
           if (length == 14) {
@@ -171,14 +171,14 @@ $(function() {
              $("#procurementClaText").html(text);
           }
     });
-    
+
     $("#procurementClassificationSelectedEnglish").on('click', function () {
         map = new Map();
         var text = "";
         var length = $("#td_procurement_classification").find(":checkbox:checked").length;
-        $("#td_procurement_classification").find(":checkbox:checked").each(function(){           
+        $("#td_procurement_classification").find(":checkbox:checked").each(function(){
             var id = $(this).prop("id");
-            text = text + $(this).parent().find("label[for='" + id +"']").text() + ",";                    
+            text = text + $(this).parent().find("label[for='" + id +"']").text() + ",";
           });
 
           if (length == 5) {
@@ -190,14 +190,14 @@ $(function() {
              $("#procurementClaText").html(text);
           }
     });
-    
+
     $("#govementProcurementOraganSelected").on('click', function () {
         map = new Map();
         var procurementClaText = "";
         var length = $("#td_govement_ProcurementOragan").find(":checkbox:checked").length;
-        $("#td_govement_ProcurementOragan").find(":checkbox:checked").each(function(){           
+        $("#td_govement_ProcurementOragan").find(":checkbox:checked").each(function(){
             var id = $(this).prop("id");
-            procurementClaText = procurementClaText + $(this).parent().find("label[for='" + id +"']").text() + ",";                    
+            procurementClaText = procurementClaText + $(this).parent().find("label[for='" + id +"']").text() + ",";
           });
 
           if (length == 26) {
@@ -218,36 +218,36 @@ $(function() {
              }else{
                  $("#procurementOrganNmtitle").hide();
                  $("#procurementOrganNmText").hide();
-             }             
+             }
           }
-                
+
         var addressText = "";
         var length = $("#td_govementProcurementOragan_area").find(":checkbox:checked").length;
             $("#td_govementProcurementOragan_area").find(":checkbox:checked").each(function(index){
-                if ($(this).val() == '1'
-                    || $(this).val() == '2'
-                    || $(this).val() == '3'
-                    || $(this).val() == '4'
-                    || $(this).val() == '5'
-                    || $(this).val() == '6'
-                    || $(this).val() == '7'
-                    || $(this).val() == '8') {
-                    return true;
-                }
+                // if ($(this).val() == '1'
+                //     || $(this).val() == '2'
+                //     || $(this).val() == '3'
+                //     || $(this).val() == '4'
+                //     || $(this).val() == '5'
+                //     || $(this).val() == '6'
+                //     || $(this).val() == '7'
+                //     || $(this).val() == '8') {
+                //     return true;
+                // }
                 if (index < length - 1) {
-                    addressText = addressText + $(this).parent().find("label").text() + ",";                    
+                    addressText = addressText + $(this).parent().find("label").text() + ",";
                 } else {
                     addressText = addressText + $(this).parent().find("label").text();
                 }
             });
-            
+
             var area_select_length = $("#td_govementProcurementOragan_area").find('input[name=searchConditionBean\\.govementProcurementOraganBean\\.area]').parent().find(":checkbox:checked").length;
             if (area_select_length == 8) {
                 $("#receiptAddress").val("全ての所在地");
                 $("#receiptAddressText").html("全ての所在地");
                 $("#receiptAddressText").show();
                 $("#receiptAddressText").css("margin-left", "20px");
-                $("#receiptAddresstitle").hide();                
+                $("#receiptAddresstitle").hide();
             } else {
                 $("#receiptAddress").val(addressText);
                 $("#receiptAddressText").html(addressText);
@@ -262,14 +262,14 @@ $(function() {
                 }
             }
     });
-    
+
     $("#govementProcurementOraganSelectedEnglish").on('click', function () {
         map = new Map();
         var procurementClaText = "";
         var length = $("#td_govement_ProcurementOragan").find(":checkbox:checked").length;
-        $("#td_govement_ProcurementOragan").find(":checkbox:checked").each(function(){           
+        $("#td_govement_ProcurementOragan").find(":checkbox:checked").each(function(){
             var id = $(this).prop("id");
-            procurementClaText = procurementClaText + $(this).parent().find("label[for='" + id +"']").text() + ",";                    
+            procurementClaText = procurementClaText + $(this).parent().find("label[for='" + id +"']").text() + ",";
           });
 
           if (length == 26) {
@@ -290,9 +290,9 @@ $(function() {
              }else{
                  $("#procurementOrganNmtitle").hide();
                  $("#procurementOrganNmText").hide();
-             }             
+             }
           }
-                
+
         var addressText = "";
         var length = $("#td_govementProcurementOragan_area").find(":checkbox:checked").length;
             $("#td_govementProcurementOragan_area").find(":checkbox:checked").each(function(index){
@@ -307,19 +307,19 @@ $(function() {
                     return true;
                 }
                 if (index < length - 1) {
-                    addressText = addressText + $(this).parent().find("label").text() + ",";                    
+                    addressText = addressText + $(this).parent().find("label").text() + ",";
                 } else {
                     addressText = addressText + $(this).parent().find("label").text();
                 }
             });
-            
+
             var area_select_length = $("#td_govementProcurementOragan_area").find('input[name=searchConditionBeanEnglish\\.govementProcurementOraganBeanEnglish\\.area]').parent().find(":checkbox:checked").length;
             if (area_select_length == 8) {
                 $("#receiptAddress").val("All Prefectures");
                 $("#receiptAddressText").html("All Prefectures");
                 $("#receiptAddressText").show();
                 $("#receiptAddressText").css("margin-left", "20px");
-                $("#receiptAddresstitle").hide();                
+                $("#receiptAddresstitle").hide();
             } else {
                 $("#receiptAddress").val(addressText);
                 $("#receiptAddressText").html(addressText);
@@ -334,7 +334,7 @@ $(function() {
                 }
             }
     });
-    
+
     $("#govementProcurementOrgSelected").on('click', function () {
         map = new Map();
         var text = "";
@@ -352,12 +352,12 @@ $(function() {
                     return true;
                 }
                 if (index < length - 1) {
-                    text = text + $(this).parent().find("label").text() + ",";                    
+                    text = text + $(this).parent().find("label").text() + ",";
                 } else {
                     text = text + $(this).parent().find("label").text();
                 }
             });
-            
+
             var area_select_length = $("#td_govementProcurementOrg").find('input[name=searchConditionBean\\.govementProcurementOrgBean\\.area]').parent().find(":checkbox:checked").length;
             if (area_select_length == 8) {
                 $("#govementProcurementOrg").val("全ての所在地");
@@ -367,7 +367,7 @@ $(function() {
                 $("#govementProcurementOrgText").html(text);
             }
     });
-    
+
     $("#govementProcurementOrgSelectedEnglish").on('click', function () {
         map = new Map();
         var text = "";
@@ -385,12 +385,12 @@ $(function() {
                     return true;
                 }
                 if (index < length - 1) {
-                    text = text + $(this).parent().find("label").text() + ",";                    
+                    text = text + $(this).parent().find("label").text() + ",";
                 } else {
                     text = text + $(this).parent().find("label").text();
                 }
             });
-            
+
             var area_select_length = $("#td_govementProcurementOrg").find('input[name=searchConditionBeanEnglish\\.govementProcurementOrgBeanEnglish\\.area]').parent().find(":checkbox:checked").length;
             if (area_select_length == 8) {
                 $("#govementProcurementOrg").val("All Prefectures");
@@ -400,14 +400,14 @@ $(function() {
                 $("#govementProcurementOrgText").html(text);
             }
     });
-    
+
     $("#itemClassifcationSelected").on('click', function () {
         map = new Map();
         var text = "";
         var length = $("#td_itemClassifcation").find(":checkbox:checked").length;
-        $("#td_itemClassifcation").find(":checkbox:checked").each(function(){           
+        $("#td_itemClassifcation").find(":checkbox:checked").each(function(){
             var id = $(this).prop("id");
-            text = text + $(this).parent().find("label[for='" + id +"']").text() + ",";                    
+            text = text + $(this).parent().find("label[for='" + id +"']").text() + ",";
           });
 
           if (length == 96) {
@@ -419,14 +419,14 @@ $(function() {
              $("#procurementItemClaText").html(text);
           }
     });
-    
+
     $("#itemClassifcationSelectedEnglish").on('click', function () {
         map = new Map();
         var text = "";
         var length = $("#td_itemClassifcation").find(":checkbox:checked").length;
-        $("#td_itemClassifcation").find(":checkbox:checked").each(function(){           
+        $("#td_itemClassifcation").find(":checkbox:checked").each(function(){
             var id = $(this).prop("id");
-            text = text + $(this).parent().find("label[for='" + id +"']").text() + ",";                    
+            text = text + $(this).parent().find("label[for='" + id +"']").text() + ",";
           });
 
           if (length == 96) {
@@ -438,7 +438,7 @@ $(function() {
              $("#procurementItemClaText").html(text);
           }
     });
-    
+
     /* メニューのアコーディオン（英語のため） */
     $('.acodion_on_english').on('click', function () {
         $(this).toggleClass('is-active');
@@ -457,43 +457,43 @@ $(function() {
         }else if (message.match(/Close/)){
             var str = message.replace( /Close/, 'Open');
             $(this).html(str);
-        }       
+        }
     });
-    
+
     $("input[name='searchConditionBean.procurementOrgan']").change(function(){
         var selectedvalue = $("input[name='searchConditionBean.procurementOrgan']:checked").val();
         if (selectedvalue == 01) {
             $("#selectGovementProcurementOragan").attr('disabled', false);
             $("#selectGovementProcurementOragan").removeClass('button-gray');
             $("#selectGovementProcurementOragan").addClass('button-white');
-            
+
             $("#selectGovementProcurementOrg").attr('disabled', false);
             $("#selectGovementProcurementOrg").removeClass('button-gray');
             $("#selectGovementProcurementOrg").addClass('button-white');
-            
+
         }else if (selectedvalue == 02){
             $("#selectGovementProcurementOrg").attr('disabled', true);
             $("#selectGovementProcurementOrg").removeClass('button-white');
             $("#selectGovementProcurementOrg").addClass('button-gray');
-            
+
             $("#selectGovementProcurementOragan").attr('disabled', false);
             $("#selectGovementProcurementOragan").removeClass('button-gray');
             $("#selectGovementProcurementOragan").addClass('button-white');
-            
+
             $("input[name^='searchConditionBean.govementProcurementOrgBean.area']").prop("checked", false);
             $("input[name^='searchConditionBean.govementProcurementOrgBean.prefecture']").prop("checked", false);
             $("#govementProcurementOrgText").val("");
             $("#govementProcurementOrgText").html("");
-            $("input[name ='searchConditionBean.govementProcurementOrg']").prop("value", "");            
+            $("input[name ='searchConditionBean.govementProcurementOrg']").prop("value", "");
         }else {
             $("#selectGovementProcurementOragan").attr('disabled', true);
             $("#selectGovementProcurementOragan").removeClass('button-white');
             $("#selectGovementProcurementOragan").addClass('button-gray');
-            
+
             $("#selectGovementProcurementOrg").attr('disabled', false);
             $("#selectGovementProcurementOrg").removeClass('button-gray');
             $("#selectGovementProcurementOrg").addClass('button-white');
-           
+
             $("input[name='searchConditionBean.govementProcurementOraganBean.procurementOrgNm']").prop("checked", false);
             $("input[name^='searchConditionBean.govementProcurementOraganBean.area']").prop("checked", false);
             $("input[name^='searchConditionBean.govementProcurementOraganBean.prefecture']").prop("checked", false);
@@ -501,7 +501,7 @@ $(function() {
             $("#procurementOrganNmText").val("");
             $("#procurementOrganNmText").html("");
             $("#procurementOrganNmText").hide();
-            $("#procurementOrganNmText").prop("display", "none"); 
+            $("#procurementOrganNmText").prop("display", "none");
             $("#receiptAddresstitle").hide();
             $("#receiptAddressText").val("");
             $("#receiptAddressText").html("");
@@ -511,41 +511,41 @@ $(function() {
             $("input[name ='searchConditionBean.receiptAddress']").prop("value", "");
         }
     });
-    
+
     $("input[name='searchConditionBeanEnglish.procurementOrgan']").change(function(){
         var selectedvalue = $("input[name='searchConditionBeanEnglish.procurementOrgan']:checked").val();
         if (selectedvalue == 01) {
             $("#selectGovementProcurementOragan").attr('disabled', false);
             $("#selectGovementProcurementOragan").removeClass('button-gray');
             $("#selectGovementProcurementOragan").addClass('button-white');
-            
+
             $("#selectGovementProcurementOrg").attr('disabled', false);
             $("#selectGovementProcurementOrg").removeClass('button-gray');
             $("#selectGovementProcurementOrg").addClass('button-white');
-            
+
         }else if (selectedvalue == 02){
             $("#selectGovementProcurementOrg").attr('disabled', true);
             $("#selectGovementProcurementOrg").removeClass('button-white');
             $("#selectGovementProcurementOrg").addClass('button-gray');
-            
+
             $("#selectGovementProcurementOragan").attr('disabled', false);
             $("#selectGovementProcurementOragan").removeClass('button-gray');
             $("#selectGovementProcurementOragan").addClass('button-white');
-            
+
             $("input[name^='searchConditionBeanEnglish.govementProcurementOrgBeanEnglish.area']").prop("checked", false);
             $("input[name^='searchConditionBeanEnglish.govementProcurementOrgBeanEnglish.prefecture']").prop("checked", false);
             $("#govementProcurementOrgText").val("");
             $("#govementProcurementOrgText").html("");
-            $("input[name ='searchConditionBeanEnglish.govementProcurementOrg']").prop("value", "");            
+            $("input[name ='searchConditionBeanEnglish.govementProcurementOrg']").prop("value", "");
         }else {
             $("#selectGovementProcurementOragan").attr('disabled', true);
             $("#selectGovementProcurementOragan").removeClass('button-white');
             $("#selectGovementProcurementOragan").addClass('button-gray');
-            
+
             $("#selectGovementProcurementOrg").attr('disabled', false);
             $("#selectGovementProcurementOrg").removeClass('button-gray');
             $("#selectGovementProcurementOrg").addClass('button-white');
-           
+
             $("input[name='searchConditionBeanEnglish.govementProcurementOraganBeanEnglish.procurementOrgNm']").prop("checked", false);
             $("input[name^='searchConditionBeanEnglish.govementProcurementOraganBeanEnglish.area']").prop("checked", false);
             $("input[name^='searchConditionBeanEnglish.govementProcurementOraganBeanEnglish.prefecture']").prop("checked", false);
@@ -553,7 +553,7 @@ $(function() {
             $("#procurementOrganNmText").val("");
             $("#procurementOrganNmText").html("");
             $("#procurementOrganNmText").hide();
-            $("#procurementOrganNmText").prop("display", "none"); 
+            $("#procurementOrganNmText").prop("display", "none");
             $("#receiptAddresstitle").hide();
             $("#receiptAddressText").val("");
             $("#receiptAddressText").html("");
@@ -565,13 +565,13 @@ $(function() {
     });
 
     var map = new Map();
-    
+
     /* モーダル */
     $('.type-select').on('click', function () {
-        
+
         var modalNumber = $(this).attr('class').match(/[0-9]+/);
         var modalType = '.modal-type-' + modalNumber[0];
-        
+
         $(modalType).find(".modal-Items").each(function(){
             var name;
             var vals = new Array();
@@ -589,10 +589,10 @@ $(function() {
                             flag = false;
                         }
                      });
-                    
+
                     if(flag) {
-                        map.set(tempName, vals);  
-                    }  
+                        map.set(tempName, vals);
+                    }
                     vals = new Array();
                 }
                 vals.push($(this).val());
@@ -607,38 +607,38 @@ $(function() {
                             flag = false;
                         }
                      });
-                     
+
                     if(flag) {
-                        map.set(tempName, vals);  
+                        map.set(tempName, vals);
                     }
                 }
             })
         })
-        
+
     });
-    
+
     $('.main-modal-bg').on('click', function () {
         var modalNumber = $(this).parent().attr('class').match(/[0-9]+/);
         var modalType = '.modal-type-' + modalNumber[0];
         $(modalType).find('input[type=checkbox]').prop('checked', false);
-        
+
         map.forEach(function (value, key) {
             $("input[name='" + key + "']").val(value);
          });
-        
+
     });
-    
+
     $('.main-modal-close').on('click', function () {
         var modalNumber = $(this).parent().parent().attr('class').match(/[0-9]+/);
         var modalType = '.modal-type-' + modalNumber[0];
         $(modalType).find('input[type=checkbox]').prop('checked', false);
-        
+
         map.forEach(function (value, key) {
             $("input[name='" + key + "']").val(value);
          });
-        
+
     });
-    
+
 });
 
 function single_govementProcurementOragan_area_select(obj) {

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{asset('css/textstyles.css')}}" type="text/css">
     <link rel="icon" href="{{asset('img/icon.png')}}" type="text/css">
     <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jsm.bz/rss.xml">
-    <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
+{{--    <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>--}}
     @yield('css')
 </head>
 <body>

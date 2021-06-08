@@ -26,8 +26,9 @@ Route::group(['middleware'=>'checkAuth'],function () {
     Route::get('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout')->middleware(['verified']);
     Route::get('/home', [HomeController::class, 'search'])->name('home')->middleware(['verified']);
     Route::get('/search', [HomeController::class, 'search'])->name('search')->middleware(['verified']);
+    Route::post('/search-result', [HomeController::class, 'searchResult'])->name('search-result')->middleware(['verified']);
     Route::get('/mail-setting', [HomeController::class, 'mailSetting'])->name('mail-setting')->middleware(['verified']);
     Route::get('/result', [HomeController::class, 'result'])->name('result')->middleware(['verified']);
-    Route::get('/detail', [HomeController::class, 'detail'])->name('detail')->middleware(['verified']);
+    Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('detail')->middleware(['verified']);
 });
 

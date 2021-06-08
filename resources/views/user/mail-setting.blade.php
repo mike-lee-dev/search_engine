@@ -1,11 +1,7 @@
 @extends('layouts/app')
 
 @section('css')
-    <link rel="stylesheet" href="{{asset('template/fonts/fonts/font-awesome.min.css')}}">
-    <!-- Dashboard Css -->
-    <link href="{{asset('template/css/dashboard.css')}}" rel="stylesheet"/>
-    <link href="{{asset('css/commonForm.css')}}" rel="stylesheet"/>
-    <link href="{{asset('css/tables1.css')}}" rel="stylesheet"/>
+
 
 @endsection
 
@@ -3343,11 +3339,5 @@
 @endsection
 
 @section('js')
-    <script src="{{asset('template/js/vendors/jquery-3.2.1.min.js')}}"></script>
-    <script src="{{asset('template/js/vendors/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{asset('template/js/vendors/jquery.sparkline.min.js')}}"></script>
-    <script src="{{asset('template/js/vendors/selectize.min.js')}}"></script>
-    <script src="{{asset('js/common.js')}}"></script>
-    <script src="{{asset('js/UAA01.js')}}"></script>
 
 @endsection

@@ -503,10 +503,10 @@ formテーブル・ツールチップ
 .table-name input[type=url],
 .table-name input[type=password] {
   width: 95%;
-  height: 3rem;
-  margin: 10px 0 0 20px;
+  height: 2.5rem;
+  margin: 5px 0 0 20px;
   padding: 10px 20px;
-  font-size: 1.125rem;
+  font-size: 0.9rem;
   font-family: inherit;
   box-sizing: border-box;
   border: 2px solid #dddddd;
@@ -964,6 +964,7 @@ input[type=checkbox].mousetrap {
   padding: 0 0 0 20px;
   margin: 0;
   display: inline-block;
+    margin-right: 20px;
 }
 
 table .table-check {

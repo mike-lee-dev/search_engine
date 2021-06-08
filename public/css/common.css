@@ -7,7 +7,7 @@
 body #wrapper {
   width: 100%;
   height: auto;
-  background: url(../../image/common/bg_body.png);
+  /*background: url(../../image/common/bg_body.png);*/
   background-size: auto;
   background-position: 0px 120px;
 }
@@ -16,7 +16,7 @@ body.official-side #wrapper {
   width: 100%;
   min-width: 980px;
   height: auto;
-  background: url(../../image/common/bg_body_k.png);
+  /*background: url(../../image/common/bg_body_k.png);*/
   background-size: auto;
   background-position: 0px 120px;
 }
@@ -148,7 +148,7 @@ table .info-button.keiyaku:focus,
 .button-white:focus,
 .button-red:focus {
   box-shadow: none;
-  border-color: #3573cc;
+  border-color: #246b2f;
 }
 
 .table-name input[type=text]:active:focus,
@@ -172,7 +172,7 @@ table .info-button.keiyaku:focus,
 .button-white:active:focus,
 table .info-button.keiyaku:active:focus {
   box-shadow: none;
-  border-color: #0250bf;
+  border-color: #246b2f;
 }
 
 table .info-button.torikesi:active:focus,
@@ -426,7 +426,7 @@ header.official-side h1 a:active:focus img,
 }
 
 .main-item-submit.submit-white::after  {
-  color: #0250bf;
+  color: #246b2f;
 }
 
 .official-side .main-item-submit.submit-white::after  {
