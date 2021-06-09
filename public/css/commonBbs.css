@@ -420,14 +420,14 @@ p.table-comment {
 }
 
 .content_block dt:before {
-  content: url(../../image/common/icn_arrow_left.png);
+  /*content: url(../../image/common/icn_arrow_left.png);*/
   display: inline-block;
   margin: 0 10px 0 0;
   vertical-align: middle;
 }
 
 .official-side .content_block dt:before {
-  content: url(../../image/common/icn_arrow_left_k.png);
+  /*content: url(../../image/common/icn_arrow_left_k.png);*/
 }
 
 .content_block dd {

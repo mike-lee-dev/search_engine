@@ -54,7 +54,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="main-item-table">
-                                    <form id="search_form" novalidate="true" action="{{route('search-result')}}" enctype="multipart/form-data" method="post">
+                                    <form id="search_form" novalidate="true" action="{{route('mail-setting-save')}}" enctype="multipart/form-data" method="post">
                                         @csrf
                                     <ul class="table-name">
                                         <dl class="table-form">
@@ -6871,5 +6871,4 @@
     <script src="{{asset('template/js/vendors/selectize.min.js')}}"></script>
     <script src="{{asset('js/common.js')}}"></script>
     <script src="{{asset('js/UAA01.js')}}"></script>
-
 @endsection

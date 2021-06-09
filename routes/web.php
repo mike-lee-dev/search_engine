@@ -28,8 +28,15 @@ Route::group(['middleware'=>'checkAuth'],function () {
     Route::get('/search', [HomeController::class, 'search'])->name('search')->middleware(['verified']);
     Route::post('/search-result', [HomeController::class, 'searchResult'])->name('search-result')->middleware(['verified']);
     Route::get('/mail-setting', [HomeController::class, 'mailSetting'])->name('mail-setting')->middleware(['verified']);
+    Route::post('/mail-setting-save', [HomeController::class, 'mailSettingSave'])->name('mail-setting-save')->middleware(['verified']);
     Route::get('/result', [HomeController::class, 'result'])->name('result')->middleware(['verified']);
     Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('detail')->middleware(['verified']);
     Route::get('/history-search/{id}', [HomeController::class, 'historySearch'])->name('history-search')->middleware(['verified']);
+    Route::get('/profile', [HomeController::class, 'profile'])->name('profile')->middleware(['verified']);
+    Route::post('/modify-profile', [HomeController::class, 'modifyProfile'])->name('modify-profile')->middleware(['verified']);
+
+
+    Route::get('/users', [HomeController::class, 'adminUsers'])->name('users')->middleware(['verified']);
+    Route::get('/mails', [HomeController::class, 'adminMailSetting'])->name('mails')->middleware(['verified']);
 });
 
