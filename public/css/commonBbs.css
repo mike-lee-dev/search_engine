@@ -479,25 +479,25 @@ p.table-comment {
 }
 
 .acodion_bar:before {
-  content: url(../../image/common/icn_minus.png);
+  /*content: url(../../image/common/icn_minus.png);*/
   position: relative;
   top: 3px;
   left: -5px;
 }
 
 .official-side .acodion_bar:before {
-  content: url(../../image/common/icn_minus_k.png);
+  /*content: url(../../image/common/icn_minus_k.png);*/
   position: relative;
   top: 3px;
   left: -5px;
 }
 
 .acodion_bar.is-active:before {
-  content: url(../../image/common/icn_plus.png);
+  /*content: url(../../image/common/icn_plus.png);*/
 }
 
 .official-side .acodion_bar.is-active:before {
-  content: url(../../image/common/icn_plus_k.png);
+  /*content: url(../../image/common/icn_plus_k.png);*/
 }
 
 .main-item-acodion .acodion_content {
@@ -543,7 +543,7 @@ p.table-comment {
 
 .acodion_btn:before {
   content: '';
-  background: url(../../image/common/icn_minus.png) no-repeat left top;
+  /*background: url(../../image/common/icn_minus.png) no-repeat left top;*/
   background-size: 100% auto;
   position: absolute;
   top: 0.15rem;
@@ -556,7 +556,7 @@ p.table-comment {
 
 .official-side .acodion_btn:before {
   content: '';
-  background: url(../../image/common/icn_minus_k.png) no-repeat left top;
+  /*background: url(../../image/common/icn_minus_k.png) no-repeat left top;*/
   background-size: 100% auto;
   position: absolute;
   top: 0.15rem;

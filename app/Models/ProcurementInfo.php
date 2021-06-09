@@ -47,6 +47,6 @@ class ProcurementInfo extends Model
         'bcd_grade',
         'bc_grade',
         'cd_grade',
-        'no_grade'
+        'none_grade'
     ];
 }

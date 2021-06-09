@@ -240,7 +240,7 @@ blockquote {
 }
 .alert {
 	background-color: #FFEFEF;
-	background-image: url(../img/alert.png);
+	/*background-image: url(../img/alert.png);*/
 	background-repeat: no-repeat;
 	color: #A2462F;
 	border: 1px solid #FABDA7;
@@ -516,7 +516,7 @@ blockquote {
 }
 
 /* 吹き出し新規追加スタイル */
- 
+
 .balloon-left,
 .balloon-right,
 .balloon-top,
@@ -549,14 +549,14 @@ blockquote {
 	float:right !important;
 	height:auto;
 }
- 
+
 .balloon-top .img-center,
 .balloon-bottom .img-center
 {
 	float:none;
 	text-align:left !important;
 }
- 
+
 .bln-img{
 	display:inline-block;
 	width:auto;
@@ -697,42 +697,42 @@ blockquote {
 }
 
 div.bln:after{height:0; visibility: hidden; content: ".";   display: block; clear: both;}
-.balloon1 .img-b{ background-position: 0 0;} 
-.balloon1 .img-l{ background-position: 0 -72px;} 
-.balloon1 .img-r{ background-position: -8px -139px;} 
-.balloon1 .img-t{ background-position: 0 -206px;} 
-.balloon2 .img-b{ background-position: 0 -278px;} 
-.balloon2 .img-l{ background-position: 0 -350px;} 
-.balloon2 .img-r{ background-position: -8px -417px;} 
-.balloon2 .img-t{ background-position: 0 -484px;} 
-.balloon3 .img-b{ background-position: 0 -556px;} 
-.balloon3 .img-l{ background-position: 0 -628px;} 
-.balloon3 .img-r{ background-position: -8px -695px;} 
-.balloon3 .img-t{ background-position: 0 -762px;} 
-.balloon4 .img-b{ background-position: 0 -834px;} 
-.balloon4 .img-l{ background-position: 0 -906px;} 
-.balloon4 .img-r{ background-position: -8px -973px;} 
-.balloon4 .img-t{ background-position: 0 -1040px;} 
-.balloon5 .img-b{ background-position: 0 -1112px;} 
-.balloon5 .img-l{ background-position: 0 -1184px;} 
-.balloon5 .img-r{ background-position: -8px -1251px;} 
-.balloon5 .img-t{ background-position: 0 -1318px;} 
-.balloon6 .img-b{ background-position: 0 -1390px;bottom:2px;} 
-.balloon6 .img-l{ background-position: 0 -1462px;left:2px;} 
-.balloon6 .img-r{ background-position: -8px -1531px;right:2px;} 
-.balloon6 .img-t{ background-position: 0 -1600px;top:2px;} 
-.balloon7 .img-b{ background-position: 0 -1672px;bottom:2px;} 
-.balloon7 .img-l{ background-position: 0 -1744px;left:2px;} 
-.balloon7 .img-r{ background-position: -8px -1813px;right:2px;} 
-.balloon7 .img-t{ background-position: 0 -1882px;top:2px;} 
-.balloon8 .img-b{ background-position: -78px 0;bottom:2px;} 
+.balloon1 .img-b{ background-position: 0 0;}
+.balloon1 .img-l{ background-position: 0 -72px;}
+.balloon1 .img-r{ background-position: -8px -139px;}
+.balloon1 .img-t{ background-position: 0 -206px;}
+.balloon2 .img-b{ background-position: 0 -278px;}
+.balloon2 .img-l{ background-position: 0 -350px;}
+.balloon2 .img-r{ background-position: -8px -417px;}
+.balloon2 .img-t{ background-position: 0 -484px;}
+.balloon3 .img-b{ background-position: 0 -556px;}
+.balloon3 .img-l{ background-position: 0 -628px;}
+.balloon3 .img-r{ background-position: -8px -695px;}
+.balloon3 .img-t{ background-position: 0 -762px;}
+.balloon4 .img-b{ background-position: 0 -834px;}
+.balloon4 .img-l{ background-position: 0 -906px;}
+.balloon4 .img-r{ background-position: -8px -973px;}
+.balloon4 .img-t{ background-position: 0 -1040px;}
+.balloon5 .img-b{ background-position: 0 -1112px;}
+.balloon5 .img-l{ background-position: 0 -1184px;}
+.balloon5 .img-r{ background-position: -8px -1251px;}
+.balloon5 .img-t{ background-position: 0 -1318px;}
+.balloon6 .img-b{ background-position: 0 -1390px;bottom:2px;}
+.balloon6 .img-l{ background-position: 0 -1462px;left:2px;}
+.balloon6 .img-r{ background-position: -8px -1531px;right:2px;}
+.balloon6 .img-t{ background-position: 0 -1600px;top:2px;}
+.balloon7 .img-b{ background-position: 0 -1672px;bottom:2px;}
+.balloon7 .img-l{ background-position: 0 -1744px;left:2px;}
+.balloon7 .img-r{ background-position: -8px -1813px;right:2px;}
+.balloon7 .img-t{ background-position: 0 -1882px;top:2px;}
+.balloon8 .img-b{ background-position: -78px 0;bottom:2px;}
 .balloon8 .img-l{ background-position: -78px -72px;left:2px;}
 .balloon8 .img-r{ background-position: -86px -141px;right:2px;}
 .balloon8 .img-t{ background-position: -78px -210px;top:2px;}
-.balloon9 .img-b{ background-position: -78px -282px;bottom:2px;} 
-.balloon9 .img-l{ background-position: -78px -354px;left:2px;} 
-.balloon9 .img-r{ background-position: -86px -423px;right:2px;} 
-.balloon9 .img-t{ background-position: -78px -492px;top:2px;} 
+.balloon9 .img-b{ background-position: -78px -282px;bottom:2px;}
+.balloon9 .img-l{ background-position: -78px -354px;left:2px;}
+.balloon9 .img-r{ background-position: -86px -423px;right:2px;}
+.balloon9 .img-t{ background-position: -78px -492px;top:2px;}
 
 /* フッターメニュー */
 #footermenu{

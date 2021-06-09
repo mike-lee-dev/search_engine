@@ -30,5 +30,6 @@ Route::group(['middleware'=>'checkAuth'],function () {
     Route::get('/mail-setting', [HomeController::class, 'mailSetting'])->name('mail-setting')->middleware(['verified']);
     Route::get('/result', [HomeController::class, 'result'])->name('result')->middleware(['verified']);
     Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('detail')->middleware(['verified']);
+    Route::get('/history-search/{id}', [HomeController::class, 'historySearch'])->name('history-search')->middleware(['verified']);
 });
 
