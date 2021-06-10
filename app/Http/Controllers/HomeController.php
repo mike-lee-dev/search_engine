@@ -927,7 +927,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             'manage' => $manage
         ]);
     }
-    public function adminMailManage1(Request $request){
+    public function adminMailManage(Request $request){
 
         MailSendManager::where('id', '1')->update([
             'search_period' => $request->search_period,
@@ -941,7 +941,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             'status' => true
         ]);
     }
-    public function adminMailManage(){
+    public function adminMailManage1(){
         $mail_manage = MailSendManager::where('id', '1')->get()->first();
         if($mail_manage->send_status == 0){
             return;
