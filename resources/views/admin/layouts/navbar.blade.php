@@ -1,13 +1,6 @@
-<?php
-
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-
-$user = User::where('id', Auth::user()->id)->get()->first();
-?>
 <div class="main-header">
     <!-- Logo Header -->
-    <div class="logo-header" data-background-color="blue">
+    <div class="logo-header" data-background-color="custom" custom-color="#819e33">
 
 {{--        <a href="index.html" class="logo">--}}
 {{--            <img src="{{asset('img/logo.png')}}" alt="navbar brand" class="navbar-brand">--}}
@@ -27,7 +20,7 @@ $user = User::where('id', Auth::user()->id)->get()->first();
     <!-- End Logo Header -->
 
     <!-- Navbar Header -->
-    <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
+    <nav class="navbar navbar-header navbar-expand-lg" data-background-color="custom" custom-color="#819e33">
 
         <div class="container-fluid">
             <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
@@ -44,7 +37,8 @@ $user = User::where('id', Auth::user()->id)->get()->first();
                                     <div class="avatar-lg"><img src="{{asset('img/profile.jpg')}}" alt="image profile" class="avatar-img rounded"></div>
                                     <div class="u-text">
                                         <h4>{{$user->username}}</h4>
-                                        <p class="text-muted">{{$user->email}}</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">プロファイル</a>
+                                        <p class="text-muted">{{$user->email}}</p>
+                                        <button class="btn btn-xs btn-secondary btn-sm" data-toggle="modal" data-target="#profileModal">プロファイル</button>
                                     </div>
                                 </div>
                             </li>

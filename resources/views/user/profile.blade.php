@@ -144,7 +144,7 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
-                                    <button id="submit" type="submit" class="btn btn-primary">
+                                    <button id="profile_submit" type="submit" class="btn btn-primary">
                                         {{ __('パスワード変更') }}
                                     </button>
                                 </div>
@@ -160,7 +160,7 @@
     <script src="{{asset('template/js/vendors/jquery-3.2.1.min.js')}}"></script>
     <script src="{{asset('js/jquery.validate.min.js')}}"></script>
     <script type="text/javascript">
-        $('#submit').click(function (e) {
+        $('#profile_submit').click(function (e) {
             e.preventDefault();
             let form = $('#form');
             form.validate();
@@ -185,7 +185,36 @@
                         password: $('[name=password]').val()
                     },
                     success: function (response) {
-                        alert('パスワード変更成功');
+                        if(response.status){
+                            var content = {};
+
+                            content.message = 'パスワード変更成功';
+                            content.title = '成功';
+                            $.notify(content,{
+                                type: 'success',
+                                placement: {
+                                    from: 'top',
+                                    align: 'right'
+                                },
+                                time: 1000,
+                                delay: 1000,
+                            });
+                        }
+                        else{
+                            var content = {};
+
+                            content.message = 'パスワードを変更できません。';
+                            content.title = '失敗';
+                            $.notify(content,{
+                                type: 'warning',
+                                placement: {
+                                    from: 'top',
+                                    align: 'right'
+                                },
+                                time: 1000,
+                                delay: 1000,
+                            });
+                        }
                     },
                     error: function () {
                     }

@@ -1,10 +1,3 @@
-<?php
-
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-
-$user = User::where('id', Auth::user()->id)->get()->first();
-?>
 <!-- Sidebar -->
 <div class="sidebar sidebar-style-2">
     <div class="sidebar-wrapper scrollbar scrollbar-inner">

@@ -37,6 +37,12 @@ Route::group(['middleware'=>'checkAuth'],function () {
 
 
     Route::get('/users', [HomeController::class, 'adminUsers'])->name('users')->middleware(['verified']);
+    Route::post('/users-table', [HomeController::class, 'adminUsersTable'])->name('users-table')->middleware(['verified']);
+    Route::post('/change-pw', [HomeController::class, 'changePw'])->name('change-pw')->middleware(['verified']);
+    Route::get('/user-profile/{id}', [HomeController::class, 'userProfile'])->name('user-profile')->middleware(['verified']);
+    Route::get('/user-delete/{id}', [HomeController::class, 'userDelete'])->name('delete')->middleware(['verified']);
+
     Route::get('/mails', [HomeController::class, 'adminMailSetting'])->name('mails')->middleware(['verified']);
+    Route::post('/mail-manage', [HomeController::class, 'adminMailManage'])->name('mail-manage')->middleware(['verified']);
 });
 
