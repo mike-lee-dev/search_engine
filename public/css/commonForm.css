@@ -488,9 +488,9 @@ formテーブル
 formテーブル・ツールチップ
 =============================*/
 
-.table-name li:last-child .table-tip-txt {  left: -436px;}
-.table-name li:last-child .table-tip-txt:before {  left: 446px;}
-.table-name li:last-child .table-tip-txt:after {  left: 448px;}
+/*.table-name li:last-child .table-tip-txt {  left: -436px;}*/
+/*.table-name li:last-child .table-tip-txt:before {  left: 446px;}*/
+/*.table-name li:last-child .table-tip-txt:after {  left: 448px;}*/
 
 /*
 テキストボックス

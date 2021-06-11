@@ -212,10 +212,10 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($addressArr as $index => $item){
                 if($index != count($addressArr) - 1){
-                    $query = $query . "address = '" . $item . "' OR ";
+                    $query = $query . "E.address = '" . $item . "' OR ";
                 }
                 else{
-                    $query = $query . "address = '" . $item . "'";
+                    $query = $query . "E.address = '" . $item . "'";
                 }
             }
             $query = $query . ") AND";
@@ -474,10 +474,10 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($addressArr as $index => $item){
                 if($index != count($addressArr) - 1){
-                    $query = $query . "address = '" . $item . "' OR ";
+                    $query = $query . "E.address = '" . $item . "' OR ";
                 }
                 else{
-                    $query = $query . "address = '" . $item . "'";
+                    $query = $query . "E.address = '" . $item . "'";
                 }
             }
             $query = $query . ") AND";
@@ -755,10 +755,10 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($addressArr as $index => $item){
                 if($index != count($addressArr) - 1){
-                    $query = $query . "address = '" . $item . "' OR ";
+                    $query = $query . "E.address = '" . $item . "' OR ";
                 }
                 else{
-                    $query = $query . "address = '" . $item . "'";
+                    $query = $query . "E.address = '" . $item . "'";
                 }
             }
             $query = $query . ") AND";
@@ -1074,10 +1074,10 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($addressArr as $index => $item){
                             if($index != count($addressArr) - 1){
-                                $query = $query . "address = '" . $item . "' OR ";
+                                $query = $query . "E.address = '" . $item . "' OR ";
                             }
                             else{
-                                $query = $query . "address = '" . $item . "'";
+                                $query = $query . "E.address = '" . $item . "'";
                             }
                         }
                         $query = $query . ") AND";
