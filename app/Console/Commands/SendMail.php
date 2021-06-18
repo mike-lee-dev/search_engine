@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendMail extends Command
@@ -43,6 +44,7 @@ class SendMail extends Command
      */
     public function handle()
     {
+        date_default_timezone_set('Asia/Tokyo');
         $mail_manage = MailSendManager::where('id', '1')->get()->first();
         if ($mail_manage->send_status == 0) {
             return;
@@ -50,23 +52,43 @@ class SendMail extends Command
         $send_start_time = $mail_manage->send_start_time;
         $time_arr = explode(':', $send_start_time);
         $start_time = $time_arr[0] . ':' . $time_arr[1];
-        $now = date('H:m');
+        $now = date('H:i');
         if ($start_time === $now) {
+            Log::info('cron SendMail $start_time == $now');
             $send_per_hour = $mail_manage->send_per_hour;
             $all_setting = MailSetting::orderBy('id', 'asc')->get()->count();
             $cnt = (int)($all_setting / $send_per_hour);
             if ($all_setting > $send_per_hour * $cnt) {
                 $cnt = $cnt + 1;
             }
+            Log::info('cron SendMail $cnt =' .$cnt);
             for ($i = 0; $i < $cnt; $i++) {
+
                 $skip = $i * $send_per_hour;
+                Log::info('cron SendMail $skip =' .$skip);
                 $mail_settings = MailSetting::skip($skip)->take($send_per_hour)->get();
                 $search_period = $mail_manage->search_period - 1;
                 $mail_header = $mail_manage->mail_header;
                 $mail_footer = $mail_manage->mail_footer;
                 foreach ($mail_settings as $setting) {
                     $user_id = $setting->user_id;
+                    Log::info('cron SendMail $user_id =' .$user_id);
                     $user = User::where('id', $user_id)->get()->first();
+                    $header_arr_tmp = explode('%', $mail_header);
+                    $message_arr = $header_arr_tmp;
+                    foreach ($message_arr as $index => $str){
+                        if ($str == "username") {
+                            $message_arr[$index] = $user->username;
+                        }
+                        if ($str == "company_name") {
+                            $message_arr[$index] = $user->company_name;
+                        }
+                    }
+
+                    $header_content = '';
+                    foreach ($message_arr as $str){
+                        $header_content = $header_content . $str;
+                    }
                     $type = $setting->search_type;
                     $classify = $setting->search_classify;
                     $agency = $setting->search_agency;
@@ -118,15 +140,70 @@ class SendMail extends Command
                     if (!isset($public_start_date_to)) {
                         $public_start_date_to = '2200-01-01';
                     }
-                    if (!isset($name)) {
+                    $name_arr = array();
+                    $op_arr = array();
+                    if(!isset($name)){
                         $name = '';
                     }
+                    else{
+                        $len = mb_strlen($name);
+                        $start = 0;
+                        for($j = 0; $j < $len; $j++){
+                            $c = mb_substr($name, $j, 1);
+                            if($j == $len -1){
+                                $name_arr[] = mb_substr($name, $start, $j - $start + 1);
+                            }
+                            else if($c === '　' || $c === '＋' || $c === '＾'){
+                                $name_arr[] = mb_substr($name, $start, $j - $start);
+                                if($c === '　'){
+                                    $op_arr[] = 'AND';
+                                }
+                                if($c === '＋'){
+                                    $op_arr[] = 'OR';
+                                }
+                                if($c === '＾'){
+                                    $op_arr[] = 'NOT';
+                                }
+                                $start = $j+1;
+                            }
+                        }
+                        //$name_arr = explode(' ', $name);
+                    }
+
+                    $text_arr = array();
+                    $op1_arr = array();
+                    if(!isset($official_text)){
+                        $official_text = '';
+                    }
+                    else{
+                        $len = mb_strlen($official_text);
+                        $start = 0;
+                        for($j = 0; $j < $len; $j++){
+                            $c = mb_substr($official_text, $j, 1);
+
+                            if($j == $len -1){
+                                $text_arr[] = mb_substr($official_text, $start, $j - $start + 1);
+                            }
+                            else if($c === '　' || $c === '＋' || $c === '＾'){
+                                $text_arr[] = mb_substr($official_text, $start, $j - $start);
+                                if($c === '　'){
+                                    $op1_arr[] = 'AND';
+                                }
+                                if($c === '＋'){
+                                    $op1_arr[] = 'OR';
+                                }
+                                if($c === '＾'){
+                                    $op1_arr[] = 'NOT';
+                                }
+                                $start = $j+1;
+                            }
+                        }
+                    }
+
                     if (!isset($public_id)) {
                         $public_id = '';
                     }
-                    if (!isset($official_text)) {
-                        $official_text = '';
-                    }
+
                     $gradeArr = [];
                     if (isset($grade)) {
                         $gradeArr = explode(',', $grade);
@@ -137,7 +214,7 @@ class SendMail extends Command
                     }
                     $query = "SELECT A.id, A.public_id, A.classify_code, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
 FROM procurement_infos AS A
-LEFT JOIN procurement_type_codes AS B ON B.id = A.type
+LEFT JOIN procurement_type_codes AS B ON B.id = A.notification_class
 LEFT JOIN procurement_agency_codes AS D ON D.id = A.procurement_agency
 LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                     if (!$classify == 0) {
@@ -200,7 +277,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($gradeArr as $index => $item) {
                             if ($index != count($gradeArr) - 1) {
-                                $query = $query . $item . "_grade = 1 AND ";
+                                $query = $query . $item . "_grade = 1 OR ";
                             } else {
                                 $query = $query . $item . "_grade = 1";
                             }
@@ -212,29 +289,121 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($no_gradeArr as $index => $item) {
                             if ($index != count($no_gradeArr) - 1) {
-                                $query = $query . $item . "_grade = 0 AND ";
+                                $query = $query . $item . "_grade = 0 OR ";
                             } else {
                                 $query = $query . $item . "_grade = 0";
                             }
                         }
                         $query = $query . ") AND";
                     }
+                    if(count($name_arr) != 0){
+                        $query = $query . " (";
+                        foreach ($name_arr as $index => $item){
+                            if($index != count($name_arr) - 1){
+                                if(isset($op_arr[$index-1]) && $op_arr[$index-1] === 'NOT')
+                                {
+                                    if($op_arr[$index] === 'NOT'){
+                                        $query = $query . "procurement_name NOT LIKE '%" . $item . "%' AND ";
+                                    }
+                                    else{
+                                        $query = $query . "procurement_name NOT LIKE '%" . $item . "%' "  . $op_arr[$index] . " ";
+                                    }
 
+                                }
+                                else{
+                                    if($op_arr[$index] === 'NOT'){
+                                        $query = $query . "procurement_name LIKE '%" . $item . "%' AND ";
+                                    }
+                                    else{
+                                        $query = $query . "procurement_name LIKE '%" . $item . "%' " . $op_arr[$index] . " ";
+                                    }
+
+                                }
+                            }
+                            else{
+                                if(isset($op_arr[$index-1]) && $op_arr[$index-1] === 'NOT'){
+                                    $query = $query . "procurement_name NOT LIKE '%" . $item . "%'";
+                                }
+                                else{
+                                    $query = $query . "procurement_name LIKE '%" . $item . "%'";
+                                }
+                            }
+                        }
+                        $query = $query . ") AND";
+                    }
+                    if(count($text_arr) != 0){
+                        $query = $query . " (";
+                        foreach ($text_arr as $index => $item){
+                            if($index != count($text_arr) - 1){
+                                if(isset($op1_arr[$index-1]) && $op1_arr[$index-1] === 'NOT'){
+                                    if($op1_arr[$index] === 'NOT'){
+                                        $query = $query . "official_text NOT LIKE '%" . $item . "%' AND ";
+                                    }
+                                    else{
+                                        $query = $query . "official_text NOT LIKE '%" . $item . "%' " . $op1_arr[$index] . " ";
+                                    }
+                                }
+                                else{
+                                    if($op1_arr[$index] === 'NOT'){
+                                        $query = $query . "official_text LIKE '%" . $item . "%' AND ";
+                                    }
+                                    else{
+                                        $query = $query . "official_text LIKE '%" . $item . "%' " . $op1_arr[$index] . " ";
+                                    }
+                                }
+
+                            }
+                            else{
+                                if(isset($op1_arr[$index-1]) && $op1_arr[$index-1] === 'NOT'){
+                                    $query = $query . "official_text NOT LIKE '%" . $item . "%'";
+                                }
+                                else{
+                                    $query = $query . "official_text LIKE '%" . $item . "%'";
+                                }
+                            }
+                        }
+                        $query = $query . ") AND";
+                    }
                     $query = $query . " public_start_date >= '" . $public_start_date_from . "'" . " AND public_start_date <= '" . $public_start_date_to . "'"
-                        . " AND procurement_name LIKE '%" . $name . "%'"
-                        . " AND official_text LIKE '%" . $official_text . "%'"
                         . " AND public_id LIKE '%" . $public_id . "%'"
-                        . " ORDER BY id LIMIT " . $per_page;
+                        . " ORDER BY id LIMIT 100";
                     $procurements = DB::select($query);
-                    $mail_body = $mail_header . '<br><br>';
+                    $mail_body = $header_content . '<br><br>';
                     if (count($procurements) == 0) {
                         $mail_body = $mail_body . '該当する検索資料がありません。<br>';
                     } else {
-                        foreach ($procurements as $procurement) {
-                            $procurement_name = trim(preg_replace('/\s\s+/', ' ', $procurement->procurement_name));
-                            $content = $procurement->public_id . '   ' . $procurement->public_start_date . ' ~ ' . $procurement->public_end_date . '   ' . $procurement_name . '<br>';
+                        $mail_body = $mail_body . '<table role="grid" aria-describedby="resultTable_info">
+                            <thead>
+                            <tr role="row">
+                            <th style="width: 27px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: カラムを降順にソートするためにアクティブにする">ID</th>
+                            <th style="width: 208px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="公告公示番号: 列を昇順にソートするためにアクティブにする">公告公示番号</th>
+                            <th style="width: 136px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達案件名称: 列を昇順にソートするためにアクティブにする">調達案件名称</th>
+                            <th style="width: 52px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達機関: 列を昇順にソートするためにアクティブにする">調達機関</th>
+                            <th style="width: 64px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="所在地: 列を昇順にソートするためにアクティブにする">所在地</th>
+                            <th style="width: 136px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達実施案件公示: 列を昇順にソートするためにアクティブにする">調達実施案件公示</th></tr>
+                            </thead>
+                            <tbody>';
+
+                        foreach ($procurements as $index => $procurement) {
+                            $id = $index + 1;
+                            $content = '<tr role="row" class="odd">
+                                    <td class="sorting_1">' . $id . '</td>
+                                    <td>' . $procurement->public_id . '</td>
+                                    <td>' . $procurement->procurement_name . '</td>
+                                    <td>' . $procurement->procurement_agency . '</td>
+                                    <td>' . $procurement->address . '</td>
+                                    <td>
+                                        <a class="koukoku info-button" tabindex="4103" href="https://chotatu.rwd.pw/detail/' . $procurement->id . '">公示本文</a><br>
+                                        ' . $procurement->public_start_date . '公開開始
+                                    </td>
+                                </tr>';
+//                            $procurement_name = trim(preg_replace('/\s\s+/', ' ', $procurement->procurement_name));
+//                            $content = $procurement->public_id . '   ' . $procurement->public_start_date . ' ~ ' . $procurement->public_end_date . '   ' . $procurement_name . '<br>';
                             $mail_body = $mail_body . $content;
                         }
+
+                        $mail_body = $mail_body . '</tbody></table>';
+
                     }
 
                     $mail_body = $mail_body . '<br>' . $mail_footer;
@@ -243,15 +412,15 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         'mail_body' => $mail_body
                     );
                     $email = $user->email;
+                    Log::info('cron SendMail $email =' .$email);
                     Mail::send([], [], function (Message $message) use ($email, $mail_body) {
                         $message->to($email)
-                            ->subject('my subject')
-                            ->from('my@email.com')
+                            ->subject('検索資料')
+                            ->from('chotatu.info@gmail.com')
                             ->setBody($mail_body, 'text/html');
                     });
-//            Mail::to($email)->send(new SendInfoMail($details));
-                    //$result = array_slice($procurements, 0, $per_page);
                 }
+                Log::info('cron SendMail sleep');
                 sleep(3600);
             }
         }

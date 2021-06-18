@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" dir="ltr" translate="no">
+<html lang="ja" dir="ltr">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -15,6 +15,7 @@
     <link rel="icon" href="{{asset('img/icon.png')}}" type="text/css">
     <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jsm.bz/rss.xml">
 {{--    <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>--}}
+    <script src="{{asset('template/js/vendors/jquery-3.2.1.min.js')}}"></script>
     @yield('css')
 </head>
 <body>
@@ -24,7 +25,7 @@
         <div id="top">
             <div class="inner py-2">
                 <h1></h1>
-                <h2 class="title"><span><a href=""><img src="{{asset('img/logo.png')}}" style="height: 65px; margin-right: 15px;">全省庁統一資格・調達情報・等級別検索サイト</a></span></h2>
+                <h2 class="title"><span><a href="{{route('home')}}" style="display: flex"><img src="{{asset('img/logo.png')}}" style="height: 65px; margin-right: 15px;"><p style="margin-top: auto; margin-bottom: auto">全省庁統一資格・調達情報・等級別検索サイト</p></a></span></h2>
             </div>
             <input type="checkbox" id="panel" value="">
             <label for="panel" id="topmenubtn">MENU</label>
@@ -67,11 +68,11 @@
     <input type="hidden" id="home_path" value="<?=url('');?>">
 </div>
 
-<div id="pagetop"><a href="">トップへ戻る</a></div>
+<div id="pagetop"><a>トップへ戻る</a></div>
 <footer id="footer">
 
     <div class="inner">
-        <p style="text-align:right;letter-spacing: 0;">│　<a href="/" style="color: #333">操作ガイド</a>　│　<a href="/" style="color: #333">特定商取引</a>　│　<a href="/" style="color: #333">お問い合わせ</a>　│</p>
+        <p style="text-align:right;letter-spacing: 0;">│　<a href="https://chotatu.rwd.pw/operation_guide.pdf" style="color: #333" target="_blank">操作ガイド</a>　│　<a href="{{route('specific-trans')}}" style="color: #333">特定商取引</a>　│　<a href="https://chotatu.rwd.pw/contact/contact.html" style="color: #333" target="_blank">お問い合わせ</a>　│</p>
 {{--        <div class="desc">調達情報の検索画面の作成について</div>--}}
         <small style="color: #333">Copyright © 2021 株式会社日本スマートマーケティング
             All Rights Reserved.
@@ -94,6 +95,11 @@
     </div>
 
 </footer>
+<script>
+    $("#pagetop").click(function() {
+        window.scrollTo(0, 0);
+    });
+</script>
 
 @yield('js')
 </body>

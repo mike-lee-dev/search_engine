@@ -5,6 +5,8 @@
     <!-- Dashboard Css -->
     <link href="{{asset('template/css/dashboard.css')}}" rel="stylesheet"/>
     <link href="{{asset('css/commonForm.css')}}" rel="stylesheet"/>
+    <link href="{{asset('css/common.css')}}" rel="stylesheet"/>
+    <link href="{{asset('css/commonBbs.css')}}" rel="stylesheet"/>
     <link href="{{asset('css/tables1.css')}}" rel="stylesheet"/>
 
 @endsection
@@ -45,14 +47,99 @@
                         <div class="nmlbox graybg" style="color:#333;">
                             <img src="{{asset('img/button_02.png')}}" alt="株式会社日本スマートマーケティング"><strong>検索条件</strong><br>
                             検索条件を設定し、[設定]をクリックしてください。<br>
-                            ※検索条件の指定は任意です。なお、検索結果を一度に送信できる件数は最大１00件です。<br>
+                            ※検索条件の指定は任意です。なお、検索結果を一度に送信できる件数は最大100件です。<br>
                             ※１日１回ログインメールアドレスに、公開開始から最新３日間の検索結果を送信します。<br>
-                            ※調達案件名称の指定においては、キーワードを入力した場合はスペース区切りでAND検索ができます。<br>
+                            ※調達案件名称の指定においては、AND検索、OR検索、NOT検索ができます。<br>
                             ※公示本文のキーワードの指定においては、AND検索、OR検索、NOT検索ができます。<br>
                         </div>
 
                         <div class="row">
                             <div class="col-12">
+                                <div class="main-item">
+                                    <!-- メイン 現在の検索条件 -->
+                                    <h3>現在の設定条件</h3>
+                                    <p id="info02">[現在の設定条件を開く]をクリックし、指定した設定条件を確認してください。</p>
+                                    <dl class="main-item-acodion mt-3">
+                                        <dt class="acodion_on acodion_bar is-active" tabindex="1000">現在の設定条件を開く</dt>
+                                        <dd class="acodion_content is-close" style="display: none;">
+                                            <input type="hidden" id="searchCon" value="{{$old_setting}}">
+                                            <dl class="content_block">
+                                                <dt>
+                                                    <span>案件分類</span>
+                                                </dt>
+                                                <dd>公開中の調達案件</dd>
+                                            </dl>
+                                            <dl class="content_block">
+                                                <dt>
+                                                    <span>調達種別</span>
+                                                </dt>
+                                                <dd id="searchCon_type">指定なし</dd>
+                                            </dl>
+                                            <dl class="content_block">
+                                                <dt>
+                                                    <span>分類</span>
+                                                </dt>
+                                                <dd id="searchCon_classify">全て</dd>
+                                            </dl>
+                                            <dl class="content_block">
+                                                <dt>
+                                                    <span>調達機関</span>
+                                                </dt>
+                                                <!-- 過渡期運用のためコメントアウト
+                                                    <dd>全て</dd> -->
+                                            </dl>
+                                            <dl class="content_block" style="margin-left: 25px;">
+                                                <dt>
+                                                    <span>調達機関（国）</span>
+                                                </dt>
+                                                <dd id="searchCon_agency">機関名&nbsp;:&nbsp;指定なし</dd>
+                                                <dd id="searchCon_address">所在地&nbsp;:&nbsp;指定なし</dd>
+                                            </dl>
+                                            <dl class="content_block">
+                                                <dt>
+                                                    <span>品目分類</span>
+                                                </dt>
+                                                <dd id="searchCon_item_classify">指定なし</dd>
+                                            </dl>
+                                            <dl class="content_block">
+                                                <dt>
+                                                    <span>調達案件名称</span>
+                                                </dt>
+                                                <dd id="searchCon_name">指定なし</dd>
+                                            </dl>
+                                            <dl class="content_block">
+                                                <dt>
+                                                    <span>調達案件番号</span>
+                                                </dt>
+                                                <dd id="searchCon_public_id">指定なし</dd>
+                                            </dl>
+                                            <dl class="content_block">
+                                                <dt>
+                                                    <span>公示本文のキーワード指定</span>
+                                                </dt>
+                                                <dd id="searchCon_official_text">指定なし</dd>
+                                            </dl>
+                                            <dl class="content_block">
+                                                <dt>
+                                                    <span>送信件数</span>
+                                                </dt>
+                                                <dd id="searchCon_per_page">100</dd>
+                                            </dl>
+                                            <dl class="content_block">
+                                                <dt>
+                                                    <span>等級指定（次の等級を含む）</span>
+                                                </dt>
+                                                <dd id="searchCon_grade">指定なし</dd>
+                                            </dl>
+                                            <dl class="content_block">
+                                                <dt>
+                                                    <span>等級指定（次の等級を除く）</span>
+                                                </dt>
+                                                <dd id="searchCon_no_grade">指定なし</dd>
+                                            </dl>
+                                        </dd>
+                                    </dl>
+                                </div>
                                 <div class="main-item-table">
                                     <form id="search_form" novalidate="true" action="{{route('mail-setting-save')}}" enctype="multipart/form-data" method="post">
                                         @csrf
@@ -76,7 +163,7 @@
                                                     <input id="searchConditionBean.caseDivision1"
                                                            name="searchConditionBean.caseDivision" tabindex="1230" disabled="disabled"
                                                            type="radio" value="0" checked="checked" class="mousetrap">
-                                                    <label for="searchConditionBean.caseDivision1" class="table-radio" tabindex="1230">　公開中の調達案件　│　自社が落札した調達案件（<a href="https://www.p-portal.go.jp/pps-web-biz/UZA01/OZA0101">調達ポータル</a>に移動）</label>
+                                                    <label for="searchConditionBean.caseDivision1" class="table-radio" tabindex="1230">　公開中の調達案件　</label>
                                                 </span>
                                                 {{--                                                <span>--}}
                                                 {{--                                                    <input id="searchConditionBean.caseDivision2"--}}
@@ -221,7 +308,7 @@
 
                                         </dl>
                                     </ul>
-                                    <ul class="table-name row mb-0 mx-0">
+                                    <ul class="table-name row mb-0 mx-0" style="overflow: visible">
                                         <li class="col-sm-6">
                                             <dl class="table-form">
                                                 <dt>
@@ -237,7 +324,20 @@
                                                                 alt="閉じる"
                                                                 class="tip-txt-close" tabindex="1610">
                                                             <p tabindex="1620" id="komoku05">
-                                                                調達案件名称を入力してください。名称は部分一致で検索することができます。<br>スペース（空白）で区切って複数のキーワードを指定すると、すべてのキーワードを含む調達案件名称が検索対象になります。
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">AND検索<br>
+                                                                キーワードを「　」（全角スペース）で区切って入れれば、全てのキーワードを含む資料だけが検索されるAND検索となります。<br>
+                                                                例①）役務の提供　調査・研究　→　役務の提供　AND　調査・研究<br>
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">OR検索<br>
+                                                                キーワードを「+」（全角プラス記号）で区切って入れれば、いずれか１つのキーワードを含む資料が検索されるOR検索となります。<br>
+                                                                例②）印刷＋出版　→　印刷 OR 出版<br>
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">NOT検索<br>
+                                                                含みたくないキーワードの前に「^」（全角キャレット）をつけて入力すればNOT検索となる。ただし、NOT検索の場合は必ず他のキーワードとのAND検索として入力する必要があります。<br>
+                                                                例③）コンテンツ＾総合評価　→　コンテンツ AND (NOT 総合評価)<br>
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">複合検索<br>
+                                                                例①②③を同時に複合検索することができます。<br>
+                                                                例①の検索結果が５件、例②の検索結果が１０件、例③の検索結果が１５件である場合、複合検索の結果は３０件表示されます。<br>
+                                                                ①②③を「　＋　」（全角スペース＋全角スペース）で区切ります。<br>
+                                                                例④）役務の提供　調査・研究　＋　印刷＋出版　＋　コンテンツ＾総合評価　→　［役務の提供　AND　調査・研究］　OR　［印刷 OR 出版］　OR　［コンテンツ AND (NOT 総合評価)］
                                                             </p>
                                                         </div>
                                                     </div>
@@ -266,8 +366,6 @@
                                                 </dd>
                                             </dl>
                                         </li>
-                                    </ul>
-                                    <ul class="table-name row mb-0 mx-0">
                                         <li class="col-12">
                                             <dl class="table-form">
                                                 <dt>
@@ -280,7 +378,22 @@
                                                             <img src="{{asset('img/icn_close.png')}}"
                                                                  alt="閉じる"
                                                                  class="tip-txt-close" tabindex="2210">
-                                                            <p tabindex="2220" id="komoku11">調達の品目分類を選択してください。</p>
+                                                            <p tabindex="2220" id="komoku11">
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">AND検索<br>
+                                                                キーワードを「　」（全角スペース）で区切って入れれば、全てのキーワードを含む資料だけが検索されるAND検索となります。<br>
+                                                                例①）役務の提供　調査・研究　→　役務の提供　AND　調査・研究<br>
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">OR検索<br>
+                                                                キーワードを「+」（全角プラス記号）で区切って入れれば、いずれか１つのキーワードを含む資料が検索されるOR検索となります。<br>
+                                                                例②）印刷＋出版　→　印刷 OR 出版<br>
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">NOT検索<br>
+                                                                含みたくないキーワードの前に「^」（全角キャレット）をつけて入力すればNOT検索となる。ただし、NOT検索の場合は必ず他のキーワードとのAND検索として入力する必要があります。<br>
+                                                                例③）コンテンツ＾総合評価　→　コンテンツ AND (NOT 総合評価)<br>
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">複合検索<br>
+                                                                例①②③を同時に複合検索することができます。<br>
+                                                                例①の検索結果が５件、例②の検索結果が１０件、例③の検索結果が１５件である場合、複合検索の結果は３０件表示されます。<br>
+                                                                ①②③を「　＋　」（全角スペース＋全角スペース）で区切ります。<br>
+                                                                例④）役務の提供　調査・研究　＋　印刷＋出版　＋　コンテンツ＾総合評価　→　［役務の提供　AND　調査・研究］　OR　［印刷 OR 出版］　OR　［コンテンツ AND (NOT 総合評価)］
+                                                            </p>
                                                         </div>
                                                     </div>
 
@@ -291,6 +404,9 @@
                                                 </dd>
                                             </dl>
                                         </li>
+                                    </ul>
+                                    <ul class="table-name row mb-0 mx-0" style="overflow: visible">
+
                                         <li class="col-12 px-0 mb-5">
                                             <dl class="table-form">
                                                 <dt>
@@ -317,7 +433,10 @@
                                                             <img src="{{asset('img/icn_close.png')}}"
                                                                  alt="閉じる"
                                                                  class="tip-txt-close" tabindex="2210">
-                                                            <p tabindex="2220" id="komoku11">調達の品目分類を選択してください。</p>
+                                                            <p tabindex="2220" id="komoku11">複数の等級の組み合わせについて、指定できます。<br>
+                                                                例）A等級の調達情報を指定したい場合、ABCD,ABC，ABを指定することにより、A等級を含む調達情報を検索できます。
+                                                                「ABCD」、 「ABC」、 「AB」のすべての組み合わせの検索結果を得ることができます。
+                                                                「A」だけを指定した場合も、A等級を含む調達情報を検索することができますが、０.１％～２％程精度が落ちる場合があります。</p>
                                                         </div>
                                                     </div>
 
@@ -348,7 +467,9 @@
                                                             <img src="{{asset('img/icn_close.png')}}"
                                                                  alt="閉じる"
                                                                  class="tip-txt-close" tabindex="2210">
-                                                            <p tabindex="2220" id="komoku11">調達の品目分類を選択してください。</p>
+                                                            <p tabindex="2220" id="komoku11">複数の等級の組み合わせについて、指定できます。<br>
+                                                                例）A等級の調達情報を除きたい場合、Aを指定することにより、A等級含むすべての組み合わせを除く調達情報を検索できます。
+                                                                「ABCD」 、 「ABC」、 「AB」、「A」のすべての組み合わせを除いた検索結果を得ることができます。</p>
                                                         </div>
                                                     </div>
 
@@ -370,7 +491,7 @@
                                     </ul>
                                     <p class="txt-img" style="text-align: right">
                                         <button type="submit" class="m-0 p-0" style="border: none;    background: none;">
-                                            <img src="{{asset('img/button_01.jpg')}}" alt="株式会社日本スマートマーケティング">
+                                            <img src="{{asset('img/setting_button02.png')}}" alt="株式会社日本スマートマーケティング">
                                         </button>
                                     </p>
                                     <!--Scrolling Modal-->
@@ -617,7 +738,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button id="procurementClassificationSelected" type="button"
-                                                            class="button-orange button-large" tabindex="2390"
+                                                            class="button-orange" tabindex="2390"
                                                             data-dismiss="modal"
                                                             style="border: none; background: none; padding: 0;">
                                                         <img src="{{asset('img/button_04.jpg')}}"
@@ -1661,7 +1782,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button id="govementProcurementOraganSelected" type="button"
-                                                            class="button-orange button-large" data-dismiss="modal"
+                                                            class="button-orange" data-dismiss="modal"
                                                             style="border: none; background: none; padding: 0;">
                                                         <img src="{{asset('img/button_04.jpg')}}"
                                                              alt="株式会社日本スマートマーケティング">
@@ -2925,7 +3046,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button id="itemClassifcationSelected" type="button"
-                                                            class="button-orange button-large" data-dismiss="modal"
+                                                            class="button-orange" data-dismiss="modal"
                                                             style="border: none; background: none; padding: 0;">
                                                         <img src="{{asset('img/button_04.jpg')}}"
                                                              alt="株式会社日本スマートマーケティング">
@@ -3748,7 +3869,7 @@
 
                                         </dl>
                                     </ul>
-                                    <ul class="table-name row mb-0 mx-0">
+                                    <ul class="table-name mb-0 mx-0">
 
                                         <li class="col-sm-6">
                                             <dl class="table-form">
@@ -3794,9 +3915,6 @@
                                                 </dd>
                                             </dl>
                                         </li>
-                                    </ul>
-
-                                    <ul class="table-name row mb-0 mx-0">
                                         <li class="col-12">
                                             <dl class="table-form">
                                                 <dt>
@@ -3816,15 +3934,17 @@
                                                 </dd>
                                             </dl>
                                         </li>
+                                    </ul>
+
+                                    <ul class="table-name row mb-0 mx-0">
+
                                         <li class="col-12 px-0 mb-5">
                                             <dl class="table-form">
                                                 <dt>
                                                     <span class="mr-3">表示件数</span>
                                                     <select name="表示件数">
-                                                        <option value="">50</option>
-                                                        <option value="">100 </option>
-                                                        <option value="">300 </option>
-                                                        <option value="">500 </option>
+                                                        <option value="50">50</option>
+                                                        <option value="100">100 </option>
                                                     </select>
                                                 </dt>
                                             </dl>
@@ -3841,7 +3961,10 @@
                                                         <img src="{{asset('img/icn_close.png')}}"
                                                              alt="閉じる"
                                                              class="tip-txt-close" tabindex="2210">
-                                                        <p tabindex="2220" id="komoku11">調達の品目分類を選択してください。</p>
+                                                        <p tabindex="2220" id="komoku11">複数の等級の組み合わせについて、指定できます。<br>
+                                                            例）A等級の調達情報を指定したい場合、ABCD,ABC，ABを指定することにより、A等級を含む調達情報を検索できます。
+                                                            「ABCD」、 「ABC」、 「AB」のすべての組み合わせの検索結果を得ることができます。
+                                                            「A」だけを指定した場合も、A等級を含む調達情報を検索することができますが、０.１％～２％程精度が落ちる場合があります。</p>
                                                     </div>
                                                 </dt>
                                                 <dd>
@@ -3865,7 +3988,9 @@
                                                         <img src="{{asset('img/icn_close.png')}}"
                                                              alt="閉じる"
                                                              class="tip-txt-close" tabindex="2210">
-                                                        <p tabindex="2220" id="komoku11">調達の品目分類を選択してください。</p>
+                                                        <p tabindex="2220" id="komoku11">複数の等級の組み合わせについて、指定できます。<br>
+                                                            例）A等級の調達情報を除きたい場合、Aを指定することにより、A等級含むすべての組み合わせを除く調達情報を検索できます。
+                                                            「ABCD」 、 「ABC」、 「AB」、「A」のすべての組み合わせを除いた検索結果を得ることができます。</p>
                                                     </div>
                                                 </dt>
                                                 <dd>
@@ -4107,7 +4232,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button id="procurementClassificationSelected" type="button"
-                                                            class="button-orange button-large" tabindex="2390" data-dismiss="modal" style="border: none; background: none; padding: 0;">
+                                                            class="button-orange" tabindex="2390" data-dismiss="modal" style="border: none; background: none; padding: 0;">
                                                         <img src="{{asset('img/button_04.jpg')}}" alt="株式会社日本スマートマーケティング">
                                                     </button>
                                                 </div>
@@ -5027,7 +5152,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button id="govementProcurementOraganSelected" type="button"
-                                                            class="button-orange button-large" data-dismiss="modal" style="border: none; background: none; padding: 0;">
+                                                            class="button-orange" data-dismiss="modal" style="border: none; background: none; padding: 0;">
                                                         <img src="{{asset('img/button_04.jpg')}}" alt="株式会社日本スマートマーケティング">
                                                     </button>
                                                 </div>
@@ -6188,7 +6313,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button id="itemClassifcationSelected" type="button"
-                                                            class="button-orange button-large" data-dismiss="modal" style="border: none; background: none; padding: 0;">
+                                                            class="button-orange" data-dismiss="modal" style="border: none; background: none; padding: 0;">
                                                         <img src="{{asset('img/button_04.jpg')}}" alt="株式会社日本スマートマーケティング">
                                                     </button>
                                                 </div>
@@ -6871,4 +6996,143 @@
     <script src="{{asset('template/js/vendors/selectize.min.js')}}"></script>
     <script src="{{asset('js/common.js')}}"></script>
     <script src="{{asset('js/UAA01.js')}}"></script>
+    <script>
+        let searchCon;
+        $(document).ready(function () {
+            searchCon = JSON.parse($('#searchCon').val());
+            console.log(searchCon);
+            if (searchCon.search_type == null) {
+                $('#searchCon_type').text('指定なし');
+            } else {
+                $('#searchCon_type').text(searchCon.search_type);
+            }
+            if (searchCon.search_classify == '0') {
+                $('#searchCon_classify').text('全て');
+            } else if (searchCon.search_classify == '1') {
+                $('#searchCon_classify').text('物品・役務');
+            } else {
+                $('#searchCon_classify').text('簡易な公共事業');
+            }
+            if (searchCon.search_agency == null) {
+                $('#searchCon_agency').text('機関名: 指定なし');
+            } else {
+                $('#searchCon_agency').text('機関名: ' + searchCon.search_agency);
+            }
+            if (searchCon.search_address == null) {
+                $('#searchCon_address').text('所在地: 指定なし');
+            } else {
+                $('#searchCon_address').text('所在地: ' + searchCon.search_address);
+            }
+            if (searchCon.search_item_classify == null) {
+                $('#searchCon_item_classify').text('指定なし');
+            } else {
+                $('#searchCon_item_classify').text(searchCon.search_item_classify);
+            }
+
+            if (searchCon.search_name == null) {
+                $('#searchCon_name').text('指定なし');
+            } else {
+                $('#searchCon_name').text(searchCon.search_name);
+            }
+            if (searchCon.search_public_id == null) {
+                $('#searchCon_public_id').text('指定なし');
+            } else {
+                $('#searchCon_public_id').text(searchCon.search_public_id);
+            }
+            if (searchCon.search_official_text == null) {
+                $('#searchCon_official_text').text('指定なし');
+            } else {
+                $('#searchCon_official_text').text(searchCon.search_official_text);
+            }
+
+            if (searchCon.search_grade == null) {
+                $('#searchCon_grade').text('指定なし');
+            } else {
+                let grade = searchCon.search_grade;
+                let arr = grade.split(',');
+                let txt = '';
+                for(let i = 0; i < arr.length; i++){
+
+                    if(arr[i] == 'none'){
+                        txt = txt + '等級なし,';
+                    }
+                    else{
+                        txt = txt + arr[i].toUpperCase() + ', ';
+                    }
+                }
+                $('#searchCon_grade').text(txt);
+            }
+            if (searchCon.search_no_grade == null) {
+                $('#searchCon_no_grade').text('指定なし');
+            } else {
+                let no_grade = searchCon.search_no_grade;
+                let no_arr = no_grade.split(',');
+                let txt = '';
+                for(let i = 0; i < no_arr.length; i++){
+
+                    if(no_arr[i] == 'none'){
+                        txt = txt + '等級なし, ';
+                    }
+                    else{
+                        txt = txt + no_arr[i].toUpperCase() + ', ';
+                    }
+                }
+                $('#searchCon_no_grade').text(txt);
+            }
+        })
+    </script>
+    <script>
+        let c_grade = [], no_grade = [];
+        function removeA(arr) {
+            var what, a = arguments, L = a.length, ax;
+            while (L > 1 && arr.length) {
+                what = a[--L];
+                while ((ax= arr.indexOf(what)) !== -1) {
+                    arr.splice(ax, 1);
+                }
+            }
+            return arr;
+        }
+
+        $('[type=checkbox]').click(function () {
+            let name = $(this).attr('name');
+            let arr_name = name.split('_');
+
+            if(arr_name[arr_name.length-1] == 'grade'){
+                let grade;
+                if(arr_name.length == 3){
+                    grade = arr_name[0] + '_grade';
+                    if($(this)[0].checked){
+                        no_grade.push(arr_name[0])
+                        removeA(c_grade, arr_name[0]);
+                    }
+                    else{
+                        removeA(no_grade, arr_name[0]);
+                    }
+                }
+                else{
+                    grade = arr_name[0] + '_n_grade';
+                    if($(this)[0].checked){
+                        c_grade.push(arr_name[0])
+                        removeA(no_grade, arr_name[0]);
+                    }
+                    else{
+                        removeA(c_grade, arr_name[0]);
+                    }
+                }
+                let n = '[name=' + grade + ']';
+
+                if($(this)[0].checked){
+
+                    $(n)[0].checked = false;
+                }
+                // else{
+                //     $(n)[0].checked = true;
+                // }
+                $('#grade').val(c_grade.toString())
+                $('#no_grade').val(no_grade.toString());
+            }
+
+        })
+    </script>
 @endsection

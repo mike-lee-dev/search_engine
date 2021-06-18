@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>等級別検索サイト</title>
@@ -168,6 +168,22 @@ $user = User::where('id', Auth::user()->id)->get()->first();
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <div class="form-group form-group-default">
+                                            <label>フォーム登録用パスワード</label>
+                                            <input id="form_password" type="password" name="form_password" class="form-control" minlength="8" required>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group form-group-default">
+                                            <label>パスワード確認</label>
+                                            <input id="form_confirm_password" type="password" name="form_password_confirmation" class="form-control" minlength="8" required>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                         <div class="modal-footer border-0 pt-0">
@@ -201,6 +217,10 @@ $user = User::where('id', Auth::user()->id)->get()->first();
                 $('[name=password_confirmation]').addClass('is-invalid');
                 return false;
             }
+            if ($('[name=form_password]').val() !== $('[name=form_password_confirmation]').val()) {
+                $('[name=form_password_confirmation]').addClass('is-invalid');
+                return false;
+            }
             var token = $("meta[name='_csrf']").attr("content");
             var home_path = $("#home_path").val();
             $.ajaxSetup({
@@ -214,7 +234,8 @@ $user = User::where('id', Auth::user()->id)->get()->first();
                 url: url,
                 type: 'post',
                 data: {
-                    password: $('[name=password]').val()
+                    password: $('[name=password]').val(),
+                    form_password : $('[name=form_password]').val()
                 },
                 success: function (response) {
                     $('#profileModal').modal('hide');

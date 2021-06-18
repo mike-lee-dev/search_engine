@@ -1,4 +1,4 @@
-APP_NAME=Search
+APP_NAME=等級別検索サイト
 APP_ENV=local
 APP_KEY=base64:NAtrvmxMwSTs95f+cV/9arm7oHa9UCTeGnLr6iwjMwA=
 APP_DEBUG=false
@@ -8,11 +8,11 @@ LOG_CHANNEL=stack
 LOG_LEVEL=debug
 
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+DB_HOST=mysql204.xbiz.ne.jp
 DB_PORT=3306
-DB_DATABASE=search_engine
-DB_USERNAME=root
-DB_PASSWORD=
+DB_DATABASE=jsm_chotatujoho
+DB_USERNAME=jsm_chotatujoho
+DB_PASSWORD=0123bidd
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
@@ -30,8 +30,8 @@ MAIL_MAILER=smtp
 MAIL_DRIVER=smtp
 MAIL_HOST=smtp.gmail.com
 MAIL_PORT=465
-MAIL_USERNAME=appcondo2020@gmail.com
-MAIL_PASSWORD=jrxzevycvzazuerb
+MAIL_USERNAME=chotatu.info@gmail.com
+MAIL_PASSWORD=zqkeavvjkuhykhad
 MAIL_ENCRYPTION=ssl
 MAIL_FROM_ADDRESS=test@gmail.com
 MAIL_FROM_NAME="${APP_NAME}"

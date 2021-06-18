@@ -24,6 +24,7 @@ class SearchHistory extends Model
         'search_official_text',
         'search_per_page',
         'search_grade',
-        'search_no_grade'
+        'search_no_grade',
+        'result_cnt'
     ];
 }

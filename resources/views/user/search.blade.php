@@ -219,7 +219,7 @@
 
                                         </dl>
                                     </ul>
-                                    <ul class="table-name row mb-0 mx-0">
+                                    <ul class="table-name mb-0 mx-0" style="overflow: visible">
 
                                         <li class="col-sm-6">
                                             <dl class="table-form">
@@ -264,7 +264,7 @@
                                                 </dd>
                                             </dl>
                                         </li>
-                                        <li class="col-sm-6">
+                                        <li class="col-sm-6 px-0">
                                             <dl class="table-form">
                                                 <dt>
                                                     <span><label for="case-name">調達案件名称</label></span>
@@ -279,7 +279,20 @@
                                                                 alt="閉じる"
                                                                 class="tip-txt-close" tabindex="1610">
                                                             <p tabindex="1620" id="komoku05">
-                                                                調達案件名称を入力してください。名称は部分一致で検索することができます。<br>スペース（空白）で区切って複数のキーワードを指定すると、すべてのキーワードを含む調達案件名称が検索対象になります。
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">AND検索<br>
+                                                                キーワードを「　」（全角スペース）で区切って入れれば、全てのキーワードを含む資料だけが検索されるAND検索となります。<br>
+                                                                例①）役務の提供　調査・研究　→　役務の提供　AND　調査・研究<br>
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">OR検索<br>
+                                                                キーワードを「+」（全角プラス記号）で区切って入れれば、いずれか１つのキーワードを含む資料が検索されるOR検索となります。<br>
+                                                                例②）印刷＋出版　→　印刷 OR 出版<br>
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">NOT検索<br>
+                                                                含みたくないキーワードの前に「^」（全角キャレット）をつけて入力すればNOT検索となる。ただし、NOT検索の場合は必ず他のキーワードとのAND検索として入力する必要があります。<br>
+                                                                例③）コンテンツ＾総合評価　→　コンテンツ AND (NOT 総合評価)<br>
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">複合検索<br>
+                                                                例①②③を同時に複合検索することができます。<br>
+                                                                例①の検索結果が５件、例②の検索結果が１０件、例③の検索結果が１５件である場合、複合検索の結果は３０件表示されます。<br>
+                                                                ①②③を「　＋　」（全角スペース＋全角スペース）で区切ります。<br>
+                                                                例④）役務の提供　調査・研究　＋　印刷＋出版　＋　コンテンツ＾総合評価　→　［役務の提供　AND　調査・研究］　OR　［印刷 OR 出版］　OR　［コンテンツ AND (NOT 総合評価)］
                                                             </p>
                                                         </div>
                                                     </div>
@@ -308,9 +321,6 @@
                                                 </dd>
                                             </dl>
                                         </li>
-                                    </ul>
-
-                                    <ul class="table-name row mb-0 mx-0">
                                         <li class="col-12">
                                             <dl class="table-form">
                                                 <dt>
@@ -323,7 +333,22 @@
                                                             <img src="{{asset('img/icn_close.png')}}"
                                                                  alt="閉じる"
                                                                  class="tip-txt-close" tabindex="2210">
-                                                            <p tabindex="2220" id="komoku11">調達の品目分類を選択してください。</p>
+                                                            <p tabindex="2220" id="komoku11">
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">AND検索<br>
+                                                                キーワードを「　」（全角スペース）で区切って入れれば、全てのキーワードを含む資料だけが検索されるAND検索となります。<br>
+                                                                例①）役務の提供　調査・研究　→　役務の提供　AND　調査・研究<br>
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">OR検索<br>
+                                                                キーワードを「+」（全角プラス記号）で区切って入れれば、いずれか１つのキーワードを含む資料が検索されるOR検索となります。<br>
+                                                                例②）印刷＋出版　→　印刷 OR 出版<br>
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">NOT検索<br>
+                                                                含みたくないキーワードの前に「^」（全角キャレット）をつけて入力すればNOT検索となる。ただし、NOT検索の場合は必ず他のキーワードとのAND検索として入力する必要があります。<br>
+                                                                例③）コンテンツ＾総合評価　→　コンテンツ AND (NOT 総合評価)<br>
+                                                                <img src="{{asset('img/button_03.jpg')}}" alt="株式会社日本スマートマーケティング">複合検索<br>
+                                                                例①②③を同時に複合検索することができます。<br>
+                                                                例①の検索結果が５件、例②の検索結果が１０件、例③の検索結果が１５件である場合、複合検索の結果は３０件表示されます。<br>
+                                                                ①②③を「　＋　」（全角スペース＋全角スペース）で区切ります。<br>
+                                                                例④）役務の提供　調査・研究　＋　印刷＋出版　＋　コンテンツ＾総合評価　→　［役務の提供　AND　調査・研究］　OR　［印刷 OR 出版］　OR　［コンテンツ AND (NOT 総合評価)］
+                                                            </p>
                                                         </div>
                                                     </div>
 
@@ -334,6 +359,10 @@
                                                 </dd>
                                             </dl>
                                         </li>
+                                    </ul>
+
+                                    <ul class="table-name row mb-0 mx-0" style="overflow: visible">
+
                                         <li class="col-12 px-0 mb-5">
                                             <dl class="table-form">
                                                 <dt>
@@ -360,7 +389,10 @@
                                                             <img src="{{asset('img/icn_close.png')}}"
                                                                  alt="閉じる"
                                                                  class="tip-txt-close" tabindex="2210">
-                                                            <p tabindex="2220" id="komoku11">調達の品目分類を選択してください。</p>
+                                                            <p tabindex="2220" id="komoku11">複数の等級の組み合わせについて、指定できます。<br>
+                                                                例）A等級の調達情報を指定したい場合、ABCD,ABC，ABを指定することにより、A等級を含む調達情報を検索できます。
+                                                                「ABCD」、 「ABC」、 「AB」のすべての組み合わせの検索結果を得ることができます。
+                                                                「A」だけを指定した場合も、A等級を含む調達情報を検索することができますが、０.１％～２％程精度が落ちる場合があります。</p>
                                                         </div>
                                                     </div>
 
@@ -391,7 +423,9 @@
                                                             <img src="{{asset('img/icn_close.png')}}"
                                                                  alt="閉じる"
                                                                  class="tip-txt-close" tabindex="2210">
-                                                            <p tabindex="2220" id="komoku11">調達の品目分類を選択してください。</p>
+                                                            <p tabindex="2220" id="komoku11">複数の等級の組み合わせについて、指定できます。<br>
+                                                                例）A等級の調達情報を除きたい場合、Aを指定することにより、A等級含むすべての組み合わせを除く調達情報を検索できます。
+                                                                「ABCD」 、 「ABC」、 「AB」、「A」のすべての組み合わせを除いた検索結果を得ることができます。</p>
                                                         </div>
                                                     </div>
 
@@ -3714,9 +3748,9 @@
 
                     $(n)[0].checked = false;
                 }
-                else{
-                    $(n)[0].checked = true;
-                }
+                // else{
+                //     $(n)[0].checked = true;
+                // }
                 $('#grade').val(c_grade.toString())
                 $('#no_grade').val(no_grade.toString());
             }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SendInfoMail;
+use App\Models\FormPassword;
 use App\Models\MailSendManager;
 use App\Models\MailSetting;
 use App\Models\ProcurementInfo;
@@ -48,6 +49,10 @@ class HomeController extends Controller
     }
     public function modifyProfile(Request $request){
         $password = $request->password;
+        $form_pw = $request->form_password;
+        if(isset($form_pw)){
+            FormPassword::where('id', 1)->update(['password' => Hash::make($password)]);
+        }
 
         if(Auth::user()->change_pw == 1){
             User::where('id', Auth::user()->id)->update(['password' => Hash::make($password)]);
@@ -68,7 +73,7 @@ class HomeController extends Controller
         $searchCon = array();
         $type = $request['typeCase'];
         $classify= $request['classify'];
-        $agency = $request['procurementItemCla'];
+        $agency = $request['procurementOrganNm'];
         $address = $request['receiptAddress'];
         $item_classify = $request['procurementItemCla'];
         $public_start_date_from = $request['publicStartDateFrom'];
@@ -82,26 +87,7 @@ class HomeController extends Controller
         $grade =  $request['grade'];
         $no_grade = $request['no_grade'];
 
-        $data = [
-            'user_id' => Auth::user()->id,
-            'search_type' => $type,
-            'search_classify' => $classify,
-            'search_agency' => $agency,
-            'search_address' => $address,
-            'search_item_classify' => $item_classify,
-            'search_public_start_date_from' => $public_start_date_from,
-            'search_public_start_date_to' => $public_start_date_to,
-            'search_public_end_date_from' => $public_end_date_from,
-            'search_public_end_date_to' => $public_end_date_to,
-            'search_name' => $name,
-            'search_public_id' => $public_id,
-            'search_official_text' => $official_text,
-            'search_per_page' => $per_page,
-            'search_grade' => $grade,
-            'search_no_grade' => $no_grade
-        ];
 
-        SearchHistory::create($data);
 
         $searchCon['type'] = $type;
         $searchCon['classify'] = $classify;
@@ -156,14 +142,66 @@ class HomeController extends Controller
         if(!isset($public_end_date_to)){
             $public_end_date_to = '2250-01-01';
         }
+        $name_arr = array();
+        $op_arr = array();
         if(!isset($name)){
             $name = '';
+        }
+        else{
+            $len = mb_strlen($name);
+            $start = 0;
+            for($i = 0; $i < $len; $i++){
+                $c = mb_substr($name, $i, 1);
+                if($i == $len -1){
+                    $name_arr[] = mb_substr($name, $start, $i - $start + 1);
+                }
+                else if($c === '　' || $c === '＋' || $c === '＾'){
+                    $name_arr[] = mb_substr($name, $start, $i - $start);
+                    if($c === '　'){
+                        $op_arr[] = 'AND';
+                    }
+                    if($c === '＋'){
+                        $op_arr[] = 'OR';
+                    }
+                    if($c === '＾'){
+                        $op_arr[] = 'NOT';
+                    }
+                    $start = $i+1;
+                }
+            }
+            //$name_arr = explode(' ', $name);
         }
         if(!isset($public_id)){
             $public_id = '';
         }
+        $text_arr = array();
+        $op1_arr = array();
         if(!isset($official_text)){
             $official_text = '';
+        }
+        else{
+            $len = mb_strlen($official_text);
+            $start = 0;
+            for($i = 0; $i < $len; $i++){
+                $c = mb_substr($official_text, $i, 1);
+
+                if($i == $len -1){
+                    $text_arr[] = mb_substr($official_text, $start, $i - $start + 1);
+                }
+                else if($c === '　' || $c === '＋' || $c === '＾'){
+                    $text_arr[] = mb_substr($official_text, $start, $i - $start);
+                    if($c === '　'){
+                        $op1_arr[] = 'AND';
+                    }
+                    if($c === '＋'){
+                        $op1_arr[] = 'OR';
+                    }
+                    if($c === '＾'){
+                        $op1_arr[] = 'NOT';
+                    }
+                    $start = $i+1;
+                }
+            }
         }
         $gradeArr = [];
         if(isset($grade)){
@@ -175,7 +213,7 @@ class HomeController extends Controller
         }
         $query = "SELECT A.id, A.public_id, A.classify_code, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
 FROM procurement_infos AS A
-LEFT JOIN procurement_type_codes AS B ON B.id = A.type
+LEFT JOIN procurement_type_codes AS B ON B.id = A.notification_class
 LEFT JOIN procurement_agency_codes AS D ON D.id = A.procurement_agency
 LEFT JOIN addresses AS E ON E.id = A.address WHERE";
         if(!$classify == 0){
@@ -199,10 +237,10 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($agencyArr as $index => $item){
                 if($index != count($agencyArr) - 1){
-                    $query = $query . "procurement_agency = '" . $item . "' OR ";
+                    $query = $query . "D.procurement_agency = '" . $item . "' OR ";
                 }
                 else{
-                    $query = $query . "procurement_agency = '" . $item . "'";
+                    $query = $query . "D.procurement_agency = '" . $item . "'";
                 }
             }
             $query = $query . ") AND";
@@ -242,7 +280,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($gradeArr as $index => $item){
                 if($index != count($gradeArr) - 1){
-                    $query = $query . $item . "_grade = 1 AND ";
+                    $query = $query . $item . "_grade = 1 OR ";
                 }
                 else{
                     $query = $query . $item . "_grade = 1";
@@ -255,7 +293,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($no_gradeArr as $index => $item){
                 if($index != count($no_gradeArr) - 1){
-                    $query = $query . $item . "_grade = 0 AND ";
+                    $query = $query . $item . "_grade = 0 OR ";
                 }
                 else{
                     $query = $query . $item . "_grade = 0";
@@ -263,25 +301,113 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             }
             $query = $query . ") AND";
         }
+        if(count($name_arr) != 0){
+            $query = $query . " (";
+            foreach ($name_arr as $index => $item){
+                if($index != count($name_arr) - 1){
+                    if(isset($op_arr[$index-1]) && $op_arr[$index-1] === 'NOT')
+                    {
+                        if($op_arr[$index] === 'NOT'){
+                            $query = $query . "procurement_name NOT LIKE '%" . $item . "%' AND ";
+                        }
+                        else{
+                            $query = $query . "procurement_name NOT LIKE '%" . $item . "%' "  . $op_arr[$index] . " ";
+                        }
 
+                    }
+                    else{
+                        if($op_arr[$index] === 'NOT'){
+                            $query = $query . "procurement_name LIKE '%" . $item . "%' AND ";
+                        }
+                        else{
+                            $query = $query . "procurement_name LIKE '%" . $item . "%' " . $op_arr[$index] . " ";
+                        }
+
+                    }
+                }
+                else{
+                    if(isset($op_arr[$index-1]) && $op_arr[$index-1] === 'NOT'){
+                        $query = $query . "procurement_name NOT LIKE '%" . $item . "%'";
+                    }
+                    else{
+                        $query = $query . "procurement_name LIKE '%" . $item . "%'";
+                    }
+                }
+            }
+            $query = $query . ") AND";
+        }
+        if(count($text_arr) != 0){
+            $query = $query . " (";
+            foreach ($text_arr as $index => $item){
+                if($index != count($text_arr) - 1){
+                    if(isset($op1_arr[$index-1]) && $op1_arr[$index-1] === 'NOT'){
+                        if($op1_arr[$index] === 'NOT'){
+                            $query = $query . "official_text NOT LIKE '%" . $item . "%' AND ";
+                        }
+                        else{
+                            $query = $query . "official_text NOT LIKE '%" . $item . "%' " . $op1_arr[$index] . " ";
+                        }
+                    }
+                    else{
+                        if($op1_arr[$index] === 'NOT'){
+                            $query = $query . "official_text LIKE '%" . $item . "%' AND ";
+                        }
+                        else{
+                            $query = $query . "official_text LIKE '%" . $item . "%' " . $op1_arr[$index] . " ";
+                        }
+                    }
+
+                }
+                else{
+                    if(isset($op1_arr[$index-1]) && $op1_arr[$index-1] === 'NOT'){
+                        $query = $query . "official_text NOT LIKE '%" . $item . "%'";
+                    }
+                    else{
+                        $query = $query . "official_text LIKE '%" . $item . "%'";
+                    }
+                }
+            }
+            $query = $query . ") AND";
+        }
         $query = $query . " public_start_date >= '" . $public_start_date_from . "'" . " AND public_start_date <= '" . $public_start_date_to . "'"
             . " AND public_end_date >= '" . $public_end_date_from . "'" . " AND public_end_date <= '" . $public_end_date_to . "'"
-            . " AND procurement_name LIKE '%" . $name . "%'"
-            . " AND official_text LIKE '%" . $official_text . "%'"
             . " AND public_id LIKE '%" . $public_id . "%'"
             . " ORDER BY id";
 
 
+//        print_r($query);
+//        die();
         $procurements = DB::select($query);
 
         $query_cnt = count($procurements);
         $overflow = false;
-        if($query_cnt > $per_page){
+        if($query_cnt > 500){
             $overflow = true;
         }
 
-        $result = array_slice($procurements, 0, $per_page);
+        $result = array_slice($procurements, 0, 500);
         $result_cnt = count($result);
+        $data = [
+            'user_id' => Auth::user()->id,
+            'search_type' => $type,
+            'search_classify' => $classify,
+            'search_agency' => $agency,
+            'search_address' => $address,
+            'search_item_classify' => $item_classify,
+            'search_public_start_date_from' => $searchCon['public_start_date_from'],
+            'search_public_start_date_to' => $searchCon['public_start_date_to'],
+            'search_public_end_date_from' => $searchCon['public_end_date_from'],
+            'search_public_end_date_to' => $searchCon['public_end_date_to'],
+            'search_name' => $searchCon['name'],
+            'search_public_id' => $searchCon['public_id'],
+            'search_official_text' => $searchCon['official_text'],
+            'search_per_page' => $per_page,
+            'search_grade' => $grade,
+            'search_no_grade' => $no_grade,
+            'result_cnt' => $result_cnt
+        ];
+
+        SearchHistory::create($data);
         $search_histories = SearchHistory::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->limit(10)->get();
         foreach ($search_histories as $history){
             if($history->search_public_start_date_from == null && $history->search_public_start_date_to == null){
@@ -341,7 +467,13 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
 
     public function mailSetting()
     {
-        return view('user.mail-setting');
+        $old_setting = MailSetting::where('user_id', Auth::user()->id)->get()->first();
+        if(isset($old_setting)){
+            $old_setting = $old_setting->toArray();
+        }
+        return view('user.mail-setting', [
+            'old_setting' => json_encode($old_setting)
+        ]);
     }
 
     public function mailSettingSave(Request $request)
@@ -349,7 +481,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
         $searchCon = array();
         $type = $request['typeCase'];
         $classify= $request['classify'];
-        $agency = $request['procurementItemCla'];
+        $agency = $request['procurementOrganNm'];
         $address = $request['receiptAddress'];
         $item_classify = $request['procurementItemCla'];
         $name = $request['articleNm'];
@@ -417,16 +549,68 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                 array_push($item_classify_arr, $item_arr[0]);
             }
         }
-
+        $name_arr = array();
+        $op_arr = array();
         if(!isset($name)){
             $name = '';
+        }
+        else{
+            $len = mb_strlen($name);
+            $start = 0;
+            for($i = 0; $i < $len; $i++){
+                $c = mb_substr($name, $i, 1);
+                if($i == $len -1){
+                    $name_arr[] = mb_substr($name, $start, $i - $start + 1);
+                }
+                else if($c === '　' || $c === '＋' || $c === '＾'){
+                    $name_arr[] = mb_substr($name, $start, $i - $start);
+                    if($c === '　'){
+                        $op_arr[] = 'AND';
+                    }
+                    if($c === '＋'){
+                        $op_arr[] = 'OR';
+                    }
+                    if($c === '＾'){
+                        $op_arr[] = 'NOT';
+                    }
+                    $start = $i+1;
+                }
+            }
+            //$name_arr = explode(' ', $name);
         }
         if(!isset($public_id)){
             $public_id = '';
         }
+        $text_arr = array();
+        $op1_arr = array();
         if(!isset($official_text)){
             $official_text = '';
         }
+        else{
+            $len = mb_strlen($official_text);
+            $start = 0;
+            for($i = 0; $i < $len; $i++){
+                $c = mb_substr($official_text, $i, 1);
+
+                if($i == $len -1){
+                    $text_arr[] = mb_substr($official_text, $start, $i - $start + 1);
+                }
+                else if($c === '　' || $c === '＋' || $c === '＾'){
+                    $text_arr[] = mb_substr($official_text, $start, $i - $start);
+                    if($c === '　'){
+                        $op1_arr[] = 'AND';
+                    }
+                    if($c === '＋'){
+                        $op1_arr[] = 'OR';
+                    }
+                    if($c === '＾'){
+                        $op1_arr[] = 'NOT';
+                    }
+                    $start = $i+1;
+                }
+            }
+        }
+
         $gradeArr = [];
         if(isset($grade)){
             $gradeArr = explode(',', $grade);
@@ -437,7 +621,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
         }
         $query = "SELECT A.id, A.public_id, A.classify_code, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
 FROM procurement_infos AS A
-LEFT JOIN procurement_type_codes AS B ON B.id = A.type
+LEFT JOIN procurement_type_codes AS B ON B.id = A.notification_class
 LEFT JOIN procurement_agency_codes AS D ON D.id = A.procurement_agency
 LEFT JOIN addresses AS E ON E.id = A.address WHERE";
         if(!$classify == 0){
@@ -461,10 +645,10 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($agencyArr as $index => $item){
                 if($index != count($agencyArr) - 1){
-                    $query = $query . "procurement_agency = '" . $item . "' OR ";
+                    $query = $query . "D.procurement_agency = '" . $item . "' OR ";
                 }
                 else{
-                    $query = $query . "procurement_agency = '" . $item . "'";
+                    $query = $query . "D.procurement_agency = '" . $item . "'";
                 }
             }
             $query = $query . ") AND";
@@ -504,7 +688,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($gradeArr as $index => $item){
                 if($index != count($gradeArr) - 1){
-                    $query = $query . $item . "_grade = 1 AND ";
+                    $query = $query . $item . "_grade = 1 OR ";
                 }
                 else{
                     $query = $query . $item . "_grade = 1";
@@ -517,7 +701,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($no_gradeArr as $index => $item){
                 if($index != count($no_gradeArr) - 1){
-                    $query = $query . $item . "_grade = 0 AND ";
+                    $query = $query . $item . "_grade = 0 OR ";
                 }
                 else{
                     $query = $query . $item . "_grade = 0";
@@ -525,10 +709,75 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             }
             $query = $query . ") AND";
         }
+        if(count($name_arr) != 0){
+            $query = $query . " (";
+            foreach ($name_arr as $index => $item){
+                if($index != count($name_arr) - 1){
+                    if(isset($op_arr[$index-1]) && $op_arr[$index-1] === 'NOT')
+                    {
+                        if($op_arr[$index] === 'NOT'){
+                            $query = $query . "procurement_name NOT LIKE '%" . $item . "%' AND ";
+                        }
+                        else{
+                            $query = $query . "procurement_name NOT LIKE '%" . $item . "%' "  . $op_arr[$index] . " ";
+                        }
 
-        $query = $query . " procurement_name LIKE '%" . $name . "%'"
-            . " AND official_text LIKE '%" . $official_text . "%'"
-            . " AND public_id LIKE '%" . $public_id . "%'"
+                    }
+                    else{
+                        if($op_arr[$index] === 'NOT'){
+                            $query = $query . "procurement_name LIKE '%" . $item . "%' AND ";
+                        }
+                        else{
+                            $query = $query . "procurement_name LIKE '%" . $item . "%' " . $op_arr[$index] . " ";
+                        }
+
+                    }
+                }
+                else{
+                    if(isset($op_arr[$index-1]) && $op_arr[$index-1] === 'NOT'){
+                        $query = $query . "procurement_name NOT LIKE '%" . $item . "%'";
+                    }
+                    else{
+                        $query = $query . "procurement_name LIKE '%" . $item . "%'";
+                    }
+                }
+            }
+            $query = $query . ") AND";
+        }
+        if(count($text_arr) != 0){
+            $query = $query . " (";
+            foreach ($text_arr as $index => $item){
+                if($index != count($text_arr) - 1){
+                    if(isset($op1_arr[$index-1]) && $op1_arr[$index-1] === 'NOT'){
+                        if($op1_arr[$index] === 'NOT'){
+                            $query = $query . "official_text NOT LIKE '%" . $item . "%' AND ";
+                        }
+                        else{
+                            $query = $query . "official_text NOT LIKE '%" . $item . "%' " . $op1_arr[$index] . " ";
+                        }
+                    }
+                    else{
+                        if($op1_arr[$index] === 'NOT'){
+                            $query = $query . "official_text LIKE '%" . $item . "%' AND ";
+                        }
+                        else{
+                            $query = $query . "official_text LIKE '%" . $item . "%' " . $op1_arr[$index] . " ";
+                        }
+                    }
+
+                }
+                else{
+                    if(isset($op1_arr[$index-1]) && $op1_arr[$index-1] === 'NOT'){
+                        $query = $query . "official_text NOT LIKE '%" . $item . "%'";
+                    }
+                    else{
+                        $query = $query . "official_text LIKE '%" . $item . "%'";
+                    }
+                }
+            }
+            $query = $query . ") AND";
+        }
+        $query = $query . " public_id LIKE '%" . $public_id . "%'"
             . " ORDER BY id";
 
 
@@ -536,11 +785,11 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
 
         $query_cnt = count($procurements);
         $overflow = false;
-        if($query_cnt > $per_page){
+        if($query_cnt > 500){
             $overflow = true;
         }
 
-        $result = array_slice($procurements, 0, $per_page);
+        $result = array_slice($procurements, 0, 500);
         $result_cnt = count($result);
         $search_histories = SearchHistory::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->limit(10)->get();
         foreach ($search_histories as $history){
@@ -604,7 +853,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
     }
     public function detail($id)
     {
-        $info = ProcurementInfo::leftjoin('procurement_type_codes', 'procurement_type_codes.id', 'procurement_infos.type')
+        $info = ProcurementInfo::leftjoin('procurement_type_codes', 'procurement_type_codes.id', 'procurement_infos.notification_class')
             ->leftjoin('procurement_agency_codes', 'procurement_agency_codes.id', 'procurement_infos.procurement_agency')
             ->leftjoin('addresses', 'addresses.id', 'procurement_infos.address')
             ->leftjoin('classify_codes', 'classify_codes.id', 'procurement_infos.classify_code')
@@ -699,15 +948,68 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
         if(!isset($public_end_date_to)){
             $public_end_date_to = '2250-01-01';
         }
+        $name_arr = array();
+        $op_arr = array();
         if(!isset($name)){
             $name = '';
+        }
+        else{
+            $len = mb_strlen($name);
+            $start = 0;
+            for($i = 0; $i < $len; $i++){
+                $c = mb_substr($name, $i, 1);
+                if($i == $len -1){
+                    $name_arr[] = mb_substr($name, $start, $i - $start + 1);
+                }
+                else if($c === '　' || $c === '＋' || $c === '＾'){
+                    $name_arr[] = mb_substr($name, $start, $i - $start);
+                    if($c === '　'){
+                        $op_arr[] = 'AND';
+                    }
+                    if($c === '＋'){
+                        $op_arr[] = 'OR';
+                    }
+                    if($c === '＾'){
+                        $op_arr[] = 'NOT';
+                    }
+                    $start = $i+1;
+                }
+            }
+            //$name_arr = explode(' ', $name);
         }
         if(!isset($public_id)){
             $public_id = '';
         }
+        $text_arr = array();
+        $op1_arr = array();
         if(!isset($official_text)){
             $official_text = '';
         }
+        else{
+            $len = mb_strlen($official_text);
+            $start = 0;
+            for($i = 0; $i < $len; $i++){
+                $c = mb_substr($official_text, $i, 1);
+
+                if($i == $len -1){
+                    $text_arr[] = mb_substr($official_text, $start, $i - $start + 1);
+                }
+                else if($c === '　' || $c === '＋' || $c === '＾'){
+                    $text_arr[] = mb_substr($official_text, $start, $i - $start);
+                    if($c === '　'){
+                        $op1_arr[] = 'AND';
+                    }
+                    if($c === '＋'){
+                        $op1_arr[] = 'OR';
+                    }
+                    if($c === '＾'){
+                        $op1_arr[] = 'NOT';
+                    }
+                    $start = $i+1;
+                }
+            }
+        }
+
         $gradeArr = [];
         if(isset($grade)){
             $gradeArr = explode(',', $grade);
@@ -718,7 +1020,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
         }
         $query = "SELECT A.id, A.public_id, A.classify_code, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
 FROM procurement_infos AS A
-LEFT JOIN procurement_type_codes AS B ON B.id = A.type
+LEFT JOIN procurement_type_codes AS B ON B.id = A.notification_class
 LEFT JOIN procurement_agency_codes AS D ON D.id = A.procurement_agency
 LEFT JOIN addresses AS E ON E.id = A.address WHERE";
         if(!$classify == 0){
@@ -742,10 +1044,10 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($agencyArr as $index => $item){
                 if($index != count($agencyArr) - 1){
-                    $query = $query . "procurement_agency = '" . $item . "' OR ";
+                    $query = $query . "D.procurement_agency = '" . $item . "' OR ";
                 }
                 else{
-                    $query = $query . "procurement_agency = '" . $item . "'";
+                    $query = $query . "D.procurement_agency = '" . $item . "'";
                 }
             }
             $query = $query . ") AND";
@@ -785,7 +1087,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($gradeArr as $index => $item){
                 if($index != count($gradeArr) - 1){
-                    $query = $query . $item . "_grade = 1 AND ";
+                    $query = $query . $item . "_grade = 1 OR ";
                 }
                 else{
                     $query = $query . $item . "_grade = 1";
@@ -798,7 +1100,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($no_gradeArr as $index => $item){
                 if($index != count($no_gradeArr) - 1){
-                    $query = $query . $item . "_grade = 0 AND ";
+                    $query = $query . $item . "_grade = 0 OR ";
                 }
                 else{
                     $query = $query . $item . "_grade = 0";
@@ -806,11 +1108,76 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             }
             $query = $query . ") AND";
         }
+        if(count($name_arr) != 0){
+            $query = $query . " (";
+            foreach ($name_arr as $index => $item){
+                if($index != count($name_arr) - 1){
+                    if(isset($op_arr[$index-1]) && $op_arr[$index-1] === 'NOT')
+                    {
+                        if($op_arr[$index] === 'NOT'){
+                            $query = $query . "procurement_name NOT LIKE '%" . $item . "%' AND ";
+                        }
+                        else{
+                            $query = $query . "procurement_name NOT LIKE '%" . $item . "%' "  . $op_arr[$index] . " ";
+                        }
 
+                    }
+                    else{
+                        if($op_arr[$index] === 'NOT'){
+                            $query = $query . "procurement_name LIKE '%" . $item . "%' AND ";
+                        }
+                        else{
+                            $query = $query . "procurement_name LIKE '%" . $item . "%' " . $op_arr[$index] . " ";
+                        }
+
+                    }
+                }
+                else{
+                    if(isset($op_arr[$index-1]) && $op_arr[$index-1] === 'NOT'){
+                        $query = $query . "procurement_name NOT LIKE '%" . $item . "%'";
+                    }
+                    else{
+                        $query = $query . "procurement_name LIKE '%" . $item . "%'";
+                    }
+                }
+            }
+            $query = $query . ") AND";
+        }
+        if(count($text_arr) != 0){
+            $query = $query . " (";
+            foreach ($text_arr as $index => $item){
+                if($index != count($text_arr) - 1){
+                    if(isset($op1_arr[$index-1]) && $op1_arr[$index-1] === 'NOT'){
+                        if($op1_arr[$index] === 'NOT'){
+                            $query = $query . "official_text NOT LIKE '%" . $item . "%' AND ";
+                        }
+                        else{
+                            $query = $query . "official_text NOT LIKE '%" . $item . "%' " . $op1_arr[$index] . " ";
+                        }
+                    }
+                    else{
+                        if($op1_arr[$index] === 'NOT'){
+                            $query = $query . "official_text LIKE '%" . $item . "%' AND ";
+                        }
+                        else{
+                            $query = $query . "official_text LIKE '%" . $item . "%' " . $op1_arr[$index] . " ";
+                        }
+                    }
+
+                }
+                else{
+                    if(isset($op1_arr[$index-1]) && $op1_arr[$index-1] === 'NOT'){
+                        $query = $query . "official_text NOT LIKE '%" . $item . "%'";
+                    }
+                    else{
+                        $query = $query . "official_text LIKE '%" . $item . "%'";
+                    }
+                }
+            }
+            $query = $query . ") AND";
+        }
         $query = $query . " public_start_date >= '" . $public_start_date_from . "'" . " AND public_start_date <= '" . $public_start_date_to . "'"
             . " AND public_end_date >= '" . $public_end_date_from . "'" . " AND public_end_date <= '" . $public_end_date_to . "'"
-            . " AND procurement_name LIKE '%" . $name . "%'"
-            . " AND official_text LIKE '%" . $official_text . "%'"
             . " AND public_id LIKE '%" . $public_id . "%'"
             . " ORDER BY id";
 
@@ -819,11 +1186,11 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
 
         $query_cnt = count($procurements);
         $overflow = false;
-        if($query_cnt > $per_page){
+        if($query_cnt > 500){
             $overflow = true;
         }
 
-        $result = array_slice($procurements, 0, $per_page);
+        $result = array_slice($procurements, 0, 500);
         $result_cnt = count($result);
         $search_histories = SearchHistory::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->limit(10)->get();
         foreach ($search_histories as $history){
@@ -881,6 +1248,10 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             'search_histories' => $search_histories,
         ]);
 
+    }
+
+    public function specificTrans(){
+        return view('user.specific-trans');
     }
 
 
@@ -1018,15 +1389,12 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                     if(!isset($public_start_date_to)){
                         $public_start_date_to = '2200-01-01';
                     }
-                    if(!isset($name)){
-                        $name = '';
-                    }
+
+
                     if(!isset($public_id)){
                         $public_id = '';
                     }
-                    if(!isset($official_text)){
-                        $official_text = '';
-                    }
+
                     $gradeArr = [];
                     if(isset($grade)){
                         $gradeArr = explode(',', $grade);
@@ -1037,7 +1405,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                     }
                     $query = "SELECT A.id, A.public_id, A.classify_code, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
 FROM procurement_infos AS A
-LEFT JOIN procurement_type_codes AS B ON B.id = A.type
+LEFT JOIN procurement_type_codes AS B ON B.id = A.notification_class
 LEFT JOIN procurement_agency_codes AS D ON D.id = A.procurement_agency
 LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                     if(!$classify == 0){
@@ -1061,10 +1429,10 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($agencyArr as $index => $item){
                             if($index != count($agencyArr) - 1){
-                                $query = $query . "procurement_agency = '" . $item . "' OR ";
+                                $query = $query . "D.procurement_agency = '" . $item . "' OR ";
                             }
                             else{
-                                $query = $query . "procurement_agency = '" . $item . "'";
+                                $query = $query . "D.procurement_agency = '" . $item . "'";
                             }
                         }
                         $query = $query . ") AND";
@@ -1104,7 +1472,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($gradeArr as $index => $item){
                             if($index != count($gradeArr) - 1){
-                                $query = $query . $item . "_grade = 1 AND ";
+                                $query = $query . $item . "_grade = 1 OR ";
                             }
                             else{
                                 $query = $query . $item . "_grade = 1";
@@ -1117,7 +1485,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($no_gradeArr as $index => $item){
                             if($index != count($no_gradeArr) - 1){
-                                $query = $query . $item . "_grade = 0 AND ";
+                                $query = $query . $item . "_grade = 0 OR ";
                             }
                             else{
                                 $query = $query . $item . "_grade = 0";
@@ -1126,11 +1494,10 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . ") AND";
                     }
 
+
                     $query = $query . " public_start_date >= '" . $public_start_date_from . "'" . " AND public_start_date <= '" . $public_start_date_to . "'"
-                        . " AND procurement_name LIKE '%" . $name . "%'"
-                        . " AND official_text LIKE '%" . $official_text . "%'"
                         . " AND public_id LIKE '%" . $public_id . "%'"
-                        . " ORDER BY id LIMIT " . $per_page;
+                        . " ORDER BY id LIMIT 500";
                     $procurements = DB::select($query);
                     $mail_body = $mail_header . '<br><br>';
                     if(count($procurements) == 0){
@@ -1156,8 +1523,6 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                             ->from('my@email.com')
                             ->setBody($mail_body, 'text/html');
                     });
-//            Mail::to($email)->send(new SendInfoMail($details));
-                    //$result = array_slice($procurements, 0, $per_page);
                 }
                 sleep(3600);
             }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\FormPassword;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -49,12 +50,23 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $password = FormPassword::where('id', 1)->get()->first()->password;
+        $validator = Validator::make($data, [
             'company_name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'form_password' => ['required']
         ]);
+        if(!Hash::check($data['form_password'], $password)){
+            $validator->after(function($validator)
+            {
+                $validator->errors()->add('form_password', 'フォーム登録用パスワードが正しくありません。');
+            });
+        }
+        return $validator;
+
     }
 
     /**
@@ -68,6 +80,7 @@ class RegisterController extends Controller
         return User::create([
             'company_name' => $data['company_name'],
             'username' => $data['username'],
+            'address' => $data['address'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

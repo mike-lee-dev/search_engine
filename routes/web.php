@@ -21,6 +21,7 @@ Route::get('/', function () {
 });
 
 Auth::routes(['verify' => true]);
+Route::get('/specific-trans', [HomeController::class, 'specificTrans'])->name('specific-trans');
 
 Route::group(['middleware'=>'checkAuth'],function () {
     Route::get('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout')->middleware(['verified']);

@@ -343,10 +343,10 @@ dl.modal-contents dt.modal-title {
   position: absolute;
   bottom: 45px;
   left: -5px;
-  width: 490px;
+  width: 900%;
   height: auto;
   margin: 0;
-  padding: 25px 30px;
+  padding: 20px 30px;
   color: #333333;
   box-sizing: border-box;
   background: #ffffff;
@@ -958,7 +958,9 @@ input[type=checkbox].mousetrap {
 .form-a-line .table-check:before {
   top: 0.8rem;
 }
-
+#td_itemClassifcation .table-check{
+    width: 100%;
+}
 .table-check {
   position: relative;
   padding: 0 0 0 20px;

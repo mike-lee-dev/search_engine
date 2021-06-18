@@ -36,11 +36,9 @@
                                 <div class="form-group">
                                     <label for="defaultSelect">送信対象日</label>
                                     <select class="form-control form-control" name="search_period" id="search_period">
-                                        <option value="1" {{$manage->search_period == 1 ? 'selected' : ''}}>1日</option>
-                                        <option value="2" {{$manage->search_period == 2 ? 'selected' : ''}}>2日</option>
-                                        <option value="3" {{$manage->search_period == 3 ? 'selected' : ''}}>3日</option>
-                                        <option value="4" {{$manage->search_period == 4 ? 'selected' : ''}}>4日</option>
-                                        <option value="5" {{$manage->search_period == 5 ? 'selected' : ''}}>5日</option>
+                                        @for($i = 1; $i <= 30; $i++)
+                                            <option value="{{$i}}" {{$manage->search_period == $i ? 'selected' : ''}}>{{$i}}日</option>
+                                        @endfor
                                     </select>
                                 </div>
                             </div>
