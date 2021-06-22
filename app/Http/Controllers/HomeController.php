@@ -51,7 +51,7 @@ class HomeController extends Controller
         $password = $request->password;
         $form_pw = $request->form_password;
         if(isset($form_pw)){
-            FormPassword::where('id', 1)->update(['password' => Hash::make($password)]);
+            FormPassword::where('id', 1)->update(['password' => Hash::make($form_pw)]);
         }
 
         if(Auth::user()->change_pw == 1){
@@ -280,7 +280,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($gradeArr as $index => $item){
                 if($index != count($gradeArr) - 1){
-                    $query = $query . $item . "_grade = 1 OR ";
+                    $query = $query . $item . "_grade = 1 AND ";
                 }
                 else{
                     $query = $query . $item . "_grade = 1";
@@ -293,7 +293,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($no_gradeArr as $index => $item){
                 if($index != count($no_gradeArr) - 1){
-                    $query = $query . $item . "_grade = 0 OR ";
+                    $query = $query . $item . "_grade = 0 AND ";
                 }
                 else{
                     $query = $query . $item . "_grade = 0";
@@ -688,7 +688,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($gradeArr as $index => $item){
                 if($index != count($gradeArr) - 1){
-                    $query = $query . $item . "_grade = 1 OR ";
+                    $query = $query . $item . "_grade = 1 AND ";
                 }
                 else{
                     $query = $query . $item . "_grade = 1";
@@ -701,7 +701,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($no_gradeArr as $index => $item){
                 if($index != count($no_gradeArr) - 1){
-                    $query = $query . $item . "_grade = 0 OR ";
+                    $query = $query . $item . "_grade = 0 AND ";
                 }
                 else{
                     $query = $query . $item . "_grade = 0";
@@ -1087,7 +1087,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($gradeArr as $index => $item){
                 if($index != count($gradeArr) - 1){
-                    $query = $query . $item . "_grade = 1 OR ";
+                    $query = $query . $item . "_grade = 1 AND ";
                 }
                 else{
                     $query = $query . $item . "_grade = 1";
@@ -1100,7 +1100,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($no_gradeArr as $index => $item){
                 if($index != count($no_gradeArr) - 1){
-                    $query = $query . $item . "_grade = 0 OR ";
+                    $query = $query . $item . "_grade = 0 AND ";
                 }
                 else{
                     $query = $query . $item . "_grade = 0";
@@ -1279,6 +1279,8 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
     }
     public function userDelete($id){
         User::where('id', $id)->delete();
+        SearchHistory::where('user_id', $id)->delete();
+        MailSetting::where('user_id', $id)->delete();
         return redirect('/users');
     }
     public function adminUsersTable(Request $request){
@@ -1472,7 +1474,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($gradeArr as $index => $item){
                             if($index != count($gradeArr) - 1){
-                                $query = $query . $item . "_grade = 1 OR ";
+                                $query = $query . $item . "_grade = 1 AND ";
                             }
                             else{
                                 $query = $query . $item . "_grade = 1";
@@ -1485,7 +1487,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($no_gradeArr as $index => $item){
                             if($index != count($no_gradeArr) - 1){
-                                $query = $query . $item . "_grade = 0 OR ";
+                                $query = $query . $item . "_grade = 0 AND ";
                             }
                             else{
                                 $query = $query . $item . "_grade = 0";

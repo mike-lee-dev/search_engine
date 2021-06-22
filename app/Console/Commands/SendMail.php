@@ -277,7 +277,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($gradeArr as $index => $item) {
                             if ($index != count($gradeArr) - 1) {
-                                $query = $query . $item . "_grade = 1 OR ";
+                                $query = $query . $item . "_grade = 1 AND ";
                             } else {
                                 $query = $query . $item . "_grade = 1";
                             }
@@ -289,7 +289,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($no_gradeArr as $index => $item) {
                             if ($index != count($no_gradeArr) - 1) {
-                                $query = $query . $item . "_grade = 0 OR ";
+                                $query = $query . $item . "_grade = 0 AND ";
                             } else {
                                 $query = $query . $item . "_grade = 0";
                             }
@@ -393,7 +393,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                                     <td>' . $procurement->procurement_agency . '</td>
                                     <td>' . $procurement->address . '</td>
                                     <td>
-                                        <a class="koukoku info-button" tabindex="4103" href="https://chotatu.rwd.pw/detail/' . $procurement->id . '">公示本文</a><br>
+                                        <a class="koukoku info-button" tabindex="4103" href="https://search.chotatu.info/detail/' . $procurement->id . '">公示本文</a><br>
                                         ' . $procurement->public_start_date . '公開開始
                                     </td>
                                 </tr>';
@@ -416,7 +416,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                     Mail::send([], [], function (Message $message) use ($email, $mail_body) {
                         $message->to($email)
                             ->subject('検索資料')
-                            ->from('chotatu.info@gmail.com')
+                            ->from('notice@chotatu.info')
                             ->setBody($mail_body, 'text/html');
                     });
                 }

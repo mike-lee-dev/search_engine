@@ -159,6 +159,8 @@
 @section('js')
     <script src="{{asset('template/js/vendors/jquery-3.2.1.min.js')}}"></script>
     <script src="{{asset('js/jquery.validate.min.js')}}"></script>
+    <!-- Bootstrap Notify -->
+    <script src="{{asset('admin_tmp/js/plugin/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
     <script type="text/javascript">
         $('#profile_submit').click(function (e) {
             e.preventDefault();

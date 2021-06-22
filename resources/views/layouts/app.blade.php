@@ -72,7 +72,7 @@
 <footer id="footer">
 
     <div class="inner">
-        <p style="text-align:right;letter-spacing: 0;">│　<a href="https://chotatu.rwd.pw/operation_guide.pdf" style="color: #333" target="_blank">操作ガイド</a>　│　<a href="{{route('specific-trans')}}" style="color: #333">特定商取引</a>　│　<a href="https://chotatu.rwd.pw/contact/contact.html" style="color: #333" target="_blank">お問い合わせ</a>　│</p>
+        <p style="text-align:right;letter-spacing: 0;">│　<a href="https://search.chotatu.info/operation_guide.pdf" style="color: #333" target="_blank">操作ガイド</a>　│　<a href="{{route('specific-trans')}}" style="color: #333">特定商取引</a>　│　<a href="https://search.chotatu.info/contact/contact.html" style="color: #333" target="_blank">お問い合わせ</a>　│</p>
 {{--        <div class="desc">調達情報の検索画面の作成について</div>--}}
         <small style="color: #333">Copyright © 2021 株式会社日本スマートマーケティング
             All Rights Reserved.
