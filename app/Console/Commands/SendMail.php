@@ -277,7 +277,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($gradeArr as $index => $item) {
                             if ($index != count($gradeArr) - 1) {
-                                $query = $query . $item . "_grade = 1 AND ";
+                                $query = $query . $item . "_grade = 1 OR ";
                             } else {
                                 $query = $query . $item . "_grade = 1";
                             }
@@ -289,7 +289,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($no_gradeArr as $index => $item) {
                             if ($index != count($no_gradeArr) - 1) {
-                                $query = $query . $item . "_grade = 0 AND ";
+                                $query = $query . $item . "_grade = 0 OR ";
                             } else {
                                 $query = $query . $item . "_grade = 0";
                             }
@@ -365,7 +365,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . ") AND";
                     }
                     $query = $query . " public_start_date >= '" . $public_start_date_from . "'" . " AND public_start_date <= '" . $public_start_date_to . "'"
-                        . " AND public_id LIKE '%" . $public_id . "%'"
+                        . " AND A.id LIKE '%" . $public_id . "%'"
                         . " ORDER BY id LIMIT 100";
                     $procurements = DB::select($query);
                     $mail_body = $header_content . '<br><br>';
@@ -375,20 +375,18 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $mail_body = $mail_body . '<table role="grid" aria-describedby="resultTable_info">
                             <thead>
                             <tr role="row">
-                            <th style="width: 27px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: カラムを降順にソートするためにアクティブにする">ID</th>
-                            <th style="width: 208px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="公告公示番号: 列を昇順にソートするためにアクティブにする">公告公示番号</th>
-                            <th style="width: 136px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達案件名称: 列を昇順にソートするためにアクティブにする">調達案件名称</th>
-                            <th style="width: 52px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達機関: 列を昇順にソートするためにアクティブにする">調達機関</th>
-                            <th style="width: 64px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="所在地: 列を昇順にソートするためにアクティブにする">所在地</th>
-                            <th style="width: 136px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達実施案件公示: 列を昇順にソートするためにアクティブにする">調達実施案件公示</th></tr>
+                            <th style="width: 30px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達案件番号: 列を昇順にソートするためにアクティブにする">ID</th>
+                            <th style="width: 200px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達案件名称: 列を昇順にソートするためにアクティブにする">調達案件名称</th>
+                            <th style="width: 70px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達機関: 列を昇順にソートするためにアクティブにする">調達機関</th>
+                            <th style="width: 70px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="所在地: 列を昇順にソートするためにアクティブにする">所在地</th>
+                            <th style="width: 160px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達実施案件公示: 列を昇順にソートするためにアクティブにする">調達実施案件公示</th></tr>
                             </thead>
                             <tbody>';
 
                         foreach ($procurements as $index => $procurement) {
                             $id = $index + 1;
                             $content = '<tr role="row" class="odd">
-                                    <td class="sorting_1">' . $id . '</td>
-                                    <td>' . $procurement->public_id . '</td>
+                                    <td>' . $id . '</td>
                                     <td>' . $procurement->procurement_name . '</td>
                                     <td>' . $procurement->procurement_agency . '</td>
                                     <td>' . $procurement->address . '</td>

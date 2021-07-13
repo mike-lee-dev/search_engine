@@ -20,6 +20,9 @@
         #resultTable_wrapper > .row:last-child {
             display: none;
         }
+        .torikesi-end{
+            pointer-events: all !important;
+        }
     </style>
 
 @endsection
@@ -226,12 +229,12 @@
                     <h3>条件を変えて検索</h3>
                     <p>もう一度検索する場合は、「検索条件の項目を開く」を押し、検索条件を変えて検索してください。</p>
                     <dl class="main-item-acodion">
-                        <dt class="acodion_on acodion_bar" tabindex="1100">検索条件の項目を閉じる</dt>
+                        <dt class="acodion_on acodion_bar is-active" tabindex="1100">検索条件の項目を開く</dt>
                         <dd class="acodion_content is-close" style="display: none;">
                             <form id="search_form" novalidate="true" action="{{route('search-result')}}"
                                   enctype="multipart/form-data" method="post">
                                 @csrf
-                                <ul class="table-name">
+                                <ul class="ta ble-name">
                                     <dl class="table-form">
                                         <dt>
                                             <span>案件分類</span>
@@ -494,9 +497,9 @@
                                             <dd>
                                                 <input id="case-number" name="procurementItemNo"
                                                        tabindex="1330"
-                                                       placeholder="半角19文字" type="number"
+                                                       placeholder="半角29文字" type="number"
                                                        class="only-hankaku mousetrap"
-                                                       oninput="if(value.length>19)value=value.slice(0,19)"
+                                                       oninput="if(value.length>29)value=value.slice(0,29)"
                                                        value="">
 
                                             </dd>
@@ -3936,39 +3939,61 @@
                         <table class="main-summit-info" id="resultTable" style="min-width: 1176px !important;">
                             <thead>
                             <tr>
-                                <th id="procurementItemNo_no" class="wd-5p th" style="width: 5%;">ID</th>
-                                <th id="procurementItemNo_th" class="wd-20p th" style="width: 20%;">公告公示番号</th>
-                                <th id="articleNm_th" class="wd-14p th" style="width: 14%;">調達案件名称</th>
-                                <th id="procurementOrgan_th" class="wd-7p th" style="width: 7%;">調達機関</th>
-                                <th id="receiptAddress_th" class="wd-8p th" style="width: 8%;">所在地</th>
-                                <th id="requestSubmissionMaterialsBean_th" class="wd-10p th" style="width: 10%;">
+                                <th id="procurementItemNo_no" class="wd-12p th text-center" style="width: 12%;">調達案件番号</th>
+                                <th id="articleNm_th" class="wd-14p th text-center" style="width: 14%;">調達案件名称</th>
+                                <th id="procurementOrgan_th" class="wd-9p th text-center" style="width: 8%;">調達機関</th>
+                                <th id="receiptAddress_th" class="wd-10p th text-center" style="width: 10%;">所在地</th>
+                                <th id="requestSubmissionMaterialsBean_th" class="wd-14p th text-center" style="width: 14%;">
                                     資料提供招請
                                 </th>
-                                <th id="requestCommentBean_th" class="wd-10p th" style="width: 10%;">意見招請</th>
-                                <th id="procurementImplementNoticeBean_th" class="wd-14p th" style="width: 14%;">
+                                <th id="requestCommentBean_th" class="wd-14p th text-center" style="width: 14%;">意見招請</th>
+                                <th id="procurementImplementNoticeBean_th" class="wd-14p th text-center" style="width: 14%;">
                                     調達実施案件公示
                                 </th>
-                                <th id="successfulBidNoticeBean_th" class="wd-10p th" style="width: 10%;">落札公示</th>
+                                <th id="successfulBidNoticeBean_th" class="wd-14p th text-center" style="width: 14%;">落札公示</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($procurements as $procurement)
                                 <tr>
-                                    <td>{{$procurement->id}}</td>
-                                    <td>{{$procurement->public_id}}</td>
+                                    <td>{{(string)($procurement->id)}}</td>
                                     <td>{{$procurement->procurement_name}}</td>
                                     <td>{{$procurement->procurement_agency}}</td>
                                     <td>{{$procurement->address}}</td>
-                                    <td></td>
-                                    <td></td>
                                     <td>
-                                        <pre></pre>
-                                        <a class="koukoku info-button" tabindex="4103"
-                                           href="{{route('detail', $procurement->id)}}">公示本文</a><br>
+                                        @if($procurement->notification_class === 3)
+                                            <a class="{{$procurement->end === true ? 'torikesi-end' : 'koukoku'}} info-button" tabindex="4103"
+                                               href="{{route('detail', $procurement->id)}}">公示本文</a><br>
 
-                                        {{$procurement->public_start_date}}公開開始
+                                            {{$procurement->public_start_date}}公開開始
+                                        @endif
+
                                     </td>
-                                    <td></td>
+                                    <td>
+                                        @if($procurement->notification_class === 4)
+                                            <a class="{{$procurement->end === true ? 'torikesi-end' : 'koukoku'}} info-button" tabindex="4103"
+                                               href="{{route('detail', $procurement->id)}}">公示本文</a><br>
+
+                                            {{$procurement->public_start_date}}公開開始
+                                        @endif
+                                    </td>
+                                    <td>
+
+                                        @if($procurement->notification_class !== 3 && $procurement->notification_class !== 4 && $procurement->notification_class !== 8 && $procurement->notification_class !== 15 && $procurement->notification_class !== 16)
+                                            <a class="{{$procurement->end === true ? 'torikesi-end' : 'koukoku'}} info-button" tabindex="4103"
+                                               href="{{route('detail', $procurement->id)}}">公示本文</a><br>
+
+                                            {{$procurement->public_start_date}}公開開始
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($procurement->notification_class === 8 || $procurement->notification_class === 15 || $procurement->notification_class === 16)
+                                            <a class="{{$procurement->end === true ? 'torikesi-end' : 'koukoku'}} info-button" tabindex="4103"
+                                               href="{{route('detail', $procurement->id)}}">公示本文</a><br>
+
+                                            {{$procurement->public_start_date}}公開開始
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>

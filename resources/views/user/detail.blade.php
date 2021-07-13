@@ -45,8 +45,8 @@
                         <table class="main-table-pattern1">
                             <tbody>
                             <tr>
-                                <th>公告公示番号</th>
-                                <td colspan="5">{{$info->public_id}}</td>
+                                <th>調達案件番号</th>
+                                <td colspan="5">{{$id}}</td>
                             </tr>
                             <tr id="tri_WAB0102FM01/procurementInformationDetailBean/procurementCla">
                                 <th>調達種別</th>
@@ -132,13 +132,9 @@
                             </tbody>
                         </table>
 
-                        <a onclick="window.history.back();">
-                            <img src="{{asset('img/list_button.jpg')}}" alt="株式会社日本スマートマーケティング">
+                        <a>
+                            <img onclick="window.history.back();" src="{{asset('img/list_button.jpg')}}" alt="株式会社日本スマートマーケティング">
                         </a>
-                        <div>
-                            <input type="hidden" name="_csrf" value="7ff7727a-5367-46d3-8665-6f54b588357a"
-                                   class="mousetrap">
-                        </div>
                     </form>
                 </div>
             </div>

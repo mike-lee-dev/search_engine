@@ -358,9 +358,9 @@
                                                 <dd>
                                                     <input id="case-number" name="procurementItemNo"
                                                            tabindex="1330"
-                                                           placeholder="半角19文字" type="number"
+                                                           placeholder="半角29文字" type="number"
                                                            class="only-hankaku mousetrap"
-                                                           oninput="if(value.length>19)value=value.slice(0,19)"
+                                                           oninput="if(value.length>29)value=value.slice(0,29)"
                                                            value="">
 
                                                 </dd>
@@ -3907,9 +3907,9 @@
                                                 <dd>
                                                     <input id="case-number" name="searchConditionBean.procurementItemNo"
                                                            tabindex="1330"
-                                                           placeholder="半角19文字" type="number"
+                                                           placeholder="半角29文字" type="number"
                                                            class="only-hankaku mousetrap"
-                                                           oninput="if(value.length>19)value=value.slice(0,19)"
+                                                           oninput="if(value.length>29)value=value.slice(0,29)"
                                                            value="">
 
                                                 </dd>

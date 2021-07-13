@@ -63,6 +63,7 @@
                                         <option value="200" {{$manage->send_per_hour == 200 ? 'selected' : ''}}>200</option>
                                         <option value="500" {{$manage->send_per_hour == 500 ? 'selected' : ''}}>500</option>
                                         <option value="1000" {{$manage->send_per_hour == 1000 ? 'selected' : ''}}>1000</option>
+                                        <option value="1500" {{$manage->send_per_hour == 1500 ? 'selected' : ''}}>1500</option>
                                     </select>
                                 </div>
                             </div>

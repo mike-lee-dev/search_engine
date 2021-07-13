@@ -211,7 +211,7 @@ class HomeController extends Controller
         if(isset($no_grade)){
             $no_gradeArr = explode(',', $no_grade);
         }
-        $query = "SELECT A.id, A.public_id, A.classify_code, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
+        $query = "SELECT A.id, A.classify_code, A.notification_class, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
 FROM procurement_infos AS A
 LEFT JOIN procurement_type_codes AS B ON B.id = A.notification_class
 LEFT JOIN procurement_agency_codes AS D ON D.id = A.procurement_agency
@@ -280,7 +280,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($gradeArr as $index => $item){
                 if($index != count($gradeArr) - 1){
-                    $query = $query . $item . "_grade = 1 AND ";
+                    $query = $query . $item . "_grade = 1 OR ";
                 }
                 else{
                     $query = $query . $item . "_grade = 1";
@@ -293,7 +293,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($no_gradeArr as $index => $item){
                 if($index != count($no_gradeArr) - 1){
-                    $query = $query . $item . "_grade = 0 AND ";
+                    $query = $query . $item . "_grade = 0 OR ";
                 }
                 else{
                     $query = $query . $item . "_grade = 0";
@@ -371,7 +371,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
         }
         $query = $query . " public_start_date >= '" . $public_start_date_from . "'" . " AND public_start_date <= '" . $public_start_date_to . "'"
             . " AND public_end_date >= '" . $public_end_date_from . "'" . " AND public_end_date <= '" . $public_end_date_to . "'"
-            . " AND public_id LIKE '%" . $public_id . "%'"
+            . " AND A.id LIKE '%" . $public_id . "%'"
             . " ORDER BY id";
 
 
@@ -455,6 +455,16 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                 $history->no_grade = $grade_str;
             }
 
+        }
+        foreach ($result as $item){
+            $now = date('Y-m-d');
+            $end = date('Y-m-d', strtotime($item->public_end_date));
+            if($now > $end){
+                $item->end = true;
+            }
+            else{
+                $item->end = false;
+            }
         }
         return view('user.result', [
             'procurements' => $result,
@@ -619,7 +629,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
         if(isset($no_grade)){
             $no_gradeArr = explode(',', $no_grade);
         }
-        $query = "SELECT A.id, A.public_id, A.classify_code, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
+        $query = "SELECT A.id, A.classify_code, A.notification_class, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
 FROM procurement_infos AS A
 LEFT JOIN procurement_type_codes AS B ON B.id = A.notification_class
 LEFT JOIN procurement_agency_codes AS D ON D.id = A.procurement_agency
@@ -688,7 +698,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($gradeArr as $index => $item){
                 if($index != count($gradeArr) - 1){
-                    $query = $query . $item . "_grade = 1 AND ";
+                    $query = $query . $item . "_grade = 1 OR ";
                 }
                 else{
                     $query = $query . $item . "_grade = 1";
@@ -701,7 +711,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($no_gradeArr as $index => $item){
                 if($index != count($no_gradeArr) - 1){
-                    $query = $query . $item . "_grade = 0 AND ";
+                    $query = $query . $item . "_grade = 0 OR ";
                 }
                 else{
                     $query = $query . $item . "_grade = 0";
@@ -777,7 +787,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             }
             $query = $query . ") AND";
         }
-        $query = $query . " public_id LIKE '%" . $public_id . "%'"
+        $query = $query . " A.id LIKE '%" . $public_id . "%'"
             . " ORDER BY id";
 
 
@@ -839,6 +849,16 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             }
 
         }
+        foreach ($result as $item){
+            $now = date('Y-m-d');
+            $end = date('Y-m-d', strtotime($item->public_end_date));
+            if($now > $end){
+                $item->end = true;
+            }
+            else{
+                $item->end = false;
+            }
+        }
         return view('user.result', [
             'procurements' => $result,
             'cnt' => $result_cnt,
@@ -871,7 +891,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             item_6.item_classify as item_classify_6, item_7.item_classify as item_classify_7, item_8.item_classify as item_classify_8'))->where('procurement_infos.id', $id)->get()->first();
         return view('user.detail', [
             'info' => $info,
-
+            'id' => $id
         ]);
     }
 
@@ -1018,7 +1038,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
         if(isset($no_grade)){
             $no_gradeArr = explode(',', $no_grade);
         }
-        $query = "SELECT A.id, A.public_id, A.classify_code, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
+        $query = "SELECT A.id, A.classify_code, A.notification_class, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
 FROM procurement_infos AS A
 LEFT JOIN procurement_type_codes AS B ON B.id = A.notification_class
 LEFT JOIN procurement_agency_codes AS D ON D.id = A.procurement_agency
@@ -1087,7 +1107,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($gradeArr as $index => $item){
                 if($index != count($gradeArr) - 1){
-                    $query = $query . $item . "_grade = 1 AND ";
+                    $query = $query . $item . "_grade = 1 OR ";
                 }
                 else{
                     $query = $query . $item . "_grade = 1";
@@ -1100,7 +1120,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             $query = $query . " (";
             foreach ($no_gradeArr as $index => $item){
                 if($index != count($no_gradeArr) - 1){
-                    $query = $query . $item . "_grade = 0 AND ";
+                    $query = $query . $item . "_grade = 0 OR ";
                 }
                 else{
                     $query = $query . $item . "_grade = 0";
@@ -1178,7 +1198,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
         }
         $query = $query . " public_start_date >= '" . $public_start_date_from . "'" . " AND public_start_date <= '" . $public_start_date_to . "'"
             . " AND public_end_date >= '" . $public_end_date_from . "'" . " AND public_end_date <= '" . $public_end_date_to . "'"
-            . " AND public_id LIKE '%" . $public_id . "%'"
+            . " AND A.id LIKE '%" . $public_id . "%'"
             . " ORDER BY id";
 
 
@@ -1239,6 +1259,16 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                 $history->no_grade = $grade_str;
             }
 
+        }
+        foreach ($result as $item){
+            $now = date('Y-m-d');
+            $end = date('Y-m-d', strtotime($item->public_end_date));
+            if($now > $end){
+                $item->end = true;
+            }
+            else{
+                $item->end = false;
+            }
         }
         return view('user.result', [
             'procurements' => $result,
@@ -1405,7 +1435,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                     if(isset($no_grade)){
                         $no_gradeArr = explode(',', $no_grade);
                     }
-                    $query = "SELECT A.id, A.public_id, A.classify_code, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
+                    $query = "SELECT A.id, A.classify_code, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
 FROM procurement_infos AS A
 LEFT JOIN procurement_type_codes AS B ON B.id = A.notification_class
 LEFT JOIN procurement_agency_codes AS D ON D.id = A.procurement_agency
@@ -1474,7 +1504,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($gradeArr as $index => $item){
                             if($index != count($gradeArr) - 1){
-                                $query = $query . $item . "_grade = 1 AND ";
+                                $query = $query . $item . "_grade = 1 OR ";
                             }
                             else{
                                 $query = $query . $item . "_grade = 1";
@@ -1487,7 +1517,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . " (";
                         foreach ($no_gradeArr as $index => $item){
                             if($index != count($no_gradeArr) - 1){
-                                $query = $query . $item . "_grade = 0 AND ";
+                                $query = $query . $item . "_grade = 0 OR ";
                             }
                             else{
                                 $query = $query . $item . "_grade = 0";
@@ -1498,7 +1528,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
 
 
                     $query = $query . " public_start_date >= '" . $public_start_date_from . "'" . " AND public_start_date <= '" . $public_start_date_to . "'"
-                        . " AND public_id LIKE '%" . $public_id . "%'"
+                        . " AND A.id LIKE '%" . $public_id . "%'"
                         . " ORDER BY id LIMIT 500";
                     $procurements = DB::select($query);
                     $mail_body = $mail_header . '<br><br>';
@@ -1508,7 +1538,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                     else{
                         foreach ($procurements as $procurement){
                             $procurement_name = trim(preg_replace('/\s\s+/', ' ', $procurement->procurement_name));
-                            $content = $procurement->public_id . '   ' . $procurement->public_start_date . ' ~ ' . $procurement->public_end_date . '   ' . $procurement_name . '<br>' ;
+                            $content = $procurement->id . '   ' . $procurement->public_start_date . ' ~ ' . $procurement->public_end_date . '   ' . $procurement_name . '<br>' ;
                             $mail_body = $mail_body . $content;
                         }
                     }
