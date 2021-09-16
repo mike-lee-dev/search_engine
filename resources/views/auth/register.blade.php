@@ -5,8 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('登録') }}</div>
-
+                <div class="card-header">{{ __('等級別検索サイトの登録') }}</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
@@ -26,7 +25,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="username" class="col-md-4 col-form-label text-md-right">ユーザー名</label>
+                            <label for="username" class="col-md-4 col-form-label text-md-right">氏名</label>
 
                             <div class="col-md-6">
                                 <input id="username" type="text" class="form-control @error('name') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>

@@ -54,15 +54,15 @@
                             </tr>
                             <tr>
                                 <th>商品に関するお問い合せ先</th>
-                                <td colspan="5"><a href="https://chotatu.rwd.pw/contact/contact.html">お問い合わせフォーム</a></td>
+                                <td colspan="5"><a href="https://search.chotatu.info/contact/contact.html">お問い合わせフォーム</a></td>
                             </tr>
                             <tr>
                                 <th>販売ページＵＲＬ</th>
-                                <td colspan="5">https://chotatu.rwd.pw</td>
+                                <td colspan="5"><a href="https://chotatu.info">https://chotatu.info</a></td>
                             </tr>
                             <tr>
                                 <th>販売価格</th>
-                                <td colspan="5">税込み0円（月払い）<br>税込み0円（年払い）</td>
+                                <td colspan="5">税込み16,500円（月払い）</td>
                             </tr>
                             <tr>
                                 <th>その他の代金</th>

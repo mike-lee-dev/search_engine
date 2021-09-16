@@ -26,7 +26,8 @@
                         @csrf
                         <div class="alert message-error input-error-list" style="display: none;">
                         </div>
-                        <p class="main-item-txt" id="info01">調達情報の検索を行うことができます。</p>
+                        <p class="main-item-txt" id="info01">全省庁の調達情報の検索を行うことができます。</p>
+ <a href="https://search.chotatu.info/public_demand.html">TO 官公需情報ポータルサイト・等級別検索リンク</a>
                         <table class="dsc1item" cellspacing="1" style="color: #333">
                             <tbody>
                             <tr>

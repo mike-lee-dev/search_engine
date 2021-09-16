@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="alert message-error input-error-list" style="display: none;"></div>
-                    <p class="main-item-txt" id="info01">等級別検索サイトに登録されている調達情報を検索することができます。また、直近に参照した調達情報を表示します。</p>
+                    <p class="main-item-txt" id="info01">等級別検索サイトに登録されている調達情報をＡ，Ｂ，Ｃ，Ｄの等級別に検索することができます。また、直近に参照した調達情報を表示します。</p>
 
                     <table class="dsc1item" cellspacing="1" style="color: #333">
                         <tbody>
