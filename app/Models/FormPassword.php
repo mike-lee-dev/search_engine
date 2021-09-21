@@ -9,6 +9,7 @@ class FormPassword extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'password'
+        'password',
+        'password_b'
     ];
 }

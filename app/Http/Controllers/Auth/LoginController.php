@@ -42,7 +42,7 @@ class LoginController extends Controller
     public function logout() {
         auth()->logout();
 
-        return view('auth.login');
+        return redirect('/login');
     }
 
     public function authenticated(Request $request, $user)

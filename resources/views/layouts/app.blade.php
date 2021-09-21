@@ -40,9 +40,12 @@
 {{--                        </ul>--}}
                     </nav>
                     @if(\Illuminate\Support\Facades\Auth::guard()->check())
+                        <input type="hidden" id="user_account_type" value="{{\Illuminate\Support\Facades\Auth::user()->account_type}}">
                         <div id="topsubmenu">
 {{--                            <span><a href="{{route('home')}}">ホーム</a></span>--}}
-                            <span><a href="{{route('mail-setting')}}">メール受信設定</a></span>
+                            @if(\Illuminate\Support\Facades\Auth::user()->account_type !== 'D')
+                                <span><a href="{{route('mail-setting')}}">メール受信設定</a></span>
+                            @endif
                             <span><a href="{{route('profile')}}">プロファイル</a></span>
                             <span>
                                 <a href="{{url('/logout')}}">ログアウト</a>

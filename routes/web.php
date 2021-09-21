@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -24,7 +25,7 @@ Auth::routes(['verify' => true]);
 Route::get('/specific-trans', [HomeController::class, 'specificTrans'])->name('specific-trans');
 
 Route::group(['middleware'=>'checkAuth'],function () {
-    Route::get('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout')->middleware(['verified']);
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware(['verified']);
     Route::get('/home', [HomeController::class, 'search'])->name('home')->middleware(['verified']);
     Route::get('/search', [HomeController::class, 'search'])->name('search')->middleware(['verified']);
     Route::post('/search-result', [HomeController::class, 'searchResult'])->name('search-result')->middleware(['verified']);
@@ -40,10 +41,13 @@ Route::group(['middleware'=>'checkAuth'],function () {
     Route::get('/users', [HomeController::class, 'adminUsers'])->name('users')->middleware(['verified']);
     Route::post('/users-table', [HomeController::class, 'adminUsersTable'])->name('users-table')->middleware(['verified']);
     Route::post('/change-pw', [HomeController::class, 'changePw'])->name('change-pw')->middleware(['verified']);
+    Route::post('/account-type', [HomeController::class, 'accountType'])->name('account-type')->middleware(['verified']);
     Route::get('/user-profile/{id}', [HomeController::class, 'userProfile'])->name('user-profile')->middleware(['verified']);
     Route::get('/user-delete/{id}', [HomeController::class, 'userDelete'])->name('delete')->middleware(['verified']);
 
-    Route::get('/mails', [HomeController::class, 'adminMailSetting'])->name('mails')->middleware(['verified']);
+    Route::get('/mails-A', [HomeController::class, 'adminMailSettingA'])->name('mails-A')->middleware(['verified']);
+    Route::get('/mails-B', [HomeController::class, 'adminMailSettingB'])->name('mails-B')->middleware(['verified']);
+    Route::get('/mails-C', [HomeController::class, 'adminMailSettingC'])->name('mails-C')->middleware(['verified']);
     Route::post('/mail-manage', [HomeController::class, 'adminMailManage'])->name('mail-manage')->middleware(['verified']);
 });
 

@@ -45,7 +45,33 @@ class SendMail extends Command
     public function handle()
     {
         date_default_timezone_set('Asia/Tokyo');
-        $mail_manage = MailSendManager::where('id', '1')->get()->first();
+        $this->changeBToC();
+        $this->sendMessageByType('A');
+        $this->sendMessageByType('B');
+        $this->sendMessageByType('C');
+    }
+
+    public function changeBToC(){
+        $user = User::where('role', 'user')->where('account_type', 'B')->get()->toArray();
+        foreach ($user as $item){
+            if($item->account_type === 'B'){
+                $today = date("Y-m-d");
+                $b_date = $item->b_date; //from database
+
+                $today_time = strtotime($today);
+                $b_time = strtotime($b_date);
+                if ($b_time < $today_time) {
+                    User::where('id', $item->id)->update([
+                        'account_type' => 'C',
+                        'b_date' => null
+                    ]);
+                }
+            }
+        }
+    }
+
+    public function sendMessageByType($account_type){
+        $mail_manage = MailSendManager::where('type', $account_type)->get()->first();
         if ($mail_manage->send_status == 0) {
             return;
         }
@@ -56,7 +82,7 @@ class SendMail extends Command
         if ($start_time === $now) {
             Log::info('cron SendMail $start_time == $now');
             $send_per_hour = $mail_manage->send_per_hour;
-            $all_setting = MailSetting::orderBy('id', 'asc')->get()->count();
+            $all_setting = MailSetting::leftjoin('users', 'users.id', 'mail_setting.user_id')->where('account_type', $account_type)->orderBy('id', 'asc')->get()->count();
             $cnt = (int)($all_setting / $send_per_hour);
             if ($all_setting > $send_per_hour * $cnt) {
                 $cnt = $cnt + 1;
@@ -66,7 +92,7 @@ class SendMail extends Command
 
                 $skip = $i * $send_per_hour;
                 Log::info('cron SendMail $skip =' .$skip);
-                $mail_settings = MailSetting::skip($skip)->take($send_per_hour)->get();
+                $mail_settings = MailSetting::leftjoin('users', 'users.id', 'mail_setting.user_id')->where('account_type', $account_type)->skip($skip)->take($send_per_hour)->get();
                 $search_period = $mail_manage->search_period - 1;
                 $mail_header = $mail_manage->mail_header;
                 $mail_footer = $mail_manage->mail_footer;
@@ -82,6 +108,9 @@ class SendMail extends Command
                         }
                         if ($str == "company_name") {
                             $message_arr[$index] = $user->company_name;
+                        }
+                        if ($str == "registerday") {
+                            $message_arr[$index] = date('Y-m-d', strtotime($user->created_at));
                         }
                     }
 
@@ -101,7 +130,7 @@ class SendMail extends Command
                         $public_start_date_from = date('Y-m-d', strtotime($before));
                     }
 
-                    $public_start_date_to = date('Y-m-d');;
+                    $public_start_date_to = date('Y-m-d');
                     $name = $setting->search_name;
                     $public_id = $setting->search_public_id;
                     $official_text = $setting->search_official_text;

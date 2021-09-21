@@ -39,6 +39,9 @@ class HomeController extends Controller
     }
     public function search()
     {
+        $account_type = Auth::user()->account_type;
+        if($account_type === 'D')
+            return redirect('/profile');
         return view('user.search');
     }
     public function profile(){
@@ -50,8 +53,12 @@ class HomeController extends Controller
     public function modifyProfile(Request $request){
         $password = $request->password;
         $form_pw = $request->form_password;
+        $form_pw_b = $request->form_password_B;
         if(isset($form_pw)){
             FormPassword::where('id', 1)->update(['password' => Hash::make($form_pw)]);
+        }
+        if(isset($form_pw_b)){
+            FormPassword::where('id', 1)->update(['password_b' => Hash::make($form_pw_b)]);
         }
 
         if(Auth::user()->change_pw == 1){
@@ -1307,6 +1314,25 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
             'status' => true
         ]);
     }
+    public function accountType(Request $request){
+        $id = $request->user_id;
+        $account_type = $request->account_type;
+        if($account_type === 'B'){
+            $b_date = $request->b_date;
+            User::where('id', $id)->update([
+                'account_type' => $account_type,
+                'b_date' => date('Y-m-d', strtotime($b_date))
+            ]);
+        }
+        else{
+            User::where('id', $id)->update([
+                'account_type' => $account_type
+            ]);
+        }
+        return response()->json([
+            'status' => true
+        ]);
+    }
     public function userDelete($id){
         User::where('id', $id)->delete();
         SearchHistory::where('user_id', $id)->delete();
@@ -1317,22 +1343,47 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
         $company_name = $request->company_name;
         $email = $request->email;
         $users = User::where('role', 'user')->where('company_name', 'like', '%' . $company_name . '%')->where('email', 'like', '%' . $email . '%')->get();
+        $users_type = User::groupBy('account_type')
+            ->selectRaw('count(*) as total, account_type')
+            ->get()->toArray();
         return view('admin.users-table', [
             'tab' => 'users',
-            'users' => $users
+            'users' => $users,
+            'users_type' => $users_type
         ]);
     }
 
-    public function adminMailSetting(){
-        $manage = MailSendManager::where('id', '1')->get()->first();
+    public function adminMailSettingA(){
+        $manage = MailSendManager::where('type', 'A')->get()->first();
         return view('admin.mails', [
             'tab' => 'mails',
-            'manage' => $manage
+            'manage' => $manage,
+            'type' => 'A',
+            'title' => 'A 制限なし'
+        ]);
+    }
+    public function adminMailSettingB(){
+        $manage = MailSendManager::where('type', 'B')->get()->first();
+        return view('admin.mails', [
+            'tab' => 'mails',
+            'manage' => $manage,
+            'type' => 'B',
+            'title' => 'B 期間制限'
+        ]);
+    }
+    public function adminMailSettingC(){
+        $manage = MailSendManager::where('type', 'C')->get()->first();
+        return view('admin.mails', [
+            'tab' => 'mails',
+            'manage' => $manage,
+            'type' => 'C',
+            'title' => 'C データ制限'
         ]);
     }
     public function adminMailManage(Request $request){
+        $type = $request->account_type;
 
-        MailSendManager::where('id', '1')->update([
+        MailSendManager::where('type', $type)->update([
             'search_period' => $request->search_period,
             'send_start_time' => $request->send_start_time,
             'send_per_hour' => $request->send_per_hour,

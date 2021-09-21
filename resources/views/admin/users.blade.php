@@ -66,7 +66,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
 @endsection
@@ -100,6 +99,16 @@
                     success: function (response) {
                         $('#table_container').html(response);
                         $('#user-datatables').DataTable({
+                            "columnDefs": [
+                                { "width": "20%" },
+                                { "width": "10%" },
+                                { "width": "10%" },
+                                { "width": "23%" },
+                                { "width": "15%" },
+                                { "width": "10%" },
+                                { "width": "7%" },
+                                { "width": "5%" }
+                            ],
                             "language": {
                                 "decimal":        "",
                                 "emptyTable":     "表で使用できるデータがありません。",
@@ -132,9 +141,6 @@
                 });
             }
         });
-
-
-
     </script>
 
 @endsection

@@ -111,23 +111,23 @@
                             </tr>
                             <tr>
                                 <th>調達資料１</th>
-                                <td colspan="5">{{$info->url_specification_1}}</td>
+                                <td colspan="5"><a href="{{$info->url_specification_1}}" target="_blank"></a></td>
                             </tr>
                             <tr id="tri_WAB0102FM01/procurementInformationDetailBean/procurementDocumentDownloadUrl2">
                                 <th>調達資料２</th>
-                                <td colspan="5">{{$info->url_specification_2}}</td>
+                                <td colspan="5"><a href="{{$info->url_specification_2}}" target="_blank"></a></td>
                             </tr>
                             <tr id="tri_WAB0102FM01/procurementInformationDetailBean/procurementDocumentDownloadUrl3">
                                 <th>調達資料３</th>
-                                <td colspan="5">{{$info->url_specification_3}}</td>
+                                <td colspan="5"><a href="{{$info->url_specification_3}}" target="_blank"></a></td>
                             </tr>
                             <tr id="tri_WAB0102FM01/procurementInformationDetailBean/procurementDocumentDownloadUrl4">
                                 <th>調達資料４</th>
-                                <td colspan="5">{{$info->url_specification_4}}</td>
+                                <td colspan="5"><a href="{{$info->url_specification_4}}" target="_blank"></a></td>
                             </tr>
                             <tr id="tri_WAB0102FM01/procurementInformationDetailBean/procurementDocumentDownloadUrl5">
                                 <th>調達資料５</th>
-                                <td colspan="5">{{$info->url_specification_5}}</td>
+                                <td colspan="5"><a href="{{$info->url_specification_5}}" target="_blank"></a></td>
                             </tr>
                             </tbody>
                         </table>

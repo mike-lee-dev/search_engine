@@ -3705,6 +3705,22 @@
     <script src="{{asset('js/common.js')}}"></script>
     <script src="{{asset('js/UAA01.js')}}"></script>
     <script>
+        let account_type;
+        $(document).ready(function () {
+            account_type = $('#user_account_type').val();
+            if(account_type === 'C'){
+                var now = new Date();
+                now.setDate(now.getDate() - 30);
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+                $('#start-date-to').val(today);
+                $('#start-date-to').attr('max', today);
+            }
+
+        })
         let c_grade = [], no_grade = [];
         function removeA(arr) {
             var what, a = arguments, L = a.length, ax;

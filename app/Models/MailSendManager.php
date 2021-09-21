@@ -15,6 +15,6 @@ class MailSendManager extends Model
         'send_status',
         'mail_header',
         'mail_footer',
-
+        'type'
     ];
 }

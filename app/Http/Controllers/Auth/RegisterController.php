@@ -51,15 +51,17 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         $password = FormPassword::where('id', 1)->get()->first()->password;
+        $password_b = FormPassword::where('id', 1)->get()->first()->password_b;
         $validator = Validator::make($data, [
             'company_name' => ['required', 'string', 'max:255'],
+            'belong' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'form_password' => ['required']
         ]);
-        if(!Hash::check($data['form_password'], $password)){
+        if(!Hash::check($data['form_password'], $password) && !Hash::check($data['form_password'], $password_b)){
             $validator->after(function($validator)
             {
                 $validator->errors()->add('form_password', 'フォーム登録用パスワードが正しくありません。');
@@ -77,12 +79,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $password = FormPassword::where('id', 1)->get()->first()->password;
+        if(Hash::check($data['form_password'], $password)){
+            return User::create([
+                'company_name' => $data['company_name'],
+                'belong' => $data['belong'],
+                'username' => $data['username'],
+                'address' => $data['address'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'account_type' => 'A'
+            ]);
+        }
+
         return User::create([
             'company_name' => $data['company_name'],
+            'belong' => $data['belong'],
             'username' => $data['username'],
             'address' => $data['address'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'account_type' => 'B',
+            'b_date' => date('Y-m-d', strtotime('+30 days'))
         ]);
     }
 }

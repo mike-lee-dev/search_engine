@@ -7,7 +7,8 @@
 @section('content')
     <div class="page-inner">
         <div class="page-header">
-            <h4 class="page-title">メール送信設定</h4>
+            <h4 class="page-title">メール送信設定 ({{$title}})</h4>
+            <input type="hidden" id="account_type" value="{{$type}}">
             <ul class="breadcrumbs">
                 <li class="nav-home">
                     <a href="#">
@@ -39,6 +40,12 @@
                                         @for($i = 1; $i <= 30; $i++)
                                             <option value="{{$i}}" {{$manage->search_period == $i ? 'selected' : ''}}>{{$i}}日</option>
                                         @endfor
+                                        @if($type === 'C')
+                                                @for($i = 31; $i <= 40; $i++)
+                                                    <option value="{{$i}}" {{$manage->search_period == $i ? 'selected' : ''}}>{{$i}}日</option>
+                                                @endfor
+                                        @endif
+
                                     </select>
                                 </div>
                             </div>
@@ -138,8 +145,7 @@
                     send_status = 0;
                 }
                 console.log()
-
-
+                formData.append('account_type', $('#account_type').val());
                 formData.append('search_period', $('#search_period option:selected').val())
                 formData.append('send_start_time', $('#timepicker').val())
                 formData.append('send_per_hour', $('#send_per_hour option:selected').val())
