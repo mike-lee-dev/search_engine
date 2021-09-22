@@ -99,6 +99,8 @@
                     success: function (response) {
                         $('#table_container').html(response);
                         $('#user-datatables').DataTable({
+                            "dom" : '<"top"l>r<"pa"ip>t<"bottom"f><"pa"ip><"clear">',
+                            "search" : false,
                             "columnDefs": [
                                 { "width": "20%" },
                                 { "width": "10%" },

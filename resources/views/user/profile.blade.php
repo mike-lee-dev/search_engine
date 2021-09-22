@@ -18,12 +18,15 @@
                                 <label id="company_name" type="text" class="@error('name') is-invalid @enderror"
                                        name="company_name" value="" required autocomplete="company_name"
                                        autofocus>{{ $user->company_name }}</label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="username" class="col-md-4 col-form-label text-md-right">部署名:</label>
 
-                                @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <div class="col-md-6">
+                                <label id="belong" type="text" class="@error('name') is-invalid @enderror"
+                                       name="username" value="" required autocomplete="username"
+                                       autofocus>{{$user->belong}}</label>
                             </div>
                         </div>
 
@@ -34,12 +37,6 @@
                                 <label id="username" type="text" class="@error('name') is-invalid @enderror"
                                        name="username" value="" required autocomplete="username"
                                        autofocus>{{$user->username}}</label>
-
-                                @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
                         </div>
 
@@ -50,12 +47,6 @@
                                 <label id="address" type="text" class="@error('name') is-invalid @enderror"
                                        name="address" value="" required autocomplete="address"
                                        autofocus>{{$user->address}}</label>
-
-                                @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
                         </div>
 
@@ -66,12 +57,6 @@
                             <div class="col-md-6">
                                 <label id="email" type="email" class="@error('email') is-invalid @enderror" name="email"
                                        value="{{ old('email') }}" required autocomplete="email">{{$user->email}}</label>
-
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
                         </div>
 

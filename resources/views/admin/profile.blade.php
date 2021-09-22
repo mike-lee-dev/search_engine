@@ -217,10 +217,16 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group form-group-default">
                                     <label>住所</label>
                                     <label type="text" class="mt-2" name="name" placeholder="Name" value="Hizrian">{{$user->address}}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-group-default">
+                                    <label>登録日</label>
+                                    <label type="text" class="mt-2" name="name" placeholder="Name" value="Hizrian">{{date('Ymd', strtotime($user->created_at))}}</label>
                                 </div>
                             </div>
                         </div>

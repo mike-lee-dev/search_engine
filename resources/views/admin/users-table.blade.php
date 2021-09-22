@@ -1,3 +1,28 @@
+<div class="my-2">
+    <div class="col-12">
+        <p class="mb-1">アカウント種類毎のユーザ人数:</p>
+    </div>
+    <div class="col-12">
+        <p>A 制限なし：<span id="a_type">
+                @foreach($users_type as $item)
+                    @if($item['account_type'] === 'A')
+                        {{$item['total']}}
+                    @endif
+                @endforeach</span>人　/　B 期間制限：<span id="b_type">@foreach($users_type as $item)
+                    @if($item['account_type'] === 'B')
+                        {{$item['total']}}
+                    @endif
+                @endforeach</span>人 ／　C データ制限：<span id="c_type">@foreach($users_type as $item)
+                    @if($item['account_type'] === 'C')
+                        {{$item['total']}}
+                    @endif
+                @endforeach</span>人 ／　D 無効：<span id="d_type">@foreach($users_type as $item)
+                    @if($item['account_type'] === 'D')
+                        {{$item['total']}}
+                    @endif
+                @endforeach</span>人</p>
+    </div>
+</div>
 <table id="user-datatables" class="display table table-striped table-hover" >
     <thead>
     <tr>

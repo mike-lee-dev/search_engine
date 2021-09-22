@@ -165,14 +165,14 @@ $user = User::where('id', Auth::user()->id)->get()->first();
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>新規パスワード</label>
-                                            <input id="admin_new_password" type="password" name="password" class="form-control" minlength="8" required>
+                                            <input id="admin_new_password" type="password" name="password" class="form-control" minlength="8">
 
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>パスワード確認</label>
-                                            <input id="admin_confirm_password" type="password" name="password_confirmation" class="form-control" minlength="8" required>
+                                            <input id="admin_confirm_password" type="password" name="password_confirmation" class="form-control" minlength="8">
                                         </div>
                                     </div>
                                 </div>
@@ -181,14 +181,14 @@ $user = User::where('id', Auth::user()->id)->get()->first();
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>フォーム登録用パスワード(A 制限なし)</label>
-                                            <input id="form_password" type="password" name="form_password" class="form-control" minlength="8" required>
+                                            <input id="form_password" type="password" name="form_password" class="form-control" minlength="8">
 
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>パスワード確認</label>
-                                            <input id="form_confirm_password" type="password" name="form_password_confirmation" class="form-control" minlength="8" required>
+                                            <input id="form_confirm_password" type="password" name="form_password_confirmation" class="form-control" minlength="8">
                                         </div>
                                     </div>
                                 </div>
@@ -196,14 +196,14 @@ $user = User::where('id', Auth::user()->id)->get()->first();
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>フォーム登録用パスワード(B 期間制限)</label>
-                                            <input id="form_password_B" type="password" name="form_password_B" class="form-control" minlength="8" required>
+                                            <input id="form_password_B" type="password" name="form_password_B" class="form-control" minlength="8">
 
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>パスワード確認</label>
-                                            <input id="form_confirm_password_B" type="password" name="form_password_confirmation_B" class="form-control" minlength="8" required>
+                                            <input id="form_confirm_password_B" type="password" name="form_password_confirmation_B" class="form-control" minlength="8">
                                         </div>
                                     </div>
                                 </div>
@@ -237,28 +237,28 @@ $user = User::where('id', Auth::user()->id)->get()->first();
         let form = $('#form');
         form.validate();
         if (form.valid()) {
-            if ($('[name=password]').val() !== $('[name=password_confirmation]').val()) {
+            if ($('[name=password]').val() !== "" && ($('[name=password]').val() !== $('[name=password_confirmation]').val())) {
                 $('[name=password_confirmation]').parent().css('border', '1px solid #dc3545');
                 return false;
             }
             else{
                 $('[name=password_confirmation]').parent().css('border', '1px solid rgba(0, 0, 0, 0.07)');
             }
-            if ($('[name=form_password]').val() !== $('[name=form_password_confirmation]').val()) {
+            if ($('[name=form_password]').val() !== "" && ($('[name=form_password]').val() !== $('[name=form_password_confirmation]').val())) {
                 $('[name=form_password_confirmation]').parent().css('border', '1px solid #dc3545');
                 return false;
             }
             else{
                 $('[name=form_password_confirmation]').parent().css('border', '1px solid rgba(0, 0, 0, 0.07)');
             }
-            if ($('[name=form_password_B]').val() !== $('[name=form_password_confirmation_B]').val()) {
+            if ($('[name=form_password_B]').val() !== "" && ($('[name=form_password_B]').val() !== $('[name=form_password_confirmation_B]').val())) {
                 $('[name=form_password_confirmation_B]').parent().css('border', '1px solid #dc3545');
                 return false;
             }
             else{
                 $('[name=form_password_confirmation_B]').parent().css('border', '1px solid rgba(0, 0, 0, 0.07)');
             }
-            if ($('[name=form_password]').val() === $('[name=form_password_B]').val()) {
+            if ($('[name=form_password]').val() !== "" && ($('[name=form_password]').val() === $('[name=form_password_B]').val())) {
                 $('[name=form_password]').parent().css('border', '1px solid #dc3545');
                 $('[name=form_password_B]').parent().css('border', '1px solid #dc3545');
                 return false;

@@ -54,14 +54,14 @@ class SendMail extends Command
     public function changeBToC(){
         $user = User::where('role', 'user')->where('account_type', 'B')->get()->toArray();
         foreach ($user as $item){
-            if($item->account_type === 'B'){
+            if($item['account_type'] === 'B'){
                 $today = date("Y-m-d");
-                $b_date = $item->b_date; //from database
+                $b_date = $item['b_date']; //from database
 
                 $today_time = strtotime($today);
                 $b_time = strtotime($b_date);
                 if ($b_time < $today_time) {
-                    User::where('id', $item->id)->update([
+                    User::where('id', $item['id'])->update([
                         'account_type' => 'C',
                         'b_date' => null
                     ]);
@@ -123,14 +123,31 @@ class SendMail extends Command
                     $agency = $setting->search_agency;
                     $address = $setting->search_address;
                     $item_classify = $setting->search_item_classify;
-                    if ($search_period == 0) {
-                        $public_start_date_from = date('Y-m-d');
-                    } else {
-                        $before = '-' . $search_period . ' days';
-                        $public_start_date_from = date('Y-m-d', strtotime($before));
+                    if($account_type === 'C'){
+                        $search_period = 30 + $search_period;
+                        if ($search_period == 30) {
+                            $public_start_date_from = date('Y-m-d', strtotime('-30 days'));
+                        } else {
+                            $before = '-' . $search_period . ' days';
+                            $public_start_date_from = date('Y-m-d', strtotime($before));
+                        }
+                    }
+                    else{
+                        if ($search_period == 0) {
+                            $public_start_date_from = date('Y-m-d');
+                        } else {
+                            $before = '-' . $search_period . ' days';
+                            $public_start_date_from = date('Y-m-d', strtotime($before));
+                        }
                     }
 
-                    $public_start_date_to = date('Y-m-d');
+                    if($account_type === "C"){
+                        $public_start_date_to = date('Y-m-d', strtotime('-30 days'));
+                    }
+                    else{
+                        $public_start_date_to = date('Y-m-d');
+                    }
+
                     $name = $setting->search_name;
                     $public_id = $setting->search_public_id;
                     $official_text = $setting->search_official_text;

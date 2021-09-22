@@ -62,7 +62,9 @@ class HomeController extends Controller
         }
 
         if(Auth::user()->change_pw == 1){
-            User::where('id', Auth::user()->id)->update(['password' => Hash::make($password)]);
+            if(isset($password)){
+                User::where('id', Auth::user()->id)->update(['password' => Hash::make($password)]);
+            }
 
             return response()->json([
                 'status' => true

@@ -111,23 +111,43 @@
                             </tr>
                             <tr>
                                 <th>調達資料１</th>
-                                <td colspan="5"><a href="{{$info->url_specification_1}}" target="_blank"></a></td>
+                                <td colspan="5">
+                                    @if(!empty($info->url_specification_1))
+                                        <a href="{{$info->url_specification_1}}" target="_blank">調達資料1ダウンロードURL></a>
+                                    @endif
+                                </td>
                             </tr>
                             <tr id="tri_WAB0102FM01/procurementInformationDetailBean/procurementDocumentDownloadUrl2">
                                 <th>調達資料２</th>
-                                <td colspan="5"><a href="{{$info->url_specification_2}}" target="_blank"></a></td>
+                                <td colspan="5">
+                                    @if(!empty($info->url_specification_2))
+                                        <a href="{{$info->url_specification_2}}" target="_blank">調達資料2ダウンロードURL></a>
+                                    @endif
+                                </td>
                             </tr>
                             <tr id="tri_WAB0102FM01/procurementInformationDetailBean/procurementDocumentDownloadUrl3">
                                 <th>調達資料３</th>
-                                <td colspan="5"><a href="{{$info->url_specification_3}}" target="_blank"></a></td>
+                                <td colspan="5">
+                                    @if(!empty($info->url_specification_3))
+                                        <a href="{{$info->url_specification_3}}" target="_blank">調達資料3ダウンロードURL></a>
+                                    @endif
+                                </td>
                             </tr>
                             <tr id="tri_WAB0102FM01/procurementInformationDetailBean/procurementDocumentDownloadUrl4">
                                 <th>調達資料４</th>
-                                <td colspan="5"><a href="{{$info->url_specification_4}}" target="_blank"></a></td>
+                                <td colspan="5">
+                                    @if(!empty($info->url_specification_4))
+                                        <a href="{{$info->url_specification_4}}" target="_blank">調達資料4ダウンロードURL></a>
+                                    @endif
+                                </td>
                             </tr>
                             <tr id="tri_WAB0102FM01/procurementInformationDetailBean/procurementDocumentDownloadUrl5">
                                 <th>調達資料５</th>
-                                <td colspan="5"><a href="{{$info->url_specification_5}}" target="_blank"></a></td>
+                                <td colspan="5">
+                                    @if(!empty($info->url_specification_5))
+                                        <a href="{{$info->url_specification_5}}" target="_blank">調達資料5ダウンロードURL></a>
+                                    @endif
+                                </td>
                             </tr>
                             </tbody>
                         </table>

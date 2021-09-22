@@ -4085,6 +4085,22 @@
         let searchCon;
         let resultTable;
         $(document).ready(function () {
+
+
+        })
+        $(document).ready(function () {
+            let account_type = $('#user_account_type').val();
+            if(account_type === 'C'){
+                var now = new Date();
+                now.setDate(now.getDate() - 30);
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+                $('#start-date-to').val(today);
+                $('#start-date-to').attr('max', today);
+            }
             cnt = $('#cnt').val();
             let overflow = $('#overflow').val();
             if(overflow == 1){
