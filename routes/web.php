@@ -23,6 +23,8 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 Route::get('/specific-trans', [HomeController::class, 'specificTrans'])->name('specific-trans');
+Route::get('/public-demand', [HomeController::class, 'publicDemand'])->name('public-demand');
+Route::post('/change-formula', [HomeController::class, 'changeFormula'])->name('change-formula');
 
 Route::group(['middleware'=>'checkAuth'],function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware(['verified']);
@@ -36,7 +38,11 @@ Route::group(['middleware'=>'checkAuth'],function () {
     Route::get('/history-search/{id}', [HomeController::class, 'historySearch'])->name('history-search')->middleware(['verified']);
     Route::get('/profile', [HomeController::class, 'profile'])->name('profile')->middleware(['verified']);
     Route::post('/modify-profile', [HomeController::class, 'modifyProfile'])->name('modify-profile')->middleware(['verified']);
-
+    Route::post('/change-favourite', [HomeController::class, 'changeFavourite'])->name('change-favourite')->middleware(['verified']);
+    Route::get('/list-favourite', [HomeController::class, 'listFavourite'])->name('list-favourite')->middleware(['verified']);
+    Route::get('/send-favourite', [HomeController::class, 'sendFavourite'])->name('send-favourite')->middleware(['verified']);
+    Route::post('/comment-save', [HomeController::class, 'commentSave'])->name('comment-save')->middleware(['verified']);
+    Route::post('/comment-send', [HomeController::class, 'commentSend'])->name('comment-send')->middleware(['verified']);
 
     Route::get('/users', [HomeController::class, 'adminUsers'])->name('users')->middleware(['verified']);
     Route::post('/users-table', [HomeController::class, 'adminUsersTable'])->name('users-table')->middleware(['verified']);
@@ -49,5 +55,6 @@ Route::group(['middleware'=>'checkAuth'],function () {
     Route::get('/mails-B', [HomeController::class, 'adminMailSettingB'])->name('mails-B')->middleware(['verified']);
     Route::get('/mails-C', [HomeController::class, 'adminMailSettingC'])->name('mails-C')->middleware(['verified']);
     Route::post('/mail-manage', [HomeController::class, 'adminMailManage'])->name('mail-manage')->middleware(['verified']);
+
 });
 

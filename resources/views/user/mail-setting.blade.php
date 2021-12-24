@@ -131,12 +131,6 @@
                                                 </dt>
                                                 <dd id="searchCon_grade">指定なし</dd>
                                             </dl>
-                                            <dl class="content_block">
-                                                <dt>
-                                                    <span>等級指定（次の等級を除く）</span>
-                                                </dt>
-                                                <dd id="searchCon_no_grade">指定なし</dd>
-                                            </dl>
                                         </dd>
                                     </dl>
                                 </div>
@@ -454,40 +448,6 @@
                                                 <input type="hidden" id="grade" name="grade">
                                             </dl>
                                         </li>
-
-                                        <li class="col-12 px-0">
-                                            <dl class="table-form">
-                                                <dt>
-                                                    <span>等級指定（次の等級を除く）</span>
-                                                    <div class="table-tip">
-                                                        <img src="{{asset('img/button_07.jpg')}}"
-                                                             alt="補足説明"
-                                                             class="tip-icn over" tabindex="2200">
-                                                        <div class="table-tip-txt">
-                                                            <img src="{{asset('img/icn_close.png')}}"
-                                                                 alt="閉じる"
-                                                                 class="tip-txt-close" tabindex="2210">
-                                                            <p tabindex="2220" id="komoku11">複数の等級の組み合わせについて、指定できます。<br>
-                                                                例）A等級の調達情報を除きたい場合、Aを指定することにより、A等級含むすべての組み合わせを除く調達情報を検索できます。
-                                                                「ABCD」 、 「ABC」、 「AB」、「A」のすべての組み合わせを除いた検索結果を得ることができます。</p>
-                                                        </div>
-                                                    </div>
-
-                                                </dt>
-                                                <dd>
-                                                    <input type="checkbox" name="a_n_grade">　A　　　　<input type="checkbox" name="b_n_grade">　B　　　<input
-                                                        type="checkbox" name="c_n_grade">　C　　　　<input type="checkbox" name="d_n_grade">　D
-                                                    <br>
-                                                    <input type="checkbox" name="abcd_n_grade">　ABCD　　<input type="checkbox" name="abc_n_grade">　ABC　　<input
-                                                        type="checkbox" name="ab_n_grade">　AB
-                                                    <br>
-                                                    <input type="checkbox" name="bcd_n_grade">　BCD　　　<input type="checkbox" name="bc_n_grade">　BC　　　<input
-                                                        type="checkbox" name="cd_n_grade">　CD　　　<input type="checkbox" name="none_n_grade">　等級なし
-                                                </dd>
-                                                <input type="hidden" id="no_grade" name="no_grade">
-                                            </dl>
-                                        </li>
-
                                     </ul>
                                     <p class="txt-img" style="text-align: right">
                                         <button type="submit" class="m-0 p-0" style="border: none;    background: none;">
@@ -3976,33 +3936,6 @@
                                                 </dd>
                                             </dl>
                                         </li>
-
-                                        <li class="col-12 px-0">
-                                            <dl class="table-form">
-                                                <dt>
-                                                    <span>等級指定（次の等級を除く）</span>
-                                                    <img src="{{asset('img/button_07.jpg')}}"
-                                                         alt="補足説明"
-                                                         class="tip-icn over" tabindex="2200">
-                                                    <div class="table-tip-txt">
-                                                        <img src="{{asset('img/icn_close.png')}}"
-                                                             alt="閉じる"
-                                                             class="tip-txt-close" tabindex="2210">
-                                                        <p tabindex="2220" id="komoku11">複数の等級の組み合わせについて、指定できます。<br>
-                                                            例）A等級の調達情報を除きたい場合、Aを指定することにより、A等級含むすべての組み合わせを除く調達情報を検索できます。
-                                                            「ABCD」 、 「ABC」、 「AB」、「A」のすべての組み合わせを除いた検索結果を得ることができます。</p>
-                                                    </div>
-                                                </dt>
-                                                <dd>
-                                                    <input type="checkbox">　A　　　　<input type="checkbox">　B　　　　<input type="checkbox">　C　　　　<input type="checkbox">　D
-                                                    <br>
-                                                    <input type="checkbox">　ABCD　　<input type="checkbox">　ABC　　<input type="checkbox">　AB
-                                                    <br>
-                                                    <input type="checkbox">　BCD　　　<input type="checkbox">　BC　　　<input type="checkbox">　CD　　　<input type="checkbox">　等級なし
-                                                </dd>
-                                            </dl>
-                                        </li>
-
                                     </ul>
 
                                     <p class="txt-img" style="text-align: right">
@@ -7062,23 +6995,23 @@
                 }
                 $('#searchCon_grade').text(txt);
             }
-            if (searchCon.search_no_grade == null) {
-                $('#searchCon_no_grade').text('指定なし');
-            } else {
-                let no_grade = searchCon.search_no_grade;
-                let no_arr = no_grade.split(',');
-                let txt = '';
-                for(let i = 0; i < no_arr.length; i++){
-
-                    if(no_arr[i] == 'none'){
-                        txt = txt + '等級なし, ';
-                    }
-                    else{
-                        txt = txt + no_arr[i].toUpperCase() + ', ';
-                    }
-                }
-                $('#searchCon_no_grade').text(txt);
-            }
+            // if (searchCon.search_no_grade == null) {
+            //     $('#searchCon_no_grade').text('指定なし');
+            // } else {
+            //     let no_grade = searchCon.search_no_grade;
+            //     let no_arr = no_grade.split(',');
+            //     let txt = '';
+            //     for(let i = 0; i < no_arr.length; i++){
+            //
+            //         if(no_arr[i] == 'none'){
+            //             txt = txt + '等級なし, ';
+            //         }
+            //         else{
+            //             txt = txt + no_arr[i].toUpperCase() + ', ';
+            //         }
+            //     }
+            //     $('#searchCon_no_grade').text(txt);
+            // }
         })
     </script>
     <script>
@@ -7122,13 +7055,14 @@
                 }
                 let n = '[name=' + grade + ']';
 
-                if($(this)[0].checked){
-
-                    $(n)[0].checked = false;
-                }
+                // if($(this)[0].checked){
+                //
+                //     $(n)[0].checked = false;
+                // }
                 // else{
                 //     $(n)[0].checked = true;
                 // }
+                console.log(c_grade.toString());
                 $('#grade').val(c_grade.toString())
                 $('#no_grade').val(no_grade.toString());
             }

@@ -16,6 +16,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS" href="https://jsm.bz/rss.xml">
 {{--    <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>--}}
     <script src="{{asset('template/js/vendors/jquery-3.2.1.min.js')}}"></script>
+
     @yield('css')
 </head>
 <body>

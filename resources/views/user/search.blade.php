@@ -6,6 +6,46 @@
     <link href="{{asset('template/css/dashboard.css')}}" rel="stylesheet"/>
     <link href="{{asset('css/commonForm.css')}}" rel="stylesheet"/>
     <link href="{{asset('css/tables1.css')}}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{asset('admin_tmp/css/demo.css')}}">
+    <link rel="stylesheet" href="{{asset('admin_tmp/css/fonts.css')}}">
+    <style>
+        .favourite{
+            position: relative;
+            font-size: 25px;
+        }
+        .high{
+            color: blue;
+            cursor: pointer;
+        }
+        .middle{
+            color: red;
+            cursor: pointer;
+        }
+        .low{
+            color: grey;
+            cursor: pointer;
+        }
+        .none{
+            cursor: pointer;
+        }
+        .divide{
+            border-right: 1px solid #333;
+            width: 1px;
+            height: 25px;
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+        .icon-preview{
+            display: flex;
+            position: absolute;
+            background: white;
+            top: calc(50% - 22.5px);
+            padding: 10px 10px 10px 0;
+        }
+        .active-fav{
+            border-bottom: 1px dashed black;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -27,7 +67,7 @@
                         <div class="alert message-error input-error-list" style="display: none;">
                         </div>
                         <p class="main-item-txt" id="info01">全省庁の調達情報の検索を行うことができます。</p>
- <a href="https://search.chotatu.info/public_demand.html">TO 官公需情報ポータルサイト・等級別検索リンク</a>
+                        <a href="{{route('public-demand')}}">TO 官公需情報ポータルサイト・等級別検索リンク</a>
                         <table class="dsc1item" cellspacing="1" style="color: #333">
                             <tbody>
                             <tr>
@@ -49,6 +89,18 @@
                             ※検索条件の指定は任意です。なお、検索結果を一度に表示できる件数は最大500件です。<br>
                             ※調達案件名称の指定においては、AND検索、OR検索、NOT検索ができます。<br>
                             ※公示本文のキーワードの指定においては、AND検索、OR検索、NOT検索ができます。<br>
+                        </div>
+
+                        <div class="nmlbox graybg" style="color:#333;">
+                            <img src="{{asset('img/button_02.png')}}" alt="株式会社日本スマートマーケティング"><strong>お気に入り</strong><br>
+                            @if(\Illuminate\Support\Facades\Auth::user()->account_type === 'C' || \Illuminate\Support\Facades\Auth::user()->account_type === 'D')
+                                公開中　　注目度 │ 高：<i class="fas fa-star high"></i>{{$high}}件 │ 中：<i class="fas fa-star middle"></i>{{$middle}}件 │ 低：<i class="fas fa-star low"></i>{{$low}}件<br>
+                                公開終了　注目度 │ 高：<i class="fas fa-star high"></i>{{$high1}}件 │ 中：<i class="fas fa-star middle"></i>{{$middle1}}件 │ 低：<i class="fas fa-star low"></i>{{$low1}}件
+                            @else
+                                公開中　　注目度 │ 高：<i class="fas fa-star high"></i><a href="{{route('list-favourite')}}?public=1&type=high">{{$high}}</a>件 │ 中：<i class="fas fa-star middle"></i><a href="{{route('list-favourite')}}?public=1&type=middle">{{$middle}}</a>件 │ 低：<i class="fas fa-star low"></i><a href="{{route('list-favourite')}}?public=1&type=low">{{$low}}</a>件<br>
+                                公開終了　注目度 │ 高：<i class="fas fa-star high"></i><a href="{{route('list-favourite')}}?public=2&type=high">{{$high1}}</a>件 │ 中：<i class="fas fa-star middle"></i><a href="{{route('list-favourite')}}?public=2&type=middle">{{$middle1}}</a>件 │ 低：<i class="fas fa-star low"></i><a href="{{route('list-favourite')}}?public=2&type=low">{{$low1}}</a>件
+                            @endif
+
                         </div>
 
                         <div class="row">

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\MailSendManager;
 use App\Models\MailSetting;
+use App\Models\ProcurementFavourite;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Mail\Message;
@@ -82,7 +83,7 @@ class SendMail extends Command
         if ($start_time === $now) {
             Log::info('cron SendMail $start_time == $now');
             $send_per_hour = $mail_manage->send_per_hour;
-            $all_setting = MailSetting::leftjoin('users', 'users.id', 'mail_setting.user_id')->where('account_type', $account_type)->orderBy('id', 'asc')->get()->count();
+            $all_setting = MailSetting::leftjoin('users', 'users.id', 'mail_settings.user_id')->select(DB::raw('mail_settings.*, users.account_type'))->where('account_type', $account_type)->orderBy('id', 'asc')->get()->count();
             $cnt = (int)($all_setting / $send_per_hour);
             if ($all_setting > $send_per_hour * $cnt) {
                 $cnt = $cnt + 1;
@@ -92,7 +93,7 @@ class SendMail extends Command
 
                 $skip = $i * $send_per_hour;
                 Log::info('cron SendMail $skip =' .$skip);
-                $mail_settings = MailSetting::leftjoin('users', 'users.id', 'mail_setting.user_id')->where('account_type', $account_type)->skip($skip)->take($send_per_hour)->get();
+                $mail_settings = MailSetting::leftjoin('users', 'users.id', 'mail_settings.user_id')->select(DB::raw('mail_settings.*, users.account_type'))->where('account_type', $account_type)->skip($skip)->take($send_per_hour)->get();
                 $search_period = $mail_manage->search_period - 1;
                 $mail_header = $mail_manage->mail_header;
                 $mail_footer = $mail_manage->mail_footer;
@@ -117,6 +118,24 @@ class SendMail extends Command
                     $header_content = '';
                     foreach ($message_arr as $str){
                         $header_content = $header_content . $str;
+                    }
+                    $footer_arr_tmp = explode('%', $mail_footer);
+                    $message_arr_foot = $footer_arr_tmp;
+                    foreach ($message_arr_foot as $index => $str){
+                        if ($str == "username") {
+                            $message_arr_foot[$index] = $user->username;
+                        }
+                        if ($str == "company_name") {
+                            $message_arr_foot[$index] = $user->company_name;
+                        }
+                        if ($str == "registerday") {
+                            $message_arr_foot[$index] = date('Y-m-d', strtotime($user->created_at));
+                        }
+                    }
+
+                    $footer_content = '';
+                    foreach ($message_arr_foot as $str){
+                        $footer_content = $footer_content . $str;
                     }
                     $type = $setting->search_type;
                     $classify = $setting->search_classify;
@@ -151,7 +170,7 @@ class SendMail extends Command
                     $name = $setting->search_name;
                     $public_id = $setting->search_public_id;
                     $official_text = $setting->search_official_text;
-                    $per_page = $setting->search_per_page;
+                    //$per_page = $setting->search_per_page;
                     $grade = $setting->search_grade;
                     $no_grade = $setting->search_no_grade;
 
@@ -250,14 +269,11 @@ class SendMail extends Command
                         $public_id = '';
                     }
 
-                    $gradeArr = [];
-                    if (isset($grade)) {
-                        $gradeArr = explode(',', $grade);
-                    }
                     $no_gradeArr = [];
                     if (isset($no_grade)) {
                         $no_gradeArr = explode(',', $no_grade);
                     }
+                    $query_none = '';
                     $query = "SELECT A.id, A.public_id, A.classify_code, D.procurement_agency, E.address, A.public_start_date, A.public_end_date, B.procurement_type, A.item_category_1, A.item_category_2, A.item_category_3, A.item_category_4, A.item_category_5, A.item_category_6, A.item_category_7, A.item_category_8, A.procurement_name, A.official_text, A.a_grade, A.b_grade, A.c_grade, A.d_grade, A.ab_grade, A.bc_grade, A.cd_grade, A.abcd_grade, A.abc_grade, A.bcd_grade, A.none_grade
 FROM procurement_infos AS A
 LEFT JOIN procurement_type_codes AS B ON B.id = A.notification_class
@@ -319,29 +335,17 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         $query = $query . ") AND";
                     }
 
-                    if (count($gradeArr) != 0) {
-                        $query = $query . " (";
-                        foreach ($gradeArr as $index => $item) {
-                            if ($index != count($gradeArr) - 1) {
-                                $query = $query . $item . "_grade = 1 OR ";
-                            } else {
-                                $query = $query . $item . "_grade = 1";
-                            }
-                        }
-                        $query = $query . ") AND";
-                    }
-
-                    if (count($no_gradeArr) != 0) {
-                        $query = $query . " (";
-                        foreach ($no_gradeArr as $index => $item) {
-                            if ($index != count($no_gradeArr) - 1) {
-                                $query = $query . $item . "_grade = 0 OR ";
-                            } else {
-                                $query = $query . $item . "_grade = 0";
-                            }
-                        }
-                        $query = $query . ") AND";
-                    }
+//                    if (count($no_gradeArr) != 0) {
+//                        $query = $query . " (";
+//                        foreach ($no_gradeArr as $index => $item) {
+//                            if ($index != count($no_gradeArr) - 1) {
+//                                $query = $query . $item . "_grade = 0 OR ";
+//                            } else {
+//                                $query = $query . $item . "_grade = 0";
+//                            }
+//                        }
+//                        $query = $query . ") AND";
+//                    }
                     if(count($name_arr) != 0){
                         $query = $query . " (";
                         foreach ($name_arr as $index => $item){
@@ -410,14 +414,116 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                         }
                         $query = $query . ") AND";
                     }
+                    $gradeArr = [];
+                    if (isset($grade)) {
+                        $gradeArr = explode(',', $grade);
+                    }
+                    $key = array_search("none", $gradeArr, true);
+                    if($key !== false) {
+                        unset($gradeArr[$key]);
+                    }
+                    $mail_body_none = '';
+                    $rateArr = [];
+                    if($key !== false){
+                        $query_none = $query . "(none_grade = 1) AND";
+                        $query_none = $query_none . " public_start_date >= '" . $public_start_date_from . "'" . " AND public_start_date <= '" . $public_start_date_to . "'"
+                            . " AND A.id LIKE '%" . $public_id . "%'"
+                            . " ORDER BY id LIMIT 100";
+                        $procurements_none = DB::select($query_none);
+                        $mail_body_none = '２．次の条件における検索結果です。<br>・検索式<br>　⇒';
+                        if($name !== ""){
+                            $mail_body_none = $mail_body_none . $name . '<br>';
+                        }
+                        if($official_text !== ""){
+                            $mail_body_none = $mail_body_none . '　　' . $official_text . '<br>';
+                        }
+                        $mail_body_none = $mail_body_none . '<br>・等級指定（次の等級を含む）<br>　⇒ 等級なし';
+
+                        $mail_body_none = $mail_body_none . '<br><br>';
+                        if (count($procurements_none) == 0) {
+                            $mail_body_none = $mail_body_none . '該当する検索資料がありません。<br>';
+                        }
+                        else {
+                            $mail_body_none = $mail_body_none . '<table role="grid" aria-describedby="resultTable_info">
+                            <thead>
+                            <tr role="row">
+                            <th style="width: 30px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達案件番号: 列を昇順にソートするためにアクティブにする">ID</th>
+                            <th style="width: 200px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達案件名称: 列を昇順にソートするためにアクティブにする">調達案件名称</th>
+                            <th style="width: 70px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達機関: 列を昇順にソートするためにアクティブにする">調達機関</th>
+                            <th style="width: 70px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="所在地: 列を昇順にソートするためにアクティブにする">所在地</th>
+                            <th style="width: 160px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達実施案件公示: 列を昇順にソートするためにアクティブにする">調達実施案件公示</th></tr>
+                            </thead>
+                            <tbody>';
+
+                            foreach ($procurements_none as $index => $procurement) {
+                                $id = $index + 1;
+                                $content = '<tr role="row" class="odd">
+                                    <td>' . $id . '</td>
+                                    <td>' . $procurement->procurement_name . '</td>
+                                    <td>' . $procurement->procurement_agency . '</td>
+                                    <td>' . $procurement->address . '</td>
+                                    <td>
+                                        <a class="koukoku info-button" tabindex="4103" href="https://search.chotatu.info/detail/' . $procurement->id . '">公示本文</a><br>
+                                        ' . $procurement->public_start_date . '公開開始
+                                    </td>
+                                </tr>';
+                                $fav = ProcurementFavourite::where('user_id', $user_id)->where('procurement_id', $procurement->id)->where('rate', 3)->get()->first();
+                                if(isset($fav)){
+                                    array_push($rateArr, $procurement);
+                                }
+//                            $procurement_name = trim(preg_replace('/\s\s+/', ' ', $procurement->procurement_name));
+//                            $content = $procurement->public_id . '   ' . $procurement->public_start_date . ' ~ ' . $procurement->public_end_date . '   ' . $procurement_name . '<br>';
+                                $mail_body_none = $mail_body_none . $content;
+                            }
+
+                            $mail_body_none = $mail_body_none . '</tbody></table>';
+
+                        }
+                    }
+                    if (count($gradeArr) != 0) {
+                        $query = $query . " (";
+                        foreach ($gradeArr as $index => $item) {
+                            if ($index != count($gradeArr) - 1) {
+                                $query = $query . $item . "_grade = 1 OR ";
+                            } else {
+                                $query = $query . $item . "_grade = 1";
+                            }
+                        }
+                        $query = $query . ") AND";
+                    }
                     $query = $query . " public_start_date >= '" . $public_start_date_from . "'" . " AND public_start_date <= '" . $public_start_date_to . "'"
                         . " AND A.id LIKE '%" . $public_id . "%'"
                         . " ORDER BY id LIMIT 100";
-                    $procurements = DB::select($query);
+
+                    if($key !== false && count($gradeArr) === 0){
+                        $procurements = [];
+                    }
+                    else{
+                        $procurements = DB::select($query);
+                    }
                     $mail_body = $header_content . '<br><br>';
+                    $mail_body = $mail_body . '１．次の条件における検索結果です。<br>・検索式<br>　⇒';
+                    if($name !== ""){
+                        $mail_body = $mail_body . $name . '<br>';
+                    }
+                    if($official_text !== ""){
+                        $mail_body = $mail_body . '　　' . $official_text . '<br>';
+                    }
+                    $mail_body = $mail_body . '<br>・等級指定（次の等級を含む）<br>　⇒';
+                    if(count($gradeArr) != 0){
+                        foreach ($gradeArr as $index => $item) {
+                            if ($index != count($gradeArr) - 1) {
+                                $mail_body = $mail_body . strtoupper($item) . ", ";
+                            } else {
+                                $mail_body = $mail_body . strtoupper($item);
+                            }
+                        }
+                    }
+                    $mail_body = $mail_body . '<br><br>';
                     if (count($procurements) == 0) {
                         $mail_body = $mail_body . '該当する検索資料がありません。<br>';
-                    } else {
+                    }
+                    else {
                         $mail_body = $mail_body . '<table role="grid" aria-describedby="resultTable_info">
                             <thead>
                             <tr role="row">
@@ -444,13 +550,54 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
 //                            $procurement_name = trim(preg_replace('/\s\s+/', ' ', $procurement->procurement_name));
 //                            $content = $procurement->public_id . '   ' . $procurement->public_start_date . ' ~ ' . $procurement->public_end_date . '   ' . $procurement_name . '<br>';
                             $mail_body = $mail_body . $content;
+                            $fav = ProcurementFavourite::where('user_id', $user_id)->where('procurement_id', $procurement->id)->where('rate', 3)->get()->first();
+                            if(isset($fav)){
+                                array_push($rateArr, $procurement);
+                            }
                         }
 
                         $mail_body = $mail_body . '</tbody></table>';
 
                     }
 
-                    $mail_body = $mail_body . '<br>' . $mail_footer;
+                    $mail_body = $mail_body . '<br><br>' . $mail_body_none;
+                    $mail_body_rate = '';
+                    if(count($rateArr) !== 0){
+                        $mail_body_rate = $mail_body_rate . '３．お気に入り 「注目度：高」に登録されている公開案件です。<br><br>';
+                        $mail_body_rate = $mail_body_rate . '<table role="grid" aria-describedby="resultTable_info">
+                            <thead>
+                            <tr role="row">
+                            <th style="width: 30px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達案件番号: 列を昇順にソートするためにアクティブにする">ID</th>
+                            <th style="width: 200px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達案件名称: 列を昇順にソートするためにアクティブにする">調達案件名称</th>
+                            <th style="width: 70px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達機関: 列を昇順にソートするためにアクティブにする">調達機関</th>
+                            <th style="width: 70px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="所在地: 列を昇順にソートするためにアクティブにする">所在地</th>
+                            <th style="width: 160px;" tabindex="0" aria-controls="resultTable" rowspan="1" colspan="1" aria-label="調達実施案件公示: 列を昇順にソートするためにアクティブにする">調達実施案件公示</th></tr>
+                            </thead>
+                            <tbody>';
+
+                        foreach ($rateArr as $index => $procurement) {
+                            $id = $index + 1;
+                            $content = '<tr role="row" class="odd">
+                                    <td>' . $id . '</td>
+                                    <td>' . $procurement->procurement_name . '</td>
+                                    <td>' . $procurement->procurement_agency . '</td>
+                                    <td>' . $procurement->address . '</td>
+                                    <td>
+                                        <a class="koukoku info-button" tabindex="4103" href="https://search.chotatu.info/detail/' . $procurement->id . '">公示本文</a><br>
+                                        ' . $procurement->public_start_date . '公開開始
+                                    </td>
+                                </tr>';
+//                            $procurement_name = trim(preg_replace('/\s\s+/', ' ', $procurement->procurement_name));
+//                            $content = $procurement->public_id . '   ' . $procurement->public_start_date . ' ~ ' . $procurement->public_end_date . '   ' . $procurement_name . '<br>';
+                            $mail_body_rate = $mail_body_rate . $content;
+                        }
+
+                        $mail_body_rate = $mail_body_rate . '</tbody></table>';
+                    }
+
+                    $mail_body = $mail_body . '<br><br>' . $mail_body_rate;
+
+                    $mail_body = $mail_body . '<br>' . $footer_content;
 
                     $details = array(
                         'mail_body' => $mail_body
@@ -465,7 +612,9 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                     });
                 }
                 Log::info('cron SendMail sleep');
-                sleep(3600);
+                if($cnt !== 1){
+                    sleep(3600);
+                }
             }
         }
     }

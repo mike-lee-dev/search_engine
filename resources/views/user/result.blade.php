@@ -8,7 +8,8 @@
     <link href="{{asset('css/common.css')}}" rel="stylesheet"/>
     <link href="{{asset('css/commonBbs.css')}}" rel="stylesheet"/>
     <link href="{{asset('css/tables1.css')}}" rel="stylesheet"/>
-
+    <link rel="stylesheet" href="{{asset('admin_tmp/css/demo.css')}}">
+    <link rel="stylesheet" href="{{asset('admin_tmp/css/fonts.css')}}">
     <style>
         #resultTable_wrapper{
             overflow-x: scroll;
@@ -22,6 +23,42 @@
         }
         .torikesi-end{
             pointer-events: all !important;
+        }
+        .favourite{
+            position: relative;
+            font-size: 25px;
+        }
+        .high{
+            color: blue;
+            cursor: pointer;
+        }
+        .middle{
+            color: red;
+            cursor: pointer;
+        }
+        .low{
+            color: grey;
+            cursor: pointer;
+        }
+        .none{
+            cursor: pointer;
+        }
+        .divide{
+            border-right: 1px solid #333;
+            width: 1px;
+            height: 25px;
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+        .icon-preview{
+            display: flex;
+            position: absolute;
+            background: white;
+            top: calc(50% - 22.5px);
+            padding: 10px 10px 10px 0;
+        }
+        .active-fav{
+            border-bottom: 1px dashed black;
         }
     </style>
 
@@ -3881,6 +3918,14 @@
                         参照したい調達案件の[公示本文]をクリックすると、調達案件の詳細を確認することができます。<br>
                         また、入札に参加したい案件については、等級別検索サイトの「調達案件名称」を「<a href="https://www.p-portal.go.jp/pps-web-biz/UZA01/OZA0101" rel="noopener" target="_blank">調達ポータル</a>」の「調達案件名称」に入力して案件を表示し、[入札]をクリックすると政府電子調達システム（GEPS）へ遷移し、その案件の入札に参加することができます。
                     </p>
+                    @if(\Illuminate\Support\Facades\Auth::user()->account_type === 'C' || \Illuminate\Support\Facades\Auth::user()->account_type === 'D')
+                        公開中　　注目度 │ 高：<i class="fas fa-star high"></i>{{$high}}件 │ 中：<i class="fas fa-star middle"></i>{{$middle}}件 │ 低：<i class="fas fa-star low"></i>{{$low}}件<br>
+                        公開終了　注目度 │ 高：<i class="fas fa-star high"></i>{{$high1}}件 │ 中：<i class="fas fa-star middle"></i>{{$middle1}}件 │ 低：<i class="fas fa-star low"></i>{{$low1}}件
+                    @else
+                        公開中　　注目度 │ 高：<i class="fas fa-star high"></i><a href="{{route('list-favourite')}}?public=1&type=high">{{$high}}</a>件 │ 中：<i class="fas fa-star middle"></i><a href="{{route('list-favourite')}}?public=1&type=middle">{{$middle}}</a>件 │ 低：<i class="fas fa-star low"></i><a href="{{route('list-favourite')}}?public=1&type=low">{{$low}}</a>件<br>
+                        公開終了　注目度 │ 高：<i class="fas fa-star high"></i><a href="{{route('list-favourite')}}?public=2&type=high">{{$high1}}</a>件 │ 中：<i class="fas fa-star middle"></i><a href="{{route('list-favourite')}}?public=2&type=middle">{{$middle1}}</a>件 │ 低：<i class="fas fa-star low"></i><a href="{{route('list-favourite')}}?public=2&type=low">{{$low1}}</a>件
+                    @endif
+
                     <div class="result-detail">
                         <ul class="pager">
                             <li class="pager-link jamp prev">
@@ -3939,23 +3984,44 @@
                         <table class="main-summit-info" id="resultTable" style="min-width: 1176px !important;">
                             <thead>
                             <tr>
-                                <th id="procurementItemNo_no" class="wd-12p th text-center" style="width: 12%;">調達案件番号</th>
-                                <th id="articleNm_th" class="wd-14p th text-center" style="width: 14%;">調達案件名称</th>
-                                <th id="procurementOrgan_th" class="wd-9p th text-center" style="width: 8%;">調達機関</th>
+                                <th style="width: 6%;"></th>
+                                <th id="procurementItemNo_no" class="wd-12p th text-center" style="width: 14%;">調達案件番号</th>
+                                <th id="articleNm_th" class="wd-14p th text-center" style="width: 15%;">調達案件名称</th>
+                                <th id="procurementOrgan_th" class="wd-9p th text-center" style="width: 9%;">調達機関</th>
                                 <th id="receiptAddress_th" class="wd-10p th text-center" style="width: 10%;">所在地</th>
-                                <th id="requestSubmissionMaterialsBean_th" class="wd-14p th text-center" style="width: 14%;">
+                                <th id="requestSubmissionMaterialsBean_th" class="wd-14p th text-center" style="width: 10%;">
                                     資料提供招請
                                 </th>
-                                <th id="requestCommentBean_th" class="wd-14p th text-center" style="width: 14%;">意見招請</th>
-                                <th id="procurementImplementNoticeBean_th" class="wd-14p th text-center" style="width: 14%;">
+                                <th id="requestCommentBean_th" class="wd-14p th text-center" style="width: 10%;">意見招請</th>
+                                <th id="procurementImplementNoticeBean_th" class="wd-14p th text-center" style="width: 13%;">
                                     調達実施案件公示
                                 </th>
-                                <th id="successfulBidNoticeBean_th" class="wd-14p th text-center" style="width: 14%;">落札公示</th>
+                                <th id="successfulBidNoticeBean_th" class="wd-14p th text-center" style="width: 13%;">落札公示</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($procurements as $procurement)
                                 <tr>
+                                    <td class="{{\Illuminate\Support\Facades\Auth::user()->account_type === 'C' ? '' : (\Illuminate\Support\Facades\Auth::user()->account_type === 'D' ? '' : 'favourite')}}">
+                                        <div class="icon-fav">
+                                            @if($procurement->favourite === 0)
+                                                <i class="icon-star none"></i>
+                                            @elseif($procurement->favourite === 1)
+                                                <i class="fas fa-star low"></i>
+                                            @elseif($procurement->favourite === 2)
+                                                <i class="fas fa-star middle"></i>
+                                            @else
+                                                <i class="fas fa-star high"></i>
+                                            @endif
+                                        </div>
+                                        <div class="icon-preview" style="display: none;">
+                                            <i class="fas fa-star high {{$procurement->favourite === 3 ? 'active-fav' : ''}}"></i><div class="divide"></div>
+                                            <i class="fas fa-star middle {{$procurement->favourite === 2 ? 'active-fav' : ''}}"></i><div class="divide"></div>
+                                            <i class="fas fa-star low {{$procurement->favourite === 1 ? 'active-fav' : ''}}"></i><div class="divide"></div>
+                                            <i class="icon-star none {{$procurement->favourite === 0 ? 'active-fav' : ''}}"></i>
+                                            <input type="hidden" value="{{(string)($procurement->id)}}">
+                                        </div>
+                                    </td>
                                     <td>{{(string)($procurement->id)}}</td>
                                     <td>{{$procurement->procurement_name}}</td>
                                     <td>{{$procurement->procurement_agency}}</td>
@@ -4080,13 +4146,115 @@
     <script src="{{ asset('template/plugins/datatable/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatable/dataTables.bootstrap4.min.js') }}"></script>
 
+    <!-- Bootstrap Notify -->
+    <script src="{{asset('admin_tmp/js/plugin/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+
     <script>
         let cnt, page, cur_page = 1, per_page = 10;
         let searchCon;
         let resultTable;
+        var home_path = $("#home_path").val();
         $(document).ready(function () {
+            $('.favourite').hover(
+                function()  { //hover
+                    $(this).find('.icon-fav').hide();
+                    $(this).find('.icon-preview').show();
+                },
+                function() { //out
+                    $(this).find('.icon-fav').show();
+                    $(this).find('.icon-preview').hide();
+                }
+            );
+            $('.icon-preview i').click(function () {
+                let rate, cont;
+                let $t = $(this);
+                if(!$(this).hasClass('active-fav')){
+                    if($(this).hasClass('high')){
+                        rate = 3;
+                    }
+                    if($(this).hasClass('middle')){
+                        rate = 2;
+                    }
+                    if($(this).hasClass('low')){
+                        rate = 1;
+                    }
+                    if($(this).hasClass('none')){
+                        rate = 0;
+                    }
 
+                    let token = $("meta[name='_csrf']").attr("content");
+                    let formData = new FormData();
+                    let procurement_id = $(this).parent().find('input').val();
+                    formData.append('rate', rate)
+                    formData.append('procurement_id', procurement_id)
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': token
+                        }
+                    });
 
+                    var url = home_path + '/change-favourite';
+                    $.ajax({
+                        url:url,
+                        type:'post',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            if(response.status === true){
+                                let content = {};
+                                content.message = '注目度を変更しました。';
+                                content.title = '成功';
+                                $.notify(content,{
+                                    type: 'success',
+                                    placement: {
+                                        from: 'top',
+                                        align: 'right'
+                                    },
+                                    time: 1000,
+                                    delay: 1000,
+                                });
+                                console.log($t);
+                                $t.parent().find('i.active-fav').removeClass('active-fav');
+                                $t.addClass('active-fav')
+                                if(rate === 0){
+                                    cont = '<i class="icon-star none"></i>';
+                                }
+                                if(rate === 1){
+                                    cont = '<i class="fas fa-star low"></i>';
+                                }
+                                if(rate === 2){
+                                    cont = '<i class="fas fa-star middle"></i>';
+                                }
+                                if(rate === 3){
+                                    cont = '<i class="fas fa-star high"></i>';
+                                }
+
+                                $t.parent().prev().empty();
+                                $t.parent().prev().html(cont);
+                            }
+                            else{
+                                let content = {};
+                                content.message = '35件を超過しました。\n' +
+                                    '30 件未満に設定してください。';
+                                content.title = '失敗';
+                                $.notify(content,{
+                                    type: 'error',
+                                    placement: {
+                                        from: 'top',
+                                        align: 'right'
+                                    },
+                                    time: 1000,
+                                    delay: 1000,
+                                });
+                            }
+                        },
+                        error: function () {
+                            return false;
+                        }
+                    });
+                }
+            })
         })
         $(document).ready(function () {
             let account_type = $('#user_account_type').val();
@@ -4112,7 +4280,7 @@
             }
             searchCon = JSON.parse($('#searchCon').val());
             per_page = parseInt(searchCon.per_page)
-            console.log(searchCon);
+
             if (searchCon.type == null) {
                 $('#searchCon_type').text('指定なし');
             } else {
@@ -4291,13 +4459,13 @@
 
             $(document).on('click', '.page_num', function () {
                 let page_num = $(this).find('a').text();
-                console.log(page_num);
+
                 cur_page = parseInt(page_num);
                 resultTable.page(cur_page-1).draw( 'page' )
                 drawPagination(per_page);
                 // $('.page-item').each(function () {
                 //     let page_item = $(this).find('a').text();
-                //     console.log(page_item);
+                //
                 //     if (page_item == page_num) {
                 //         $(this).trigger('click');
                 //     }
