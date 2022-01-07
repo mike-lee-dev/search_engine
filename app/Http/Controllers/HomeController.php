@@ -1773,7 +1773,7 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
     }
 
     public function changeFavourite(Request $request){
-        $this->sendMessageByType('A');
+        //$this->sendMessageByType('A');
         $user_id = Auth::user()->id;
         $now = date('Y-m-d');
         $procurement_id = $request->procurement_id;

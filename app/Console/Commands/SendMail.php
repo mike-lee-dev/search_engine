@@ -81,7 +81,7 @@ class SendMail extends Command
         $start_time = $time_arr[0] . ':' . $time_arr[1];
         $now = date('H:i');
         if ($start_time === $now) {
-            Log::info('cron SendMail $start_time == $now');
+            Log::info('cron SendMail $start_time == $now :' . $start_time . '=' . $now);
             $send_per_hour = $mail_manage->send_per_hour;
             $all_setting = MailSetting::leftjoin('users', 'users.id', 'mail_settings.user_id')->select(DB::raw('mail_settings.*, users.account_type'))->where('account_type', $account_type)->orderBy('id', 'asc')->get()->count();
             $cnt = (int)($all_setting / $send_per_hour);
@@ -611,8 +611,9 @@ LEFT JOIN addresses AS E ON E.id = A.address WHERE";
                             ->setBody($mail_body, 'text/html');
                     });
                 }
-                Log::info('cron SendMail sleep');
+
                 if($cnt !== 1){
+                    Log::info('cron SendMail sleep');
                     sleep(3600);
                 }
             }
